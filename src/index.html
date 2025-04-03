@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulador de Agente</title>
+    <link rel="stylesheet" href="./tela/styles.css">
+</head>
+<body class=".dark">
+    <section class="controle">
+        <div class="botoes-controle">
+            <button class="btn iniciar">Iniciar</button>
+            <button class="btn pausar">Pausar</button>
+            <button class="btn parar">Parar</button>
+        </div>
+        
+        <div class="treinadores">
+            <button class="btn adicionar">Adicionar Treinador</button>
+            <div class="treinadores-lista"></div>
+        </div>
+    </section>
+    
+    <section class="container">
+        <canvas id="game-canvas" width="5000" height="5000"></canvas>
+    </section>
+
+    <script src="./tela/script.js"></script>
+</body>
+</html>
