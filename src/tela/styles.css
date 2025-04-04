@@ -162,3 +162,8 @@ canvas {
     background: var(--popover);
     border: 1px solid var(--border);
 }
+
+
+.hidden {
+    display: none;
+}
