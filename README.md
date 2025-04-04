@@ -23,7 +23,7 @@ Este projeto é um simulador de agentes baseado no universo Pokémon.
    No VS Code, abra as configurações do usuário no formato JSON (pressione `F1` e procure por `Open User Settings (JSON)`) e adicione o seguinte conteúdo:
    ```json
    "editor.codeActionsOnSave": {
-       "source.fixAll.eslint": true
+       "source.fixAll.eslint": "always"
    }
    ```
 
