@@ -157,9 +157,11 @@ function GUI(config) {
       return;
     }
 
-    if (listaTreinadores.children.length === 0) {
+    if (listaTreinadores.children.length <= 1) {
       // eslint-disable-next-line no-undef
-      alert("Adicione pelo menos um treinador antes de iniciar a simulação!");
+      alert(
+        "Adicione pelo menos dois treinadores antes de iniciar a simulação!",
+      );
       return;
     }
 
