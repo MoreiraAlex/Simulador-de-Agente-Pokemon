@@ -3,7 +3,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const ctx = canvas.getContext("2d");
 
   const config = {
-    contadorTreinadores: 0,
+    treinadores: 0,
   };
 
   referencia(canvas, ctx);
@@ -79,16 +79,16 @@ function adicionaRemoveTreinador(config) {
   const maxTreinadores = 4;
 
   btnAdicionar.addEventListener("click", () => {
-    if (config.contadorTreinadores >= maxTreinadores) {
+    if (config.treinadores >= maxTreinadores) {
       // eslint-disable-next-line no-undef
       alert(`Limite máximo de ${maxTreinadores} treinadores atingido!`);
       return;
     }
 
-    config.contadorTreinadores++;
+    config.treinadores++;
 
     const treinador = document.createElement("div");
-    treinador.id = `${config.contadorTreinadores}`;
+    treinador.id = Math.floor((Math.random() * 1000) / config.treinadores);
 
     treinador.innerHTML = `
         <div class="bg-gray-800 p-4 rounded-lg shadow-md border border-gray-600">
@@ -104,23 +104,23 @@ function adicionaRemoveTreinador(config) {
                 <div class="checkbox-group">
                     <p class="font-bold">Estratégia:</p>
                     <label class="block">
-                        <input type="radio" name="estrategia-${config.contadorTreinadores}" value="agressivo" checked class="config atributo form-radio text-blue-500"> Agressivo
+                        <input type="radio" name="estrategia-${config.treinadores}" value="agressivo" checked class="config atributo form-radio text-blue-500"> Agressivo
                     </label>
                     <label class="block">
-                        <input type="radio" name="estrategia-${config.contadorTreinadores}" value="cauteloso" class="config atributo form-radio text-blue-500"> Cauteloso
+                        <input type="radio" name="estrategia-${config.treinadores}" value="cauteloso" class="config atributo form-radio text-blue-500"> Cauteloso
                     </label>
                 </div>
 
                 <div class="checkbox-group">
                     <p class="font-bold">Pokémon:</p>
                     <label class="block">
-                        <input type="radio" name="pokemonInicial-${config.contadorTreinadores}" value="bulbasaur" checked class="config atributo form-radio text-blue-500"> Bulbasaur
+                        <input type="radio" name="pokemonInicial-${config.treinadores}" value="bulbasaur" checked class="config atributo form-radio text-blue-500"> Bulbasaur
                     </label>
                     <label class="block">
-                        <input type="radio" name="pokemonInicial-${config.contadorTreinadores}" value="charmander" class="config atributo form-radio text-blue-500"> Charmander
+                        <input type="radio" name="pokemonInicial-${config.treinadores}" value="charmander" class="config atributo form-radio text-blue-500"> Charmander
                     </label>
                     <label class="block">
-                        <input type="radio" name="pokemonInicial-${config.contadorTreinadores}" value="squirtle" class="config atributo form-radio text-blue-500"> Squirtle
+                        <input type="radio" name="pokemonInicial-${config.treinadores}" value="squirtle" class="config atributo form-radio text-blue-500"> Squirtle
                     </label>
                 </div>
             </div>
@@ -131,7 +131,7 @@ function adicionaRemoveTreinador(config) {
 
     treinador.querySelector(".remover").addEventListener("click", () => {
       treinador.remove();
-      config.contadorTreinadores--;
+      config.treinadores--;
     });
   });
 }
@@ -139,35 +139,31 @@ function adicionaRemoveTreinador(config) {
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 function GUI(config) {
   const btnIniciar = document.querySelector(".iniciar");
-  const btnPausar = document.querySelector(".pausar");
   const btnParar = document.querySelector(".parar");
 
   const relogio = document.getElementById("relogio");
   const listaTreinadores = document.querySelector(".treinadores-lista");
 
-  const treinadores = [];
-
-  const tempo = {
+  const cronometro = {
     interval: null,
     conteudo: relogio,
     segundos: 0,
   };
 
   btnIniciar.addEventListener("click", () => {
+    if (btnIniciar.textContent === "Pausar") {
+      btnIniciar.textContent = "Continuar";
+      clearInterval(cronometro.interval);
+      return;
+    }
+
     if (listaTreinadores.children.length === 0) {
       // eslint-disable-next-line no-undef
       alert("Adicione pelo menos um treinador antes de iniciar a simulação!");
       return;
     }
 
-    simulação(tempo, listaTreinadores, treinadores);
-
-    btnIniciar.textContent = "Simulando...";
-    btnIniciar.disabled = true;
-    btnIniciar.style.opacity = "0.5";
-
-    btnPausar.disabled = false;
-    btnPausar.style.opacity = "1";
+    btnIniciar.textContent = "Pausar";
 
     btnParar.disabled = false;
     btnParar.style.opacity = "1";
@@ -179,32 +175,17 @@ function GUI(config) {
       }
     });
 
-    DetalhesTreinador(treinadores);
-  });
-
-  btnPausar.addEventListener("click", () => {
-    if (btnPausar.textContent === "Pausar") {
-      btnPausar.textContent = "Continuar";
-      clearInterval(tempo.interval);
-    } else {
-      btnPausar.textContent = "Pausar";
-      simulação(tempo);
-    }
+    simulação(cronometro, listaTreinadores, config);
   });
 
   btnParar.addEventListener("click", () => {
-    clearInterval(tempo.interval);
-    tempo.conteudo.textContent = "00:00";
-    tempo.segundos = 0;
+    clearInterval(cronometro.interval);
+    cronometro.conteudo.textContent = "00:00";
+    cronometro.segundos = 0;
 
     config.contadorTreinadores = 0;
 
     btnIniciar.textContent = "Iniciar";
-    btnIniciar.disabled = false;
-    btnIniciar.style.opacity = "1";
-
-    btnPausar.disabled = true;
-    btnPausar.style.opacity = "0.5";
 
     btnParar.disabled = true;
     btnParar.style.opacity = "0.5";
@@ -214,7 +195,7 @@ function GUI(config) {
       elemento.style.opacity = "1";
     });
 
-    treinadores.length = 0;
+    config.treinadores = 0;
     while (listaTreinadores.firstChild) {
       listaTreinadores.removeChild(listaTreinadores.firstChild);
     }
@@ -228,6 +209,11 @@ function GUI(config) {
 
 function DetalhesTreinador(treinadores) {
   const footer = document.querySelector("footer");
+
+  if (footer.firstChild !== null) {
+    return;
+  }
+
   treinadores.forEach((treinador) => {
     const container = document.createElement("div");
     container.className =
@@ -262,7 +248,22 @@ function DetalhesTreinador(treinadores) {
   });
 }
 
-function simulação(tempo, listaTreinadores, treinadores) {
+function simulação(cronometro, listaTreinadores, config) {
+  const modo = document.querySelectorAll('input[name="modo"]');
+
+  config.treinadores = [];
+
+  modo.forEach((elemento) => {
+    if (elemento.checked)
+      config.modo = {
+        nome: elemento.value === "0" ? "Captura" : elemento.value,
+        limite:
+          elemento.value === "0"
+            ? 151
+            : document.querySelector(".limite").querySelector("input").value,
+      };
+  });
+
   Array.from(listaTreinadores.children).forEach((t) => {
     const treinador = {
       id: t.id,
@@ -282,33 +283,41 @@ function simulação(tempo, listaTreinadores, treinadores) {
     treinador.pokemons.push(treinador.pokemonInicial);
     treinador.equipe.push(treinador.pokemonInicial);
 
-    treinadores.push(treinador);
+    config.treinadores.push(treinador);
   });
 
-  tempo.interval = setInterval(() => {
-    tempo.segundos++;
-    const minutos = Math.floor(tempo.segundos / 60);
-    const seg = tempo.segundos % 60;
-    tempo.conteudo.textContent = `${String(minutos).padStart(2, "0")}:${String(seg).padStart(2, "0")}`;
+  cronometro.interval = setInterval(() => {
+    cronometro.segundos++;
+    const minutos = Math.floor(cronometro.segundos / 60);
+    const seg = cronometro.segundos % 60;
+    cronometro.conteudo.textContent = `${String(minutos).padStart(2, "0")}:${String(seg).padStart(2, "0")}`;
   }, 1000);
 
-  DetalhesTreinador(treinadores);
+  DetalhesTreinador(config.treinadores);
 }
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 function toggleInput() {
-  const tempoInput = document.getElementById("input-tempo");
-  const capturaInput = document.getElementById("input-captura");
+  const div = document.querySelector(".limite");
+  const label = div.querySelector("label");
+  const input = div.querySelector("input");
   const selectedValue = document.querySelector(
-    'input[name="vitoria"]:checked',
+    'input[name="modo"]:checked',
   ).value;
 
-  tempoInput.style.display = "none";
-  capturaInput.style.display = "none";
+  div.style.display = "block";
 
-  if (selectedValue === "0") {
-    tempoInput.style.display = "block";
-  } else if (selectedValue === "1") {
-    capturaInput.style.display = "block";
+  if (selectedValue === "tempo") {
+    label.textContent = "Definir tempo (minutos):";
+    input.value = 1;
+    input.setAttribute("min", 1);
+    input.setAttribute("max", 10);
+  } else if (selectedValue === "captura") {
+    label.textContent = "Definir limite de captura:";
+    input.value = 10;
+    input.setAttribute("min", 10);
+    input.setAttribute("max", 150);
+  } else {
+    div.style.display = "none";
   }
 }
