@@ -1,8 +1,11 @@
+import Simulacao from "../classes/simulacao.js";
 document.addEventListener("DOMContentLoaded", () => {
   const canvas = document.querySelector("#game-canvas");
   const ctx = canvas.getContext("2d");
 
   const config = {
+    canvas,
+    contexto: ctx,
     treinadores: 0,
   };
 
@@ -97,7 +100,7 @@ function adicionaRemoveTreinador(config) {
                 <button class="config btn remover bg-red-500 px-2 py-1 text-white rounded-md">Remover</button>
             </div>
             <div class="space-y-2">
-                <label class="block">Velocidade: <input type="number" name="velocidade" value="1" min="1" max="5" class="config atributo w-full p-1 bg-gray-700 border border-gray-600 rounded-md"></label>
+                <label class="block">Velocidade: <input type="number" name="velocidade" value="10" min="1" max="10" class="config atributo w-full p-1 bg-gray-700 border border-gray-600 rounded-md"></label>
                 <label class="block">Resistência: <input type="number" name="resistencia" value="5" min="5" max="15" class="config atributo w-full p-1 bg-gray-700 border border-gray-600 rounded-md"></label>
                 <label class="block">Campo de visão: <input type="number" name="visao" value="10" min="10" max="50" class="config atributo w-full p-1 bg-gray-700 border border-gray-600 rounded-md"></label>
                 
@@ -136,7 +139,6 @@ function adicionaRemoveTreinador(config) {
   });
 }
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function GUI(config) {
   const btnIniciar = document.querySelector(".iniciar");
   const btnParar = document.querySelector(".parar");
@@ -144,69 +146,99 @@ function GUI(config) {
   const relogio = document.getElementById("relogio");
   const listaTreinadores = document.querySelector(".treinadores-lista");
 
-  const cronometro = {
+  config.cronometro = {
     interval: null,
     conteudo: relogio,
     segundos: 0,
   };
 
+  globalThis.simu = null;
+
   btnIniciar.addEventListener("click", () => {
-    if (btnIniciar.textContent === "Pausar") {
-      btnIniciar.textContent = "Continuar";
-      clearInterval(cronometro.interval);
-      return;
-    }
+    // if (listaTreinadores.children.length <= 1) {
+    //   // eslint-disable-next-line no-undef
+    //   alert(
+    //     "Adicione pelo menos dois treinadores antes de iniciar a simulação!",
+    //   );
+    //   return;
+    // }
 
-    if (listaTreinadores.children.length <= 1) {
-      // eslint-disable-next-line no-undef
-      alert(
-        "Adicione pelo menos dois treinadores antes de iniciar a simulação!",
-      );
-      return;
-    }
-
-    btnIniciar.textContent = "Pausar";
-
-    btnParar.disabled = false;
-    btnParar.style.opacity = "1";
-
-    document.querySelectorAll(".config").forEach((elemento) => {
-      if (!elemento.checked) {
-        elemento.disabled = true;
-        elemento.style.opacity = "0.5";
-      }
-    });
-
-    simulação(cronometro, listaTreinadores, config);
+    rodar(btnIniciar, btnParar, listaTreinadores, config);
   });
 
   btnParar.addEventListener("click", () => {
-    clearInterval(cronometro.interval);
-    cronometro.conteudo.textContent = "00:00";
-    cronometro.segundos = 0;
+    parar(btnIniciar, btnParar, listaTreinadores, config);
+  });
+}
 
-    config.contadorTreinadores = 0;
+function rodar(btnIniciar, btnParar, listaTreinadores, config) {
+  if (btnIniciar.textContent === "Pausar") {
+    btnIniciar.textContent = "Continuar";
+    clearInterval(config.cronometro.interval);
 
-    btnIniciar.textContent = "Iniciar";
-
-    btnParar.disabled = true;
-    btnParar.style.opacity = "0.5";
-
-    document.querySelectorAll(".config").forEach((elemento) => {
-      elemento.disabled = false;
-      elemento.style.opacity = "1";
-    });
-
-    config.treinadores = 0;
-    while (listaTreinadores.firstChild) {
-      listaTreinadores.removeChild(listaTreinadores.firstChild);
+    if (globalThis.simu) {
+      globalThis.simu.pausar();
     }
 
-    const footer = document.querySelector("footer");
-    while (footer.firstChild) {
-      footer.removeChild(footer.firstChild);
+    return;
+  }
+
+  btnIniciar.textContent = "Pausar";
+
+  btnParar.disabled = false;
+  btnParar.style.opacity = "1";
+
+  document.querySelectorAll(".config").forEach((elemento) => {
+    if (!elemento.checked) {
+      elemento.disabled = true;
+      elemento.style.opacity = "0.5";
     }
   });
+
+  if (globalThis.simu) {
+    globalThis.simu.loop();
+  } else {
+    simulação(listaTreinadores, config);
+  }
+
+  config.cronometro.interval = setInterval(() => {
+    config.cronometro.segundos++;
+    const minutos = Math.floor(config.cronometro.segundos / 60);
+    const seg = config.cronometro.segundos % 60;
+    config.cronometro.conteudo.textContent = `${String(minutos).padStart(2, "0")}:${String(seg).padStart(2, "0")}`;
+  }, 1000);
+}
+
+function parar(btnIniciar, btnParar, listaTreinadores, config) {
+  if (globalThis.simu) {
+    globalThis.simu.parar();
+    globalThis.simu = null;
+  }
+  clearInterval(config.cronometro.interval);
+  config.cronometro.conteudo.textContent = "00:00";
+  config.cronometro.segundos = 0;
+
+  config.contadorTreinadores = 0;
+
+  btnIniciar.textContent = "Iniciar";
+
+  btnParar.disabled = true;
+  btnParar.style.opacity = "0.5";
+
+  document.querySelectorAll(".config").forEach((elemento) => {
+    elemento.disabled = false;
+    elemento.style.opacity = "1";
+  });
+
+  config.treinadores = 0;
+  while (listaTreinadores.firstChild) {
+    listaTreinadores.removeChild(listaTreinadores.firstChild);
+  }
+
+  const footer = document.querySelector("footer");
+  while (footer.firstChild) {
+    footer.removeChild(footer.firstChild);
+  }
 }
 
 function DetalhesTreinador(treinadores) {
@@ -250,7 +282,7 @@ function DetalhesTreinador(treinadores) {
   });
 }
 
-function simulação(cronometro, listaTreinadores, config) {
+function simulação(listaTreinadores, config) {
   const modo = document.querySelectorAll('input[name="modo"]');
 
   config.treinadores = [];
@@ -268,7 +300,7 @@ function simulação(cronometro, listaTreinadores, config) {
 
   Array.from(listaTreinadores.children).forEach((t) => {
     const treinador = {
-      id: t.id,
+      id: Number(t.id),
       pokemons: [],
       equipe: [],
     };
@@ -288,14 +320,13 @@ function simulação(cronometro, listaTreinadores, config) {
     config.treinadores.push(treinador);
   });
 
-  cronometro.interval = setInterval(() => {
-    cronometro.segundos++;
-    const minutos = Math.floor(cronometro.segundos / 60);
-    const seg = cronometro.segundos % 60;
-    cronometro.conteudo.textContent = `${String(minutos).padStart(2, "0")}:${String(seg).padStart(2, "0")}`;
-  }, 1000);
-
   DetalhesTreinador(config.treinadores);
+
+  if (!globalThis.simu) {
+    globalThis.simu = new Simulacao(config);
+    globalThis.simu.inciar();
+    globalThis.simu.loop();
+  }
 }
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
