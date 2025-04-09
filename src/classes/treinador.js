@@ -23,7 +23,6 @@ class Treinador extends Agente {
     const colisoes = this.detectaColisao(contexto, mapa);
 
     if (colisoes.length) {
-      console.log("colidiu");
       const colisao = colisoes[0];
       const alvo = treinadores.find((t) => t.id === colisao);
       if (alvo && alvo.estaDisponivel && this.estaDisponivel) {
@@ -37,7 +36,7 @@ class Treinador extends Agente {
 
           if (distancia >= 5) {
             this.caminho = [];
-            console.log("Reiniciando caminho");
+            console.log(`Treinador #${this.id} Reinicia caminho`);
           }
         }
         this.destino = alvo.posicao;
@@ -52,7 +51,7 @@ class Treinador extends Agente {
             this.estaDisponivel = false;
             alvo.estaDisponivel = false;
 
-            console.log("Inicia Batalha");
+            console.log(`Treinador #${this.id} Inicia Batalha`);
 
             setTimeout(() => {
               this.estaDisponivel = true;
@@ -78,8 +77,6 @@ class Treinador extends Agente {
         // console.log("Não previsto");
         break;
     }
-
-    console.log(this.destino);
   }
 
   buscaBioma(biomas) {
