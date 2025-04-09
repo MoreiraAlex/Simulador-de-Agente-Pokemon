@@ -100,7 +100,7 @@ function adicionaRemoveTreinador(config) {
                 <button class="config btn remover bg-red-500 px-2 py-1 text-white rounded-md">Remover</button>
             </div>
             <div class="space-y-2">
-                <label class="block">Velocidade: <input type="number" name="velocidade" value="10" min="1" max="10" class="config atributo w-full p-1 bg-gray-700 border border-gray-600 rounded-md"></label>
+                <label class="block">Velocidade: <input type="number" name="velocidade" value="1" min="1" max="10" class="config atributo w-full p-1 bg-gray-700 border border-gray-600 rounded-md"></label>
                 <label class="block">Resistência: <input type="number" name="resistencia" value="5" min="5" max="15" class="config atributo w-full p-1 bg-gray-700 border border-gray-600 rounded-md"></label>
                 <label class="block">Campo de visão: <input type="number" name="visao" value="10" min="10" max="50" class="config atributo w-full p-1 bg-gray-700 border border-gray-600 rounded-md"></label>
                 
@@ -169,6 +169,12 @@ function GUI(config) {
   btnParar.addEventListener("click", () => {
     parar(btnIniciar, btnParar, listaTreinadores, config);
   });
+
+  document.addEventListener("keydown", (e) => {
+    if (globalThis.simu) {
+      globalThis.simu.tecla = { key: e.key };
+    }
+  });
 }
 
 function rodar(btnIniciar, btnParar, listaTreinadores, config) {
@@ -235,18 +241,19 @@ function parar(btnIniciar, btnParar, listaTreinadores, config) {
     listaTreinadores.removeChild(listaTreinadores.firstChild);
   }
 
-  const footer = document.querySelector("footer");
-  while (footer.firstChild) {
-    footer.removeChild(footer.firstChild);
-  }
+  // const footer = document.querySelector("footer");
+  // while (footer.firstChild) {
+  //   footer.removeChild(footer.firstChild);
+  // }
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function DetalhesTreinador(treinadores) {
-  const footer = document.querySelector("footer");
+  // const footer = document.querySelector("footer");
 
-  if (footer.firstChild !== null) {
-    return;
-  }
+  // if (footer.firstChild !== null) {
+  //   return;
+  // }
 
   treinadores.forEach((treinador) => {
     const container = document.createElement("div");
@@ -278,7 +285,7 @@ function DetalhesTreinador(treinadores) {
     }
     container.appendChild(atributosDiv);
     container.appendChild(equipeDiv);
-    footer.appendChild(container);
+    // footer.appendChild(container);
   });
 }
 
@@ -320,7 +327,7 @@ function simulação(listaTreinadores, config) {
     config.treinadores.push(treinador);
   });
 
-  DetalhesTreinador(config.treinadores);
+  // DetalhesTreinador(config.treinadores);
 
   if (!globalThis.simu) {
     globalThis.simu = new Simulacao(config);

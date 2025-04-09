@@ -6,137 +6,136 @@ class Mapa {
     this.matriz = [];
 
     this.biomas = [
-      (this.agua = {
-        cor: "blue",
-        posX: 0,
-        posY: 0,
-        largura: 500,
-        altura: 500,
-      }),
-      (this.fogo = {
-        cor: "red",
-        posX: 500,
-        posY: 0,
-        largura: 500,
-        altura: 500,
-      }),
-      (this.terra = {
-        cor: "brown",
-        posX: 1000,
-        posY: 0,
-        largura: 500,
-        altura: 500,
-      }),
-      (this.vento = {
-        cor: "lightgray",
-        posX: 1500,
-        posY: 0,
-        largura: 500,
-        altura: 500,
-      }),
-      (this.gelo = {
-        cor: "lightblue",
-        posX: 0,
-        posY: 500,
-        largura: 1000,
-        altura: 500,
-      }),
-      (this.veneno = {
-        cor: "green",
-        posX: 1000,
-        posY: 500,
-        largura: 1000,
-        altura: 500,
-      }),
-      (this.metal = {
+      {
+        tipo: "normal",
         cor: "gray",
         posX: 0,
-        posY: 1000,
-        largura: 1000,
-        altura: 500,
-      }),
-      (this.luz = {
-        cor: "yellow",
-        posX: 1000,
-        posY: 1000,
-        largura: 1000,
-        altura: 500,
-      }),
-      (this.sombra = {
-        cor: "lightgreen",
+        posY: 0,
+        largura: 600,
+        altura: 600,
+      },
+      {
+        tipo: "agua",
+        cor: "blue",
         posX: 0,
-        posY: 1500,
-        largura: 2000,
-        altura: 500,
-      }),
+        posY: 600,
+        largura: 600,
+        altura: 800,
+      },
+      {
+        tipo: "normal",
+        cor: "gray",
+        posX: 0,
+        posY: 1400,
+        largura: 600,
+        altura: 600,
+      },
+      {
+        tipo: "fogo",
+        cor: "orange",
+        posX: 600,
+        posY: 0,
+        largura: 800,
+        altura: 600,
+      },
+      {
+        tipo: "especial",
+        cor: "purple",
+        posX: 600,
+        posY: 600,
+        largura: 800,
+        altura: 800,
+      },
+      {
+        tipo: "terra",
+        cor: "brown",
+        posX: 600,
+        posY: 1400,
+        largura: 800,
+        altura: 600,
+      },
+      {
+        tipo: "normal",
+        cor: "gray",
+        posX: 1400,
+        posY: 0,
+        largura: 600,
+        altura: 600,
+      },
+      {
+        tipo: "planta",
+        cor: "green",
+        posX: 1400,
+        posY: 600,
+        largura: 600,
+        altura: 800,
+      },
+      {
+        tipo: "normal",
+        cor: "gray",
+        posX: 1400,
+        posY: 1400,
+        largura: 600,
+        altura: 600,
+      },
     ];
 
     this.obstaculos = [
       {
-        cor: "black",
         posX: 200,
         posY: 500,
         largura: 100,
         altura: 100,
       },
       {
-        cor: "black",
         posX: 300,
         posY: 200,
         largura: 150,
         altura: 150,
       },
       {
-        cor: "black",
         posX: 700,
         posY: 100,
         largura: 150,
         altura: 150,
       },
       {
-        cor: "black",
         posX: 900,
         posY: 500,
         largura: 100,
         altura: 100,
       },
       {
-        cor: "black",
         posX: 1500,
         posY: 250,
         largura: 200,
         altura: 100,
       },
       {
-        cor: "black",
         posX: 1700,
         posY: 900,
         largura: 150,
         altura: 150,
       },
       {
-        cor: "black",
         posX: 1200,
         posY: 1200,
         largura: 100,
         altura: 100,
       },
       {
-        cor: "black",
         posX: 400,
         posY: 1500,
         largura: 200,
         altura: 200,
       },
       {
-        cor: "black",
         posX: 100,
         posY: 1800,
         largura: 100,
         altura: 100,
       },
       {
-        cor: "black",
         posX: 1800,
         posY: 1800,
         largura: 100,
@@ -146,26 +145,26 @@ class Mapa {
 
     this.base = [
       {
-        posX: 0,
-        posY: 0,
+        posX: 100,
+        posY: 100,
         largura: 200,
         altura: 200,
       },
       {
-        posX: this.canvas.width - 200,
-        posY: 0,
+        posX: this.canvas.width - 300,
+        posY: 100,
         largura: 200,
         altura: 200,
       },
       {
-        posX: 0,
-        posY: this.canvas.height - 200,
+        posX: 100,
+        posY: this.canvas.height - 300,
         largura: 200,
         altura: 200,
       },
       {
-        posX: this.canvas.width - 200,
-        posY: this.canvas.height - 200,
+        posX: this.canvas.width - 300,
+        posY: this.canvas.height - 300,
         largura: 200,
         altura: 200,
       },
@@ -175,20 +174,22 @@ class Mapa {
   desenha() {
     const { contexto } = this;
 
+    if (!this.matriz.length) {
+      this.matriz = this.gerarMatriz(this.celula);
+    }
+
     this.biomas.forEach((bioma) => {
       contexto.fillStyle = bioma.cor;
       contexto.fillRect(bioma.posX, bioma.posY, bioma.largura, bioma.altura);
     });
-
-    this.matriz = this.gerarMatriz(this.celula);
 
     this.matriz.forEach((linha, i) => {
       linha.forEach((celula, j) => {
         if (celula === 1) {
           contexto.fillStyle = "black";
           contexto.fillRect(
-            i * this.celula,
             j * this.celula,
+            i * this.celula,
             this.celula,
             this.celula,
           );
@@ -197,7 +198,7 @@ class Mapa {
     });
 
     this.base.forEach((base) => {
-      contexto.fillStyle = "purple";
+      contexto.fillStyle = "yellow";
       contexto.fillRect(base.posX, base.posY, base.largura, base.altura);
     });
 
@@ -243,7 +244,7 @@ class Mapa {
       for (let row = startRow; row < endRow; row++) {
         for (let col = startCol; col < endCol; col++) {
           if (row >= 0 && row < rows && col >= 0 && col < cols) {
-            matriz[col][row] = 1;
+            matriz[row][col] = 1;
           }
         }
       }

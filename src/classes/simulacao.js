@@ -6,10 +6,12 @@ class Simulacao {
     this.canvas = config.canvas;
     this.contexto = config.contexto;
     this.cronometro = config.cronometro;
-    this.frame = null;
     this.treinadores = [];
+    this.batalhas = [];
 
-    this.celula = 20;
+    this.celula = 50;
+    this.frameRate = 10;
+    this.frame = null;
 
     this.mapa = new Mapa(this.canvas, this.contexto, this.celula);
     config.treinadores.forEach((t) => {
@@ -24,51 +26,94 @@ class Simulacao {
       );
       this.treinadores.push(treinador);
     });
+
+    this.tecla = null;
   }
 
   inciar() {
     this.mapa.desenha();
 
-    const base = [
-      { x: 0, y: 0 },
-      { x: this.canvas.width - this.celula, y: 0 },
-      { x: 0, y: this.canvas.height - this.celula },
-      {
-        x: this.canvas.width - this.celula,
-        y: this.canvas.height - this.celula,
-      },
-    ];
-
     this.treinadores.forEach((treinador, idx) => {
-      treinador.posicao = {
-        x: base[idx].x,
-        y: base[idx].y,
-      };
+      if (treinador.id === 1000) {
+        return;
+      }
+      const x = this.mapa.base[idx].posX + this.mapa.base[idx].largura / 2;
+      const y = this.mapa.base[idx].posY + this.mapa.base[idx].altura / 2;
 
-      treinador.desenha(this.contexto, 0, 0);
+      treinador.posicao = { x, y };
+      this.mapa.matriz[y / this.celula][x / this.celula] = treinador.id;
+
+      treinador.desenha(this.contexto);
     });
+
+    this.treinadorManual = new Treinador(1000, 1, 1, 2, [], [], this.celula);
+    this.treinadorManual.posicao = { x: 1000, y: 1000 };
+
+    this.mapa.matriz[this.treinadorManual.posicao.y / this.celula][
+      this.treinadorManual.posicao.x / this.celula
+    ] = this.treinadorManual.id;
+    this.treinadorManual.desenha(this.contexto);
+
+    this.treinadores.push(this.treinadorManual);
+
+    // let saida = "";
+    // for (let i = 0; i < this.mapa.matriz.length; i++) {
+    //   saida += `${this.mapa.matriz[i]} \n`;
+    // }
+
+    // console.log(saida);
   }
 
   loop() {
-    // console.log(this.cronometro.segundos);
-    // if (this.cronometro.segundos >= 10) {
-    //   this.parar();
-    // }
-    this.contexto.reset();
+    if (!globalThis.frameRate) {
+      globalThis.frameRate = this.frameRate;
+    }
+    const now = performance.now();
+    const delta = now - (this.lastTime || 0);
+    const intervaloMinimo = 1000 / globalThis.frameRate;
 
-    this.mapa.desenha();
+    if (delta >= intervaloMinimo) {
+      // console.clear();
 
-    this.treinadores.forEach((treinador) => {
-      const obj = treinador.movimenta(this.contexto, this.mapa);
+      this.lastTime = now;
 
-      if (obj) {
-        // treinador.posicao = { x: 0, y: 0 };
-        const teste = this.treinadores.filter((t) => t.id === obj);
-      }
-    });
+      this.contexto.reset();
+      this.mapa.desenha();
+
+      this.treinadores.forEach((t) => {
+        if (t.id === 1000) {
+          return;
+        }
+        t.desenha(this.contexto);
+      });
+      this.treinadores.forEach((t) => {
+        if (t.id === 1000) {
+          return;
+        }
+        t.acao(this.contexto, this.mapa, this.treinadores);
+      });
+
+      this.Manual();
+    }
 
     // eslint-disable-next-line no-undef
     this.frame = requestAnimationFrame(() => this.loop());
+  }
+
+  Manual() {
+    this.mapa.matriz[this.treinadorManual.posicao.y / this.celula][
+      this.treinadorManual.posicao.x / this.celula
+    ] = 0;
+    this.treinadorManual.TreinadorManualmente(
+      this.tecla,
+      this.celula,
+      this.mapa.matriz,
+    );
+    this.mapa.matriz[this.treinadorManual.posicao.y / this.celula][
+      this.treinadorManual.posicao.x / this.celula
+    ] = this.treinadorManual.id;
+    this.treinadorManual.desenha(this.contexto);
+    this.estaDisponivel = true;
   }
 
   pausar() {
@@ -83,6 +128,7 @@ class Simulacao {
     this.pausar();
     this.contexto.reset();
     this.treinadores = null;
+    console.clear();
   }
 }
 

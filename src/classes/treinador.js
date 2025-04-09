@@ -1,12 +1,10 @@
 import Agente from "./agente.js";
-import AEstrela from "./aEstrela.js";
 
 class Treinador extends Agente {
   constructor(id, velocidade, resistencia, visao, equipe, pokemons, tamanho) {
-    super(id, tamanho);
-    this.velocidade = velocidade;
+    super(id, tamanho, "humana", velocidade, visao);
+
     this.resistencia = resistencia;
-    this.visao = visao;
     this.pokemons = pokemons;
     this.equipe = equipe;
 
@@ -14,112 +12,116 @@ class Treinador extends Agente {
     this.caminho = [];
 
     this.estaDisponivel = true;
+    this.destino = null;
   }
 
-  movimenta(contexto, mapa) {
-    this.desenha(contexto, this.posicao.x, this.posicao.y);
-    const obj = this.colisao(contexto, mapa);
-
+  acao(contexto, mapa, treinadores) {
+    // console.log(`Treinador #${this.id}`);
     if (!this.estaDisponivel) {
-      return 0;
+      return;
     }
+    const colisoes = this.detectaColisao(contexto, mapa);
 
-    if (obj !== 0) {
-      this.estaDisponivel = false;
+    if (colisoes.length) {
+      console.log("colidiu");
+      const colisao = colisoes[0];
+      const alvo = treinadores.find((t) => t.id === colisao);
+      if (alvo && alvo.estaDisponivel && this.estaDisponivel) {
+        if (this.caminho.length) {
+          const ultimo = this.caminho[this.caminho.length - 1];
+          const destinoX = Math.floor(alvo.posicao.x / mapa.celula);
+          const destinoY = Math.floor(alvo.posicao.y / mapa.celula);
 
-      return obj;
-    }
+          const distancia =
+            Math.abs(ultimo.x - destinoX) + Math.abs(ultimo.y - destinoY);
 
-    this.calculoMovimento(mapa);
-  }
+          if (distancia >= 5) {
+            this.caminho = [];
+            console.log("Reiniciando caminho");
+          }
+        }
+        this.destino = alvo.posicao;
 
-  calculoMovimento(mapa) {
-    if (this.caminho.length === 0) {
-      const { destinoX, destinoY } = this.buscaBioma(mapa.biomas);
+        const alvoColisoes = alvo.detectaColisao(contexto, mapa);
+        if (alvoColisoes.length && alvoColisoes.some((a) => a === this.id)) {
+          if (
+            Math.abs(alvo.posicao.x - this.posicao.x) +
+              Math.abs(alvo.posicao.y - this.posicao.y) <=
+            this.tamanho * 3
+          ) {
+            this.estaDisponivel = false;
+            alvo.estaDisponivel = false;
 
-      const inicio = {
-        x: Math.floor(this.posicao.x / mapa.celula),
-        y: Math.floor(this.posicao.y / mapa.celula),
-      };
-      const fim = {
-        x: Math.floor(destinoX / mapa.celula),
-        y: Math.floor(destinoY / mapa.celula),
-        // x: 2,
-        // y: 0,
-      };
+            console.log("Inicia Batalha");
 
-      const aEstrela = new AEstrela(mapa.matriz);
-      this.caminho = aEstrela.encontrarCaminho(inicio, fim);
-    }
-
-    this.frame++;
-
-    if (this.frame >= this.velocidade) {
-      const proximo = this.caminho.shift();
-      if (proximo) {
-        mapa.matriz[this.posicao.y / this.tamanho][
-          this.posicao.x / this.tamanho
-        ] = 0;
-
-        this.posicao = {
-          x: proximo.x * mapa.celula,
-          y: proximo.y * mapa.celula,
-        };
-
-        mapa.matriz[this.posicao.y / this.tamanho][
-          this.posicao.x / this.tamanho
-        ] = this.id;
-        this.frame = 0;
-      }
-    }
-  }
-
-  colisao(contexto, mapa) {
-    const visaoMetade = Math.floor(this.visao / 2) * this.tamanho;
-
-    const inicioX = this.posicao.x - visaoMetade;
-    const inicioY = this.posicao.y - visaoMetade;
-    const tamanho = visaoMetade * 2 + this.tamanho;
-    const celulasPorLado = Math.floor(tamanho / this.tamanho);
-
-    contexto.strokeStyle = "white";
-    contexto.lineWidth = 2;
-    contexto.strokeRect(inicioX, inicioY, tamanho, tamanho);
-
-    for (let i = 0; i < celulasPorLado; i++) {
-      const posX = inicioX / this.tamanho + i;
-      for (let j = 0; j < celulasPorLado; j++) {
-        const posY = inicioY / this.tamanho + j;
-
-        if (
-          posY >= 0 &&
-          posY < mapa.matriz.length &&
-          posX >= 0 &&
-          posX < mapa.matriz[0].length
-        ) {
-          const obj = mapa.matriz[posY][posX];
-          if (obj > 1 && obj !== this.id) {
-            console.log(
-              `Treinador #${this.id} encontrou obj o treinador #${obj} em (${posX}, ${posY})`,
-            );
-            return obj;
+            setTimeout(() => {
+              this.estaDisponivel = true;
+            }, 2000);
           }
         }
       }
     }
 
-    return 0;
+    switch (this.movimento(mapa)) {
+      case 0:
+        // console.log("Não achou");
+        this.destino = this.buscaBioma(mapa.biomas);
+        break;
+      case 1:
+        // console.log("Caminhando");
+        break;
+      case 2:
+        // console.log("Chegou");
+        this.destino = this.buscaBioma(mapa.biomas);
+        break;
+      default:
+        // console.log("Não previsto");
+        break;
+    }
+
+    console.log(this.destino);
   }
 
   buscaBioma(biomas) {
-    const { posX, posY, largura, altura } =
-      biomas[Math.floor(Math.random() * biomas.length)];
-    // biomas[0];
+    const index = Math.floor(Math.random() * biomas.length);
+    const { posX, posY, largura, altura } = biomas[index];
 
     const destinoX = Math.floor(posX + largura / 2);
     const destinoY = Math.floor(posY + altura / 2);
 
-    return { destinoX, destinoY, largura, altura };
+    // console.log(biomas[index].tipo, biomas[index].posX, biomas[index].posY);
+    return { x: destinoX, y: destinoY };
+  }
+
+  TreinadorManualmente(tecla, celula, matriz) {
+    if (!tecla) {
+      return;
+    }
+
+    switch (tecla.key) {
+      case "w":
+        if (matriz[(this.posicao.y - celula) / celula][this.posicao.x / celula])
+          break;
+        this.posicao.y -= celula;
+        break;
+      case "s":
+        if (matriz[(this.posicao.y + celula) / celula][this.posicao.x / celula])
+          break;
+        this.posicao.y += celula;
+        break;
+      case "a":
+        if (matriz[this.posicao.y / celula][(this.posicao.x - celula) / celula])
+          break;
+        this.posicao.x -= celula;
+        break;
+      case "d":
+        if (matriz[this.posicao.y / celula][(this.posicao.x + celula) / celula])
+          break;
+        this.posicao.x += celula;
+        break;
+    }
+
+    tecla.key = null;
   }
 }
 

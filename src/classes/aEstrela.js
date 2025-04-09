@@ -23,11 +23,11 @@ class AEstrela {
       .map((d) => ({ x: pos.x + d.x, y: pos.y + d.y }))
       .filter(
         (v) =>
-          v.x >= 0 &&
-          v.x < this.mapa.length &&
           v.y >= 0 &&
-          v.y < this.mapa[0].length &&
-          this.mapa[v.x][v.y] !== 1 &&
+          v.y < this.mapa.length &&
+          v.x >= 0 &&
+          v.x < this.mapa[0].length &&
+          this.mapa[v.y][v.x] !== 1 &&
           !fechados.has(this.key(v)),
       );
   }
