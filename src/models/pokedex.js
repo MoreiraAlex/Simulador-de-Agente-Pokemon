@@ -1,4 +1,4 @@
-const pokedex = [
+export const pokedex = [
   {
     nome: "Bulbasaur",
     tipos: ["grama", "veneno"],
@@ -1359,5 +1359,3 @@ const pokedex = [
     numeroPokedex: 151,
   },
 ];
-
-return pokedex;

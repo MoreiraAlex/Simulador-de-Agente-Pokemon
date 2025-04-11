@@ -6,56 +6,36 @@
     <title>Simulador de Agente</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-gray-900 text-white">
-    <div class="flex h-screen">
-        <aside class="w-1/4 bg-gray-800 p-4 border-r border-gray-700 h-screen overflow-auto space-y-4">
-            <p class="w-full text-center text-lg font-bold" id="relogio">00:00</p>
-            <div class="space-y-4">
-                <div class="flex space-x-2 justify-center">
-                    <button class="iniciar px-4 py-2 bg-green-500 text-white rounded-md">Iniciar</button>
-                    <button class="parar px-4 py-2 bg-red-500 text-white rounded-md opacity-50" disabled>Parar</button>
-                </div>
-
-                <div>
-                    <p class="font-bold">Vitória:</p>
-                    <div class="space-y-2">
-                        <label class="flex items-center space-x-2">
-                            <input type="radio" name="modo" value="0" class="config form-radio text-blue-500" checked onclick="toggleInput()" >
-                            <span>Captura de todos os pokemons</span>
-                        </label>
-                        <label class="flex items-center space-x-2">
-                            <input type="radio" name="modo" value="tempo" class="config form-radio text-blue-500" onclick="toggleInput()" >
-                            <span>Tempo</span>
-                        </label>
-                        <label class="flex items-center space-x-2">
-                            <input type="radio" name="modo" value="captura" class="config form-radio text-blue-500" onclick="toggleInput()" >
-                            <span>Limite de captura</span>
-                        </label>
-                    </div>
-                </div>
-
-                <div class="limite hidden">
-                    <label class="block"></label>
-                    <input type="number" id="tempo" class="config w-full p-2 rounded-md bg-gray-700 border border-gray-600">
-                </div>
-
-                <div>
-                    <button class="config adicionar w-full px-4 py-2 bg-blue-500 text-white rounded-md">Adicionar Treinador</button>
-                    <div class="treinadores-lista mt-4 space-y-2"></div>
-                </div>
-            </div>
-        </aside>
-
-        
-
-        <!-- <div class="flex-1 overflow-auto bg-gray-700">             -->
-            <main class="flex-1 h-[100vh] overflow-auto bg-gray-700">
-                <canvas id="game-canvas" width="2000" height="2000" class="block mx-auto border border-gray-600"></canvas>
-            </main>
-            <!-- <footer class="bg-gray-800 h-[30vh] overflow-auto"></footer> -->
-        <!-- </div> -->
-    </div>
-
-    <script type="module" src="./GUI/script.js"></script>
+<body class="flex flex-col h-screen">
+  <header class="p-4 flex justify-between items-center shadow-md bg-zinc-50">
+      <button class="config adicionar px-4 py-2 bg-gray-500 hover:bg-gray-900 text-white rounded-md">Adicionar Treinador</button>
+      <div class="flex space-x-4 items-center">
+        <button class="iniciar px-4 py-2 bg-green-500 text-white rounded-md">Iniciar</button>
+        <p id="relogio" class="text-lg font-mono">00:00</p>
+        <button class="parar px-4 py-2 bg-red-500 text-white rounded-md opacity-50" disabled>Parar</button>
+      </div>
+      <div >
+        <div class="flex flex-col items-center gap-2" id="modo-vitoria">
+          <p class="font-bold">Modo de Vitória</p>
+          <div>
+            <button class="config modo-btn px-4 py-2 rounded-md bg-gray-900 text-white" data-valor="0">Captura Total</button>
+            <button class="config modo-btn px-4 py-2 rounded-md bg-gray-500 text-white" data-valor="tempo">Tempo</button>
+            <button class="config modo-btn px-4 py-2 rounded-md bg-gray-500 text-white" data-valor="captura">Limite</button>
+          </div>
+          <div class="limite hidden flex ">
+            <label class="text-sm font-semibold"></label>
+            <input type="range" name="vol" oninput="display.value=value" onchange="display.value=value" class="config h-1 accent-gray-900 cursor-pointer">
+            <input type="text" id="display" value="0" readonly class="w-12 text-center border rounded-md bg-gray-200">
+          </div>
+        </div>        
+      </div>
+  </header>
+  <main class="flex flex-grow overflow-hidden m-4 space-x-4">
+    <div class="absolute z-10 bg-gray-500 text-white text-sm shadow-xl rounded p-3 w-60 hover-card hidden"></div>
+    <aside class="treinadores-lista w-1/4 p-4 border rounded-md flex flex-col justify-around overflow-y-auto shadow-md bg-zinc-50 gap-4"></aside>  
+    <canvas id="game-canvas" width="2000" height="2000" class="flex-grow border rounded-md shadow-md bg-zinc-50"></canvas>
+    <aside class="treinadores-lista w-1/4 p-4 border rounded-md flex flex-col justify-around overflow-y-auto shadow-md bg-zinc-50 gap-4"></aside>
+  </main>   
+  <script type="module" src="./GUI/script.js"></script>
 </body>
 </html>

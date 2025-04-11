@@ -1,4 +1,6 @@
 import Simulacao from "../classes/simulacao.js";
+import { pokedex } from "../models/pokedex.js";
+
 document.addEventListener("DOMContentLoaded", () => {
   const canvas = document.querySelector("#game-canvas");
   const ctx = canvas.getContext("2d");
@@ -9,76 +11,15 @@ document.addEventListener("DOMContentLoaded", () => {
     treinadores: 0,
   };
 
-  referencia(canvas, ctx);
-  controlaMapa(canvas);
-  adicionaRemoveTreinador(config);
   GUI(config);
+  adicionaRemoveTreinador(config);
+
+  window.setAtributo = setAtributo;
 });
-
-function referencia(canvas, ctx) {
-  const centerX = canvas.width / 2;
-  const centerY = canvas.height / 2;
-
-  // Quadrado vermelho
-  ctx.fillStyle = "red";
-  ctx.fillRect(centerX - 10, centerY - 10, 20, 20);
-
-  // Círculo azul
-  ctx.fillStyle = "blue";
-  ctx.beginPath();
-  ctx.arc(centerX, centerY, 5, 0, Math.PI * 2);
-  ctx.fill();
-
-  // Linhas cruzadas (Eixo X e Y)
-  ctx.strokeStyle = "black";
-  ctx.lineWidth = 2;
-  ctx.beginPath();
-  ctx.moveTo(centerX - 100, centerY);
-  ctx.lineTo(centerX + 100, centerY);
-  ctx.moveTo(centerX, centerY - 100);
-  ctx.lineTo(centerX, centerY + 100);
-  ctx.stroke();
-}
-
-function controlaMapa(canvas) {
-  const container = canvas.parentElement;
-  let isDragging = false;
-  let startX, startY, scrollLeft, scrollTop;
-
-  canvas.addEventListener("mousedown", (e) => {
-    isDragging = true;
-    startX = e.pageX - canvas.offsetLeft;
-    startY = e.pageY - canvas.offsetTop;
-    scrollLeft = container.scrollLeft;
-    scrollTop = container.scrollTop;
-    canvas.style.cursor = "grabbing";
-  });
-
-  canvas.addEventListener("mouseleave", () => {
-    isDragging = false;
-    canvas.style.cursor = "grab";
-  });
-
-  canvas.addEventListener("mouseup", () => {
-    isDragging = false;
-    canvas.style.cursor = "grab";
-  });
-
-  canvas.addEventListener("mousemove", (e) => {
-    if (!isDragging) return;
-    e.preventDefault();
-    const x = e.pageX - canvas.offsetLeft;
-    const y = e.pageY - canvas.offsetTop;
-    const walkX = (x - startX) * -1;
-    const walkY = (y - startY) * -1;
-    container.scrollLeft = scrollLeft + walkX;
-    container.scrollTop = scrollTop + walkY;
-  });
-}
 
 function adicionaRemoveTreinador(config) {
   const btnAdicionar = document.querySelector(".adicionar");
-  const listaTreinadores = document.querySelector(".treinadores-lista");
+  const listaTreinadores = document.querySelectorAll(".treinadores-lista");
   const maxTreinadores = 4;
 
   btnAdicionar.addEventListener("click", () => {
@@ -91,60 +32,161 @@ function adicionaRemoveTreinador(config) {
     config.treinadores++;
 
     const treinador = document.createElement("div");
+    treinador.classList.add(
+      "flex-1",
+      "rounded-md",
+      "p-2",
+      "shadow-md",
+      "bg-white",
+    );
     treinador.id = Math.floor((Math.random() * 1000) / config.treinadores);
 
     treinador.innerHTML = `
-        <div class="bg-gray-800 p-4 rounded-lg shadow-md border border-gray-600">
-            <div class="flex justify-between items-center bg-gray-900 p-2 rounded-md mb-2">
-                <p class="font-bold">Treinador <span class="contador-treinadores"></span></p>
-                <button class="config btn remover bg-red-500 px-2 py-1 text-white rounded-md">Remover</button>
-            </div>
-            <div class="space-y-2">
-                <label class="block">Velocidade: <input type="number" name="velocidade" value="1" min="1" max="10" class="config atributo w-full p-1 bg-gray-700 border border-gray-600 rounded-md"></label>
-                <label class="block">Resistência: <input type="number" name="resistencia" value="5" min="5" max="15" class="config atributo w-full p-1 bg-gray-700 border border-gray-600 rounded-md"></label>
-                <label class="block">Campo de visão: <input type="number" name="visao" value="10" min="10" max="50" class="config atributo w-full p-1 bg-gray-700 border border-gray-600 rounded-md"></label>
-                
-                <div class="checkbox-group">
-                    <p class="font-bold">Estratégia:</p>
-                    <label class="block">
-                        <input type="radio" name="estrategia-${config.treinadores}" value="agressivo" checked class="config atributo form-radio text-blue-500"> Agressivo
-                    </label>
-                    <label class="block">
-                        <input type="radio" name="estrategia-${config.treinadores}" value="cauteloso" class="config atributo form-radio text-blue-500"> Cauteloso
-                    </label>
-                </div>
-
-                <div class="checkbox-group">
-                    <p class="font-bold">Pokémon:</p>
-                    <label class="block">
-                        <input type="radio" name="pokemonInicial-${config.treinadores}" value="bulbasaur" checked class="config atributo form-radio text-blue-500"> Bulbasaur
-                    </label>
-                    <label class="block">
-                        <input type="radio" name="pokemonInicial-${config.treinadores}" value="charmander" class="config atributo form-radio text-blue-500"> Charmander
-                    </label>
-                    <label class="block">
-                        <input type="radio" name="pokemonInicial-${config.treinadores}" value="squirtle" class="config atributo form-radio text-blue-500"> Squirtle
-                    </label>
-                </div>
-            </div>
+      <div>
+        <div class="flex justify-between items-center rounded-md">
+          <p class="font-bold text">Treinador <span class="contador-treinadores">${treinador.id}</span></p>
+          <button class="config btn text-white remover bg-red-500 text-xs px-2 py-1 rounded-md">X</button>
         </div>
-      `;
+        <p class="font-bold text-sm">Pokedex: <span>1</span></p>
+      </div>         
+      
+      <div class="space-y-1 text-xs">
+        <span class="flex justify-between items-center">
+          <label for="velocidade" class="block">Velocidade</label>
+          <input type="text" id="displayVel${treinador.id}" value="0" readonly class="w-8 text-center border rounded-md bg-gray-200">
+        </span>
+        <input type="range" name="velocidade" min="1" max="5" value="1" oninput="displayVel${treinador.id}.value=value" 
+          class="w-full h-1 accent-gray-900 cursor-pointer"
+          onchange="displayVel${treinador.id}.value=value; setAtributo(${treinador.id}, 'velocidade', value)"
+        >
+        <span class="flex justify-between items-center">
+          <label for="resistencia" class="block">Resistência</label>
+          <input type="text" id="displayRe${treinador.id}" value="0" readonly class="w-8 text-center border rounded-md bg-gray-200">
+        </span>
+        <input type="range" name="resistencia" min="5" max="10" value="1" oninput="displayRe${treinador.id}.value=value"
+          class="w-full h-1 accent-gray-900 cursor-pointer"
+          onchange="setAtributo(${treinador.id}, 'resistencia', value); displayRe${treinador.id}.value=value"
+        >
+        <span class="flex justify-between items-center">
+          <label for="visao" class="block">Visão</label>
+          <input type="text" id="displayVi${treinador.id}" value="0" readonly class="w-8 text-center border rounded-md bg-gray-200">
+        </span>
+        <input type="range" name="visao" min="10" max="30" value="1" oninput="displayVi${treinador.id}.value=value"  
+          class="w-full h-1 accent-gray-900 cursor-pointer"
+          onchange="setAtributo(${treinador.id}, 'visao', value); displayVi${treinador.id}.value=value"
+        >      
+      </div>
+      
+      <div class="space-y-1 text-xs">
+        <p class="font-semibold">Estratégia:</p>
+        <div class="flex gap-2">
+          <button class="estrategia-btn bg-gray-900 text-white p-2 py-1 rounded" data-valor="agressivo">Agressivo</button>
+          <button class="estrategia-btn bg-gray-500 text-white p-2 py-1 rounded" data-valor="cauteloso">Cauteloso</button>
+        </div>
+      </div>
+      
+      <div class="space-y-1 text-xs">
+        <p class="font-semibold">Pokémon Inicial:</p>
+        <div class="flex gap-1 flex-wrap">
+          <button class="config hover-toogle pokemon-btn bg-gray-900 text-white px-2 py-1 rounded" data-valor="1">Bulbasaur</button>
+          <button class="config pokemon-btn bg-gray-500 text-white px-2 py-1 rounded" data-valor="4">Charmander</button>
+          <button class="config pokemon-btn bg-gray-500 text-white px-2 py-1 rounded" data-valor="7">Squirtle</button>
+        </div>
+      </div>
 
-    listaTreinadores.appendChild(treinador);
+      <div class="space-y-1 text-xs hidden">
+        <p class="font-semibold">Equipe Atual:</p>
+        <div class="flex gap-1 flex-wrap">
+            <span class="bg-gray-900 text-white px-2 py-1 rounded">Pikachu</span>
+          <span class="bg-gray-900 text-white px-2 py-1 rounded">Squirtle</span>
+          <span class="bg-gray-900 text-white px-2 py-1 rounded">Charmander</span>
+          <span class="bg-gray-900 text-white px-2 py-1 rounded">Bulbasaur</span>
+        </div>
+      </div>        
+    `;
+
+    if (listaTreinadores[0].childElementCount > 1) {
+      listaTreinadores[1].appendChild(treinador);
+    } else {
+      listaTreinadores[0].appendChild(treinador);
+    }
 
     treinador.querySelector(".remover").addEventListener("click", () => {
       treinador.remove();
       config.treinadores--;
     });
+
+    treinador.querySelectorAll(".estrategia-btn").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const parent = btn.parentElement;
+        parent.querySelectorAll(".estrategia-btn").forEach((b) => {
+          b.classList.remove("bg-gray-900");
+          b.classList.add("bg-gray-500");
+        });
+        btn.classList.remove("bg-gray-500");
+        btn.classList.add("bg-gray-900");
+      });
+    });
+
+    treinador.querySelectorAll(".pokemon-btn").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        if (btn.disabled) return;
+        const parent = btn.parentElement;
+        parent.querySelectorAll(".pokemon-btn").forEach((b) => {
+          b.classList.remove("bg-gray-900");
+          b.classList.add("bg-gray-500");
+        });
+        btn.classList.remove("bg-gray-500");
+        btn.classList.add("bg-gray-900");
+      });
+
+      btn.addEventListener("mouseover", (e) => {
+        const pokemon = pokedex.find(
+          (poke) => poke.numeroPokedex === Number(btn.dataset.valor),
+        );
+        const card = document.querySelector(".hover-card");
+
+        const info = document.createElement("div");
+        info.innerHTML = `
+          <p><span class="font-semibold">Espécie:</span> ${pokemon.nome}</p>
+          <p><span class="font-semibold">Vida:</span> ${pokemon.hp}</p>
+          <p><span class="font-semibold">Ataque:</span> ${pokemon.ataque}</p>
+          <p><span class="font-semibold">Defesa:</span> ${pokemon.defesa}</p>
+          <p><span class="font-semibold">Velocidade:</span> ${pokemon.atkSpeed}</p>
+          <p><span class="font-semibold">Experiência:</span> 0</p>
+          <p><span class="font-semibold">Level:</span> 1</p>
+        `;
+
+        card.innerHTML = "";
+        card.appendChild(info);
+        card.style.display = "block";
+        card.style.left = `${e.clientX + 10}px`;
+        card.style.top = `${e.clientY + 10}px`;
+      });
+      btn.addEventListener("mouseout", () => {
+        console.log("sair");
+        document.querySelector(".hover-card").style.display = "none";
+      });
+    });
   });
+}
+
+function setAtributo(id, atributo, valor) {
+  if (globalThis.simu) {
+    let index = 0;
+    globalThis.simu.treinadores.find((t, idx) => {
+      index = idx;
+      return t.id === id;
+    });
+    globalThis.simu.treinadores[index][atributo] = valor;
+  }
 }
 
 function GUI(config) {
   const btnIniciar = document.querySelector(".iniciar");
   const btnParar = document.querySelector(".parar");
-
   const relogio = document.getElementById("relogio");
-  const listaTreinadores = document.querySelector(".treinadores-lista");
+  const listaTreinadores = document.querySelectorAll(".treinadores-lista");
 
   config.cronometro = {
     interval: null,
@@ -168,6 +210,46 @@ function GUI(config) {
 
   btnParar.addEventListener("click", () => {
     parar(btnIniciar, btnParar, listaTreinadores, config);
+  });
+
+  document.querySelectorAll(".modo-btn").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      // Remove o estilo ativo de todos os botões
+      document.querySelectorAll(".modo-btn").forEach((b) => {
+        b.classList.remove("bg-gray-900");
+        b.classList.add("bg-gray-500");
+      });
+
+      // Ativa o botão clicado
+      btn.classList.remove("bg-gray-500");
+      btn.classList.add("bg-gray-900");
+
+      // Aqui você pode armazenar o valor selecionado, se quiser
+      const valorSelecionado = btn.dataset.valor;
+
+      const div = document.querySelector(".limite");
+      const label = div.querySelector("label");
+      const input = div.querySelector("input[type='range']");
+      const display = div.querySelector("input[type='text']");
+
+      div.style.display = "block";
+
+      if (valorSelecionado === "tempo") {
+        label.textContent = "Limite de tempo(minutos):";
+        input.setAttribute("min", 1);
+        input.setAttribute("max", 10);
+        input.value = 1;
+        display.value = 1;
+      } else if (valorSelecionado === "captura") {
+        label.textContent = "Limite de captura:";
+        input.setAttribute("min", 10);
+        input.setAttribute("max", 150);
+        input.value = 10;
+        display.value = 10;
+      } else {
+        div.style.display = "none";
+      }
+    });
   });
 
   document.addEventListener("keydown", (e) => {
@@ -237,55 +319,10 @@ function parar(btnIniciar, btnParar, listaTreinadores, config) {
   });
 
   config.treinadores = 0;
-  while (listaTreinadores.firstChild) {
-    listaTreinadores.removeChild(listaTreinadores.firstChild);
-  }
-
-  // const footer = document.querySelector("footer");
-  // while (footer.firstChild) {
-  //   footer.removeChild(footer.firstChild);
-  // }
-}
-
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-function DetalhesTreinador(treinadores) {
-  // const footer = document.querySelector("footer");
-
-  // if (footer.firstChild !== null) {
-  //   return;
-  // }
-
-  treinadores.forEach((treinador) => {
-    const container = document.createElement("div");
-    container.className =
-      "flex justify-between items-center bg-gray-900 p-2 rounded-md border border-gray-600";
-
-    // Lado esquerdo: atributos
-    const atributosDiv = document.createElement("div");
-    atributosDiv.className = "text-sm";
-    atributosDiv.innerHTML = `
-      <p><strong>Treinador ${treinador.id}</strong></p>
-      <p>Velocidade: ${treinador.velocidade}</p>
-      <p>Resistência: ${treinador.resistencia}</p>
-      <p>Campo de Visão: ${treinador.visao}</p>
-      <p>Estratégia: ${treinador.estrategia}</p>
-      <p>Pokemons Capturados: ${treinador.pokemons.length}</p>
-  `;
-
-    // Lado direito: pokemons
-    const equipeDiv = document.createElement("div");
-    equipeDiv.className = "flex space-x-2";
-
-    for (let i = 0; i < 4; i++) {
-      const slot = document.createElement("div");
-      slot.className =
-        "w-10 h-10 bg-gray-700 border border-gray-500 rounded flex items-center justify-center text-xs text-center";
-      slot.textContent = treinador.equipe[i] || "—";
-      equipeDiv.appendChild(slot);
+  listaTreinadores.forEach((lista) => {
+    while (lista.firstChild) {
+      lista.removeChild(lista.firstChild);
     }
-    container.appendChild(atributosDiv);
-    container.appendChild(equipeDiv);
-    // footer.appendChild(container);
   });
 }
 
@@ -305,59 +342,33 @@ function simulação(listaTreinadores, config) {
       };
   });
 
-  Array.from(listaTreinadores.children).forEach((t) => {
-    const treinador = {
-      id: Number(t.id),
-      pokemons: [],
-      equipe: [],
-    };
+  listaTreinadores.forEach((lista) => {
+    Array.from(lista.children).forEach((t) => {
+      const treinador = {
+        id: Number(t.id),
+        pokemons: [],
+        equipe: [],
+      };
 
-    t.querySelectorAll(".atributo").forEach((elemento) => {
-      if (elemento.type === "radio") {
-        if (elemento.checked)
-          treinador[elemento.name.split("-")[0]] = elemento.value;
-      } else {
-        treinador[elemento.name] = elemento.value;
-      }
+      t.querySelectorAll(".atributo").forEach((elemento) => {
+        if (elemento.type === "radio") {
+          if (elemento.checked)
+            treinador[elemento.name.split("-")[0]] = elemento.value;
+        } else {
+          treinador[elemento.name] = elemento.value;
+        }
+      });
+
+      treinador.pokemons.push(treinador.pokemonInicial);
+      treinador.equipe.push(treinador.pokemonInicial);
+
+      config.treinadores.push(treinador);
     });
-
-    treinador.pokemons.push(treinador.pokemonInicial);
-    treinador.equipe.push(treinador.pokemonInicial);
-
-    config.treinadores.push(treinador);
   });
-
-  // DetalhesTreinador(config.treinadores);
 
   if (!globalThis.simu) {
     globalThis.simu = new Simulacao(config);
     globalThis.simu.inciar();
     globalThis.simu.loop();
-  }
-}
-
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-function toggleInput() {
-  const div = document.querySelector(".limite");
-  const label = div.querySelector("label");
-  const input = div.querySelector("input");
-  const selectedValue = document.querySelector(
-    'input[name="modo"]:checked',
-  ).value;
-
-  div.style.display = "block";
-
-  if (selectedValue === "tempo") {
-    label.textContent = "Definir tempo (minutos):";
-    input.value = 1;
-    input.setAttribute("min", 1);
-    input.setAttribute("max", 10);
-  } else if (selectedValue === "captura") {
-    label.textContent = "Definir limite de captura:";
-    input.value = 10;
-    input.setAttribute("min", 10);
-    input.setAttribute("max", 150);
-  } else {
-    div.style.display = "none";
   }
 }
