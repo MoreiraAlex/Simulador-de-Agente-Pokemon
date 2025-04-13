@@ -56,7 +56,7 @@ function adicionaRemoveTreinador(config) {
           <input type="text" id="displayVel${treinador.id}" value="0" readonly class="w-8 text-center border rounded-md bg-gray-200">
         </span>
         <input type="range" name="velocidade" min="1" max="5" value="1" oninput="displayVel${treinador.id}.value=value" 
-          class="w-full h-1 accent-gray-900 cursor-pointer"
+          class="atributo w-full h-1 accent-gray-900 cursor-pointer"
           onchange="displayVel${treinador.id}.value=value; setAtributo(${treinador.id}, 'velocidade', value)"
         >
         <span class="flex justify-between items-center">
@@ -64,7 +64,7 @@ function adicionaRemoveTreinador(config) {
           <input type="text" id="displayRe${treinador.id}" value="0" readonly class="w-8 text-center border rounded-md bg-gray-200">
         </span>
         <input type="range" name="resistencia" min="5" max="10" value="1" oninput="displayRe${treinador.id}.value=value"
-          class="w-full h-1 accent-gray-900 cursor-pointer"
+          class="atributo w-full h-1 accent-gray-900 cursor-pointer"
           onchange="setAtributo(${treinador.id}, 'resistencia', value); displayRe${treinador.id}.value=value"
         >
         <span class="flex justify-between items-center">
@@ -72,7 +72,7 @@ function adicionaRemoveTreinador(config) {
           <input type="text" id="displayVi${treinador.id}" value="0" readonly class="w-8 text-center border rounded-md bg-gray-200">
         </span>
         <input type="range" name="visao" min="10" max="30" value="1" oninput="displayVi${treinador.id}.value=value"  
-          class="w-full h-1 accent-gray-900 cursor-pointer"
+          class="atributo w-full h-1 accent-gray-900 cursor-pointer"
           onchange="setAtributo(${treinador.id}, 'visao', value); displayVi${treinador.id}.value=value"
         >      
       </div>
@@ -80,17 +80,17 @@ function adicionaRemoveTreinador(config) {
       <div class="space-y-1 text-xs">
         <p class="font-semibold">Estratégia:</p>
         <div class="flex gap-2">
-          <button class="estrategia-btn bg-gray-900 text-white p-2 py-1 rounded" data-valor="agressivo">Agressivo</button>
-          <button class="estrategia-btn bg-gray-500 text-white p-2 py-1 rounded" data-valor="cauteloso">Cauteloso</button>
+        <button onclick="setAtributo(${treinador.id}, 'estrategia', value)" class="atributo estrategia-btn bg-gray-900 text-white p-2 py-1 rounded" aria-selected="true" value="agressivo">Agressivo</button>
+        <button onclick="setAtributo(${treinador.id}, 'estrategia', value)" class="atributo estrategia-btn bg-gray-500 text-white p-2 py-1 rounded" aria-selected="false" value="cauteloso">Cauteloso</button>
         </div>
       </div>
       
       <div class="space-y-1 text-xs">
         <p class="font-semibold">Pokémon Inicial:</p>
         <div class="flex gap-1 flex-wrap">
-          <button class="config hover-toogle pokemon-btn bg-gray-900 text-white px-2 py-1 rounded" data-valor="1">Bulbasaur</button>
-          <button class="config pokemon-btn bg-gray-500 text-white px-2 py-1 rounded" data-valor="4">Charmander</button>
-          <button class="config pokemon-btn bg-gray-500 text-white px-2 py-1 rounded" data-valor="7">Squirtle</button>
+          <button class="config atributo pokemon-btn bg-gray-900 text-white px-2 py-1 rounded" aria-selected="true" value="1">Bulbasaur</button>
+          <button class="config atributo pokemon-btn bg-gray-500 text-white px-2 py-1 rounded" aria-selected="false" value="4">Charmander</button>
+          <button class="config atributo pokemon-btn bg-gray-500 text-white px-2 py-1 rounded" aria-selected="false" value="7">Squirtle</button>
         </div>
       </div>
 
@@ -120,9 +120,11 @@ function adicionaRemoveTreinador(config) {
       btn.addEventListener("click", () => {
         const parent = btn.parentElement;
         parent.querySelectorAll(".estrategia-btn").forEach((b) => {
+          b.ariaSelected = "false";
           b.classList.remove("bg-gray-900");
           b.classList.add("bg-gray-500");
         });
+        btn.ariaSelected = "true";
         btn.classList.remove("bg-gray-500");
         btn.classList.add("bg-gray-900");
       });
@@ -131,18 +133,22 @@ function adicionaRemoveTreinador(config) {
     treinador.querySelectorAll(".pokemon-btn").forEach((btn) => {
       btn.addEventListener("click", () => {
         if (btn.disabled) return;
+
         const parent = btn.parentElement;
         parent.querySelectorAll(".pokemon-btn").forEach((b) => {
+          b.ariaSelected = "false";
           b.classList.remove("bg-gray-900");
           b.classList.add("bg-gray-500");
         });
+        btn.ariaSelected = "true";
         btn.classList.remove("bg-gray-500");
         btn.classList.add("bg-gray-900");
       });
 
       btn.addEventListener("mouseover", (e) => {
+        if (globalThis.simu) return;
         const pokemon = pokedex.find(
-          (poke) => poke.numeroPokedex === Number(btn.dataset.valor),
+          (poke) => poke.numeroPokedex === Number(btn.value),
         );
         const card = document.querySelector(".hover-card");
 
@@ -164,7 +170,6 @@ function adicionaRemoveTreinador(config) {
         card.style.top = `${e.clientY + 10}px`;
       });
       btn.addEventListener("mouseout", () => {
-        console.log("sair");
         document.querySelector(".hover-card").style.display = "none";
       });
     });
@@ -351,17 +356,21 @@ function simulação(listaTreinadores, config) {
       };
 
       t.querySelectorAll(".atributo").forEach((elemento) => {
-        if (elemento.type === "radio") {
-          if (elemento.checked)
-            treinador[elemento.name.split("-")[0]] = elemento.value;
-        } else {
+        if (elemento.name) {
           treinador[elemento.name] = elemento.value;
+        }
+
+        if (elemento.ariaSelected === "true") {
+          if (elemento.classList.contains("estrategia-btn")) {
+            treinador.estrategia = elemento.value;
+          } else {
+            treinador.equipe.push(pokedex[Number(elemento.value) - 1]);
+            treinador.pokemons.push(pokedex[Number(elemento.value) - 1]);
+          }
         }
       });
 
-      treinador.pokemons.push(treinador.pokemonInicial);
-      treinador.equipe.push(treinador.pokemonInicial);
-
+      console.log(treinador);
       config.treinadores.push(treinador);
     });
   });
