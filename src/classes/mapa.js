@@ -169,6 +169,41 @@ class Mapa {
         altura: 200,
       },
     ];
+
+    // this.biomas = [
+    //   {
+    //     tipo: "normal",
+    //     cor: "gray",
+    //     posX: 0,
+    //     posY: 0,
+    //     largura: 300,
+    //     altura: 300,
+    //   },
+    //   {
+    //     tipo: "fogo",
+    //     cor: "red",
+    //     posX: 300,
+    //     posY: 0,
+    //     largura: 300,
+    //     altura: 300,
+    //   },
+    //   {
+    //     tipo: "agua",
+    //     cor: "blue",
+    //     posX: 0,
+    //     posY: 300,
+    //     largura: 300,
+    //     altura: 300,
+    //   },
+    //   {
+    //     tipo: "planta",
+    //     cor: "green",
+    //     posX: 300,
+    //     posY: 300,
+    //     largura: 300,
+    //     altura: 300,
+    //   },
+    // ]
   }
 
   desenha() {

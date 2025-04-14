@@ -7,10 +7,11 @@ class Simulacao {
     this.contexto = config.contexto;
     this.cronometro = config.cronometro;
     this.treinadores = [];
+    this.agentes = [];
     this.batalhas = [];
 
     this.celula = 50;
-    this.frameRate = 10;
+    this.frameRate = 30;
     this.frame = null;
 
     this.mapa = new Mapa(this.canvas, this.contexto, this.celula);
@@ -20,6 +21,7 @@ class Simulacao {
         t.velocidade,
         t.resistencia,
         t.visao,
+        t.estrategia,
         t.equipe,
         t.pokemons,
         this.celula,
@@ -31,6 +33,8 @@ class Simulacao {
   }
 
   inciar() {
+    this.agentes = [...this.treinadores, 1000];
+
     this.mapa.desenha();
 
     this.treinadores.forEach((treinador, idx) => {
@@ -40,21 +44,22 @@ class Simulacao {
       const x = this.mapa.base[idx].posX + this.mapa.base[idx].largura / 2;
       const y = this.mapa.base[idx].posY + this.mapa.base[idx].altura / 2;
 
+      treinador.base = { x, y };
       treinador.posicao = { x, y };
       this.mapa.matriz[y / this.celula][x / this.celula] = treinador.id;
 
       treinador.desenha(this.contexto);
     });
 
-    this.treinadorManual = new Treinador(1000, 1, 1, 2, [], [], this.celula);
-    this.treinadorManual.posicao = { x: 1000, y: 1000 };
+    // this.treinadorManual = new Treinador(1000, 1, 1, 2, [], [], this.celula);
+    // this.treinadorManual.posicao = { x: 1000, y: 1000 };
 
-    this.mapa.matriz[this.treinadorManual.posicao.y / this.celula][
-      this.treinadorManual.posicao.x / this.celula
-    ] = this.treinadorManual.id;
-    this.treinadorManual.desenha(this.contexto);
+    // this.mapa.matriz[this.treinadorManual.posicao.y / this.celula][
+    //   this.treinadorManual.posicao.x / this.celula
+    // ] = this.treinadorManual.id;
+    // this.treinadorManual.desenha(this.contexto);
 
-    this.treinadores.push(this.treinadorManual);
+    // this.treinadores.push(this.treinadorManual);
 
     // let saida = "";
     // for (let i = 0; i < this.mapa.matriz.length; i++) {
@@ -73,8 +78,6 @@ class Simulacao {
     const intervaloMinimo = 1000 / globalThis.frameRate;
 
     if (delta >= intervaloMinimo) {
-      // console.clear();
-
       this.lastTime = now;
 
       this.contexto.reset();
@@ -90,10 +93,10 @@ class Simulacao {
         if (t.id === 1000) {
           return;
         }
-        t.acao(this.contexto, this.mapa, this.treinadores);
+        t.acao(this.contexto, this.mapa, this.agentes);
       });
 
-      this.Manual();
+      // this.Manual();
     }
 
     // eslint-disable-next-line no-undef

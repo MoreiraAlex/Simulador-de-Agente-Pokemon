@@ -11,9 +11,15 @@ class Agente {
       x: 0,
       y: 0,
     };
+    this.base = {
+      x: 0,
+      y: 0,
+    };
     this.destino = null;
     this.caminho = [];
-    // this.colisoes = [];
+    this.estaDisponivel = true;
+    this.paraMovimento = false;
+    this.frame = 0;
   }
 
   desenha(contexto) {
@@ -32,6 +38,7 @@ class Agente {
   movimento(mapa) {
     if (this.destino) {
       if (!this.caminho.length) {
+        console.log(`Treinador #${this.id} inicia um caminho`);
         this.caminho = this.calculaMovimento(mapa, this.destino);
 
         if (this.caminho.length < 1) {
@@ -40,8 +47,16 @@ class Agente {
       }
 
       this.move(mapa);
+
+      // if (this.destino.x === this.base.x && this.destino.y === this.base.y) {
+      //   this.paraMovimento = false;
+      //   this.destino = null;
+      //   return 3;
+      // }
+
       return 1;
     }
+
     return 2;
   }
 
@@ -117,19 +132,15 @@ class Agente {
           if (this.obj > 0 && this.obj !== this.id) {
             if (this.obj > 1) {
               colisoes.push(this.obj);
-              // console.log(
-              // `Treinador #${this.id} encontrou o treinador #${this.obj} em (${posX}, ${posY})`,
-              // );
             }
 
-            contexto.fillStyle = "rgba(0, 255, 0, 0.3)"; // verde com transparência
+            contexto.fillStyle = "rgba(0, 255, 0, 0.3)";
             contexto.fillRect(
               posX * this.tamanho,
               posY * this.tamanho,
               this.tamanho,
               this.tamanho,
             );
-            // return obj;
           }
         }
       }
