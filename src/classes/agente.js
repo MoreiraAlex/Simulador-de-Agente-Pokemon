@@ -39,7 +39,7 @@ class Agente {
   movimento(mapa) {
     if (this.destino) {
       if (!this.caminho.length) {
-        console.log(`Treinador #${this.id} inicia um caminho`);
+        // console.log(`Treinador #${this.id} inicia um caminho`);
         this.caminho = this.calculaMovimento(mapa, this.destino);
 
         if (this.caminho.length < 1) {
@@ -77,8 +77,10 @@ class Agente {
 
   move(mapa) {
     this.frame++;
+    const intervalo =
+      32 / (globalThis.multiplicador * (1 + (this.velocidade - 1) * 0.25));
 
-    if (this.frame >= globalThis.frameRate / this.velocidade / 4) {
+    if (this.frame >= intervalo) {
       const proximo = this.caminho.shift();
 
       if (proximo) {

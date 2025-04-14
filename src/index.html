@@ -9,11 +9,30 @@
 <body class="flex flex-col h-screen">
   <header class="p-4 flex justify-between items-center shadow-md bg-zinc-50">
       <button class="config adicionar px-4 py-2 bg-gray-500 hover:bg-gray-900 text-white rounded-md">Adicionar Treinador</button>
-      <div class="flex space-x-4 items-center">
-        <button class="iniciar px-4 py-2 bg-green-500 text-white rounded-md">Iniciar</button>
-        <p id="relogio" class="text-lg font-mono">00:00</p>
-        <button class="parar px-4 py-2 bg-red-500 text-white rounded-md opacity-50" disabled>Parar</button>
+      <div class="flex items-center justify-between gap-4 p-4 bg-gray-100 rounded-lg shadow-md max-w-3xl mx-auto">
+        <button class="iniciar px-5 py-2 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-lg transition">
+          <i data-lucide='circle-play' class='w-5 h-5 rotate-180'></i>
+        </button>
+        <button class="retroceder px-4 py-2 bg-gray-600 hover:bg-gray-800 text-white rounded-lg transition flex items-center justify-center">
+          <i data-lucide="fast-forward" class="w-5 h-5 rotate-180"></i>
+        </button>
+
+        <div class="flex flex-col items-center justify-center min-w-[80px]">
+          <p>
+            <span class="multiplicador text-lg font-mono font-bold">1</span>
+            <span>x</span>
+          </p>
+          <p class="relogio text-sm font-mono text-gray-700">00:00</p>
+        </div>
+
+        <button class="avancar px-4 py-2 bg-gray-600 hover:bg-gray-800 text-white rounded-lg transition flex items-center justify-center">
+          <i data-lucide="fast-forward" class="w-5 h-5"></i>
+        </button>
+        <button class="parar px-5 py-2 bg-red-600 text-white font-semibold rounded-lg opacity-50" disabled>
+          <i data-lucide="circle-stop" class="w-5 h-5 rotate-180"></i>
+        </button>
       </div>
+      
       <div >
         <div class="flex flex-col items-center gap-2" id="modo-vitoria">
           <p class="font-bold">Modo de Vitória</p>
@@ -36,6 +55,7 @@
     <canvas id="game-canvas" width="2000" height="2000" class="flex-grow border rounded-md shadow-md bg-zinc-50"></canvas>
     <aside class="treinadores-lista w-1/4 p-4 border rounded-md flex flex-col justify-around overflow-y-auto shadow-md bg-zinc-50 gap-4"></aside>
   </main>   
+  <script src="https://unpkg.com/lucide@latest"></script>
   <script type="module" src="./GUI/script.js"></script>
 </body>
 </html>

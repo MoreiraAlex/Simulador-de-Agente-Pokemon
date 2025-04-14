@@ -13,8 +13,8 @@ class Simulacao {
     this.batalhas = [];
 
     this.celula = 50;
-    this.frameRate = 30;
     this.frame = null;
+    this.multiplicador = config.multiplicador;
 
     this.mapa = new Mapa(this.canvas, this.contexto, this.celula);
     config.treinadores.forEach((t) => {
@@ -38,6 +38,14 @@ class Simulacao {
   }
 
   inciar() {
+    if (!globalThis.frameRate) {
+      globalThis.frameRate = this.frameRate;
+    }
+
+    if (!globalThis.multiplicador) {
+      globalThis.multiplicador = this.multiplicador;
+    }
+
     this.mapa.desenha();
 
     Array.from(Array(2)).forEach((_, i) => {
@@ -105,36 +113,25 @@ class Simulacao {
   }
 
   loop() {
-    if (!globalThis.frameRate) {
-      globalThis.frameRate = this.frameRate;
-    }
-    const now = performance.now();
-    const delta = now - (this.lastTime || 0);
-    const intervaloMinimo = 1000 / globalThis.frameRate;
+    this.contexto.reset();
+    this.mapa.desenha();
 
-    if (delta >= intervaloMinimo) {
-      this.lastTime = now;
+    this.agentes.forEach((agente) => {
+      if (agente.especie === "humana") {
+        return;
+      }
+      agente.desenha(this.contexto);
+      this.mapa.matriz[Math.floor(agente.posicao.y / this.celula)][
+        Math.floor(agente.posicao.x / this.celula)
+      ] = agente.id;
+    });
 
-      this.contexto.reset();
-      this.mapa.desenha();
-
-      this.agentes.forEach((agente) => {
-        if (agente.especie === "humana") {
-          return;
-        }
-        agente.desenha(this.contexto);
-        this.mapa.matriz[Math.floor(agente.posicao.y / this.celula)][
-          Math.floor(agente.posicao.x / this.celula)
-        ] = agente.id;
-      });
-
-      this.treinadores.forEach((t) => {
-        t.desenha(this.contexto);
-      });
-      this.treinadores.forEach((t) => {
-        t.acao(this.contexto, this.mapa, this.agentes);
-      });
-    }
+    this.treinadores.forEach((t) => {
+      t.desenha(this.contexto);
+    });
+    this.treinadores.forEach((t) => {
+      t.acao(this.contexto, this.mapa, this.agentes);
+    });
 
     // eslint-disable-next-line no-undef
     this.frame = requestAnimationFrame(() => this.loop());

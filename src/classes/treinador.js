@@ -179,7 +179,7 @@ class Treinador extends Agente {
         alvo.paraMovimento = false;
         this.resistencia = 0;
       }
-    }, 2000);
+    }, 2000 / globalThis.multiplicador);
   }
 
   vencePokemon(pokemon, agentes, mapa) {
@@ -205,11 +205,14 @@ class Treinador extends Agente {
     this.caminho = [];
 
     const tempoNaBase = this.resistenciaBase - this.resistencia;
-    setTimeout(() => {
-      this.estaDisponivel = true;
-      this.paraMovimento = false;
-      this.resistencia = this.resistenciaBase;
-    }, tempoNaBase * 1000);
+    setTimeout(
+      () => {
+        this.estaDisponivel = true;
+        this.paraMovimento = false;
+        this.resistencia = this.resistenciaBase;
+      },
+      (tempoNaBase * 1000) / globalThis.multiplicador,
+    );
   }
 
   calculaDistancia(posicao, destino) {

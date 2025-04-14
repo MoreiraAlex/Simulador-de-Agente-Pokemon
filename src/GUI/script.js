@@ -2,12 +2,15 @@ import Simulacao from "../classes/simulacao.js";
 import { pokedex } from "../models/pokedex.js";
 
 document.addEventListener("DOMContentLoaded", () => {
+  window.lucide.createIcons();
+
   const canvas = document.querySelector("#game-canvas");
   const ctx = canvas.getContext("2d");
 
   const config = {
     canvas,
     contexto: ctx,
+    multiplicador: 1,
     treinadores: 0,
   };
 
@@ -15,6 +18,7 @@ document.addEventListener("DOMContentLoaded", () => {
   adicionaRemoveTreinador(config);
 
   window.setAtributo = setAtributo;
+  window.alternarBotao = alternarBotao;
 });
 
 function adicionaRemoveTreinador(config) {
@@ -105,10 +109,13 @@ function adicionaRemoveTreinador(config) {
       </div>        
     `;
 
-    if (listaTreinadores[0].childElementCount > 1) {
-      listaTreinadores[1].appendChild(treinador);
-    } else {
+    const total0 = listaTreinadores[0].childElementCount;
+    const total1 = listaTreinadores[1].childElementCount;
+
+    if (total0 <= total1) {
       listaTreinadores[0].appendChild(treinador);
+    } else {
+      listaTreinadores[1].appendChild(treinador);
     }
 
     treinador.querySelector(".remover").addEventListener("click", () => {
@@ -187,10 +194,50 @@ function setAtributo(id, atributo, valor) {
   }
 }
 
+function cronometro(config) {
+  config.cronometro.interval = setInterval(() => {
+    if (config.cronometro.segundos === 600) {
+      const btnIniciar = document.querySelector(".iniciar");
+      const btnParar = document.querySelector(".parar");
+      const listaTreinadores = document.querySelectorAll(".treinadores-lista");
+
+      parar(btnIniciar, btnParar, listaTreinadores, config);
+      return;
+    }
+
+    config.cronometro.segundos++;
+
+    const minutos = Math.floor(config.cronometro.segundos / 60);
+    const seg = config.cronometro.segundos % 60;
+
+    config.cronometro.conteudo.textContent = `${String(minutos).padStart(2, "0")}:${String(seg).padStart(2, "0")}`;
+  }, 1000 / globalThis.multiplicador);
+}
+
+function multiplicadorControle(config, multiplicador, direcao) {
+  let valor = Number(multiplicador.textContent);
+
+  if (direcao === "atras" && valor > 1) valor /= 2;
+  else if (direcao === "frente" && valor < 8) valor *= 2;
+
+  multiplicador.textContent = valor;
+
+  if (globalThis.multiplicador) {
+    globalThis.multiplicador = valor;
+    clearInterval(config.cronometro.interval);
+    cronometro(config);
+  } else {
+    config.multiplicador = valor;
+  }
+}
+
 function GUI(config) {
   const btnIniciar = document.querySelector(".iniciar");
+  const btnRetroceder = document.querySelector(".retroceder");
+  const btnAvancar = document.querySelector(".avancar");
   const btnParar = document.querySelector(".parar");
-  const relogio = document.getElementById("relogio");
+  const multiplicador = document.querySelector(".multiplicador");
+  const relogio = document.querySelector(".relogio");
   const listaTreinadores = document.querySelectorAll(".treinadores-lista");
 
   config.cronometro = {
@@ -215,6 +262,14 @@ function GUI(config) {
 
   btnParar.addEventListener("click", () => {
     parar(btnIniciar, btnParar, listaTreinadores, config);
+  });
+
+  btnRetroceder.addEventListener("click", () => {
+    multiplicadorControle(config, multiplicador, "atras");
+  });
+
+  btnAvancar.addEventListener("click", () => {
+    multiplicadorControle(config, multiplicador, "frente");
   });
 
   document.querySelectorAll(".modo-btn").forEach((btn) => {
@@ -264,42 +319,52 @@ function GUI(config) {
   });
 }
 
-function rodar(btnIniciar, btnParar, listaTreinadores, config) {
-  if (btnIniciar.textContent === "Pausar") {
-    btnIniciar.textContent = "Continuar";
-    clearInterval(config.cronometro.interval);
+function alternarBotao(botao) {
+  const wrapper = botao;
+  const svg = wrapper.querySelector("svg");
 
+  if (svg) svg.remove();
+
+  const novoIcone = document.createElement("i");
+  const estaTocando = wrapper.dataset.estado === "rodando";
+
+  novoIcone.setAttribute(
+    "data-lucide",
+    estaTocando ? "circle-play" : "pause-circle",
+  );
+  novoIcone.className = "w-5 h-5 rotate-180";
+
+  wrapper.dataset.estado = estaTocando ? "pausado" : "rodando";
+  wrapper.appendChild(novoIcone);
+
+  window.lucide.createIcons();
+}
+
+function rodar(btnIniciar, btnParar, listaTreinadores, config) {
+  alternarBotao(btnIniciar);
+
+  if (btnIniciar.children[0].getAttribute("data-lucide") !== "pause-circle") {
+    clearInterval(config.cronometro.interval);
     if (globalThis.simu) {
       globalThis.simu.pausar();
     }
-
     return;
   }
 
-  btnIniciar.textContent = "Pausar";
-
   btnParar.disabled = false;
   btnParar.style.opacity = "1";
-
   document.querySelectorAll(".config").forEach((elemento) => {
     if (!elemento.checked) {
       elemento.disabled = true;
       elemento.style.opacity = "0.5";
     }
   });
-
   if (globalThis.simu) {
     globalThis.simu.loop();
   } else {
     simulação(listaTreinadores, config);
   }
-
-  config.cronometro.interval = setInterval(() => {
-    config.cronometro.segundos++;
-    const minutos = Math.floor(config.cronometro.segundos / 60);
-    const seg = config.cronometro.segundos % 60;
-    config.cronometro.conteudo.textContent = `${String(minutos).padStart(2, "0")}:${String(seg).padStart(2, "0")}`;
-  }, 1000);
+  cronometro(config);
 }
 
 function parar(btnIniciar, btnParar, listaTreinadores, config) {
@@ -313,7 +378,7 @@ function parar(btnIniciar, btnParar, listaTreinadores, config) {
 
   config.contadorTreinadores = 0;
 
-  btnIniciar.textContent = "Iniciar";
+  alternarBotao(btnIniciar);
 
   btnParar.disabled = true;
   btnParar.style.opacity = "0.5";
