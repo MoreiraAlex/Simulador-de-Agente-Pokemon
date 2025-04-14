@@ -1,8 +1,9 @@
 import AEstrela from "./aEstrela.js";
 
 class Agente {
-  constructor(id, tamanho, especie, velocidade = 1, visao = 10) {
+  constructor(id, cor, tamanho, especie, velocidade = 1, visao = 10) {
     this.id = id;
+    this.cor = cor;
     this.tamanho = tamanho;
     this.especie = especie;
     this.velocidade = velocidade;
@@ -23,7 +24,7 @@ class Agente {
   }
 
   desenha(contexto) {
-    contexto.fillStyle = "white";
+    contexto.fillStyle = this.cor;
     contexto.fillRect(
       this.posicao.x,
       this.posicao.y,
@@ -31,7 +32,7 @@ class Agente {
       this.tamanho,
     );
 
-    contexto.font = "20px Arial";
+    contexto.font = "50px Arial";
     contexto.fillText(`#${this.id}`, this.posicao.x, this.posicao.y);
   }
 

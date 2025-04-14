@@ -3,6 +3,7 @@ import Agente from "./agente.js";
 class Treinador extends Agente {
   constructor(
     id,
+    cor,
     velocidade,
     resistencia,
     visao,
@@ -11,7 +12,7 @@ class Treinador extends Agente {
     pokemons,
     tamanho,
   ) {
-    super(id, tamanho, "humana", velocidade, visao);
+    super(id, cor, tamanho, "humana", velocidade, visao);
 
     this.resistenciaBase = resistencia;
     this.resistencia = resistencia;
@@ -22,7 +23,7 @@ class Treinador extends Agente {
 
   acao(contexto, mapa, agentes) {
     if (this.resistencia <= 0 && this.paraMovimento) {
-      console.log("acabou a resistencia");
+      console.log(`Treinador #${this.id} zerou a resistencia`);
       this.voltaBase(this);
       return;
     }
@@ -81,16 +82,21 @@ class Treinador extends Agente {
     const alvo = this.colisaoMaisProxima(colisoes, agentes);
 
     if (alvo) {
-      switch (alvo.especie) {
-        case "humana":
-          if (this.estrategia === "agressivo") {
-            this.colideTreinador(alvo, contexto, mapa);
-          }
-          break;
-        default:
-          break;
-      }
+      this.colide(alvo, contexto, mapa, agentes);
     }
+
+    // if (alvo) {
+    //   switch (alvo.especie) {
+    //     case "humana":
+    //       if (this.estrategia === "agressivo") {
+    //         this.colide(alvo, contexto, mapa);
+    //       }
+    //       break;
+    //     default:
+    //       this.colide(alvo, contexto, mapa);
+    //       break;
+    //   }
+    // }
   }
 
   colisaoMaisProxima(colisoes, agentes) {
@@ -103,20 +109,23 @@ class Treinador extends Agente {
     if (filtrados.length === 0) filtrados = candidatos;
     if (filtrados.length === 0) return null;
 
-    return filtrados.reduce((maisProximo, atual) => {
-      const distAtual = Math.hypot(
-        atual.posicao.x - this.posicao.x,
-        atual.posicao.y - this.posicao.y,
-      );
-      const distMaisProx = Math.hypot(
-        maisProximo.posicao.x - this.posicao.x,
-        maisProximo.posicao.y - this.posicao.y,
-      );
-      return distAtual < distMaisProx ? atual : maisProximo;
+    return filtrados.reduce((proximo, atual) => {
+      const distAtual = this.calculaDistancia(atual.posicao, this.posicao);
+      const distMaisProx = this.calculaDistancia(proximo.posicao, this.posicao);
+
+      return distAtual < distMaisProx ? atual : proximo;
     });
   }
 
-  colideTreinador(alvo, contexto, mapa) {
+  colide(alvo, contexto, mapa, agentes) {
+    if (alvo.especie === "humana" && this.estrategia === "cauteloso") {
+      return;
+    }
+
+    if (this.pokemons.some((p) => p.especie === alvo.especie)) {
+      return;
+    }
+
     if (this.caminho.length) {
       const ultimo = this.caminho[this.caminho.length - 1];
       const destino = {
@@ -135,16 +144,15 @@ class Treinador extends Agente {
     const alvoColisoes = alvo.detectaColisao(contexto, mapa);
     if (alvoColisoes.length && alvoColisoes.some((a) => a === this.id)) {
       if (
-        Math.abs(alvo.posicao.x - this.posicao.x) +
-          Math.abs(alvo.posicao.y - this.posicao.y) <=
+        this.calculaDistancia(this.posicao, alvo.posicao) <=
         this.tamanho * 3
       ) {
-        this.iniciaBatalha(alvo);
+        this.iniciaBatalha(alvo, agentes, mapa);
       }
     }
   }
 
-  iniciaBatalha(alvo) {
+  iniciaBatalha(alvo, agentes, mapa) {
     this.estaDisponivel = false;
     this.paraMovimento = true;
 
@@ -159,14 +167,31 @@ class Treinador extends Agente {
         console.log(`Treinador #${this.id} venceu a batalha`);
         this.estaDisponivel = true;
         this.paraMovimento = false;
-        alvo.resistencia = 0;
+
+        if (alvo.especie === "humana") {
+          alvo.resistencia = 0;
+        } else {
+          this.vencePokemon(alvo, agentes, mapa);
+        }
       } else {
-        console.log(`Treinador #${alvo.id} venceu a batalha`);
+        console.log(`Agente #${alvo.id} venceu a batalha`);
         alvo.estaDisponivel = true;
         alvo.paraMovimento = false;
         this.resistencia = 0;
       }
     }, 2000);
+  }
+
+  vencePokemon(pokemon, agentes, mapa) {
+    agentes.splice(
+      agentes.findIndex((a) => a.id === pokemon.id),
+      1,
+    );
+    mapa.matriz[Math.floor(pokemon.posicao.y / mapa.celula)][
+      Math.floor(pokemon.posicao.x / mapa.celula)
+    ] = 0;
+
+    this.pokemons.push(pokemon);
   }
 
   voltaBase(treinador) {
@@ -187,41 +212,11 @@ class Treinador extends Agente {
     }, tempoNaBase * 1000);
   }
 
-  TreinadorManualmente(tecla, celula, matriz) {
-    if (!tecla) {
-      return;
-    }
-
-    switch (tecla.key) {
-      case "w":
-        if (matriz[(this.posicao.y - celula) / celula][this.posicao.x / celula])
-          break;
-        this.posicao.y -= celula;
-        break;
-      case "s":
-        if (matriz[(this.posicao.y + celula) / celula][this.posicao.x / celula])
-          break;
-        this.posicao.y += celula;
-        break;
-      case "a":
-        if (matriz[this.posicao.y / celula][(this.posicao.x - celula) / celula])
-          break;
-        this.posicao.x -= celula;
-        break;
-      case "d":
-        if (matriz[this.posicao.y / celula][(this.posicao.x + celula) / celula])
-          break;
-        this.posicao.x += celula;
-        break;
-    }
-
-    tecla.key = null;
-  }
-
   calculaDistancia(posicao, destino) {
     const dx = destino.x - posicao.x;
     const dy = destino.y - posicao.y;
-    return Math.sqrt(dx * dx + dy * dy);
+
+    return Math.hypot(dx, dy);
   }
 }
 

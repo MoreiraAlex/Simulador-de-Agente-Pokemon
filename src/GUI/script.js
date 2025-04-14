@@ -53,7 +53,7 @@ function adicionaRemoveTreinador(config) {
       <div class="space-y-1 text-xs">
         <span class="flex justify-between items-center">
           <label for="velocidade" class="block">Velocidade</label>
-          <input type="text" id="displayVel${treinador.id}" value="0" readonly class="w-8 text-center border rounded-md bg-gray-200">
+          <input type="text" id="displayVel${treinador.id}" value="1" readonly class="w-8 text-center border rounded-md bg-gray-200">
         </span>
         <input type="range" name="velocidade" min="1" max="5" value="1" oninput="displayVel${treinador.id}.value=value" 
           class="atributo w-full h-1 accent-gray-900 cursor-pointer"
@@ -61,7 +61,7 @@ function adicionaRemoveTreinador(config) {
         >
         <span class="flex justify-between items-center">
           <label for="resistencia" class="block">Resistência</label>
-          <input type="text" id="displayRe${treinador.id}" value="0" readonly class="w-8 text-center border rounded-md bg-gray-200">
+          <input type="text" id="displayRe${treinador.id}" value="5" readonly class="w-8 text-center border rounded-md bg-gray-200">
         </span>
         <input type="range" name="resistencia" min="5" max="10" value="1" oninput="displayRe${treinador.id}.value=value"
           class="atributo w-full h-1 accent-gray-900 cursor-pointer"
@@ -69,7 +69,7 @@ function adicionaRemoveTreinador(config) {
         >
         <span class="flex justify-between items-center">
           <label for="visao" class="block">Visão</label>
-          <input type="text" id="displayVi${treinador.id}" value="0" readonly class="w-8 text-center border rounded-md bg-gray-200">
+          <input type="text" id="displayVi${treinador.id}" value="10" readonly class="w-8 text-center border rounded-md bg-gray-200">
         </span>
         <input type="range" name="visao" min="10" max="30" value="1" oninput="displayVi${treinador.id}.value=value"  
           class="atributo w-full h-1 accent-gray-900 cursor-pointer"
@@ -370,7 +370,6 @@ function simulação(listaTreinadores, config) {
         }
       });
 
-      console.log(treinador);
       config.treinadores.push(treinador);
     });
   });

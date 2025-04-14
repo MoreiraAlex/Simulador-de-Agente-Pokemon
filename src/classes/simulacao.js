@@ -1,5 +1,7 @@
 import Mapa from "./mapa.js";
 import Treinador from "./treinador.js";
+import Pokemon from "./pokemon.js";
+import { pokedex } from "../models/pokedex.js";
 
 class Simulacao {
   constructor(config) {
@@ -18,6 +20,7 @@ class Simulacao {
     config.treinadores.forEach((t) => {
       const treinador = new Treinador(
         t.id,
+        "white",
         t.velocidade,
         t.resistencia,
         t.visao,
@@ -30,12 +33,44 @@ class Simulacao {
     });
 
     this.tecla = null;
+
+    this.pokemons = [];
   }
 
   inciar() {
-    this.agentes = [...this.treinadores, 1000];
-
     this.mapa.desenha();
+
+    Array.from(Array(2)).forEach((_, i) => {
+      const poke = pokedex.find((p) => p.especie === "Bulbasaur");
+      const pokemon = new Pokemon(
+        (Math.random() * (i + 1) * 1000).toFixed(0),
+        "red",
+        poke.especie,
+        poke.tipos,
+        poke.vida,
+        poke.ataque,
+        poke.defesa,
+        0,
+        1,
+        this.celula,
+      );
+
+      pokemon.posicao = {
+        x:
+          Math.floor(Math.random() * (this.canvas.width / this.celula)) *
+          this.celula,
+        y:
+          Math.floor(Math.random() * (this.canvas.height / this.celula)) *
+          this.celula,
+      };
+
+      this.mapa.matriz[Math.floor(pokemon.posicao.y / this.celula)][
+        Math.floor(pokemon.posicao.x / this.celula)
+      ] = pokemon.id;
+
+      this.pokemons.push(pokemon);
+    });
+    this.agentes = [...this.treinadores, ...this.pokemons];
 
     this.treinadores.forEach((treinador, idx) => {
       if (treinador.id === 1000) {
@@ -83,20 +118,22 @@ class Simulacao {
       this.contexto.reset();
       this.mapa.desenha();
 
-      this.treinadores.forEach((t) => {
-        if (t.id === 1000) {
+      this.agentes.forEach((agente) => {
+        if (agente.especie === "humana") {
           return;
         }
+        agente.desenha(this.contexto);
+        this.mapa.matriz[Math.floor(agente.posicao.y / this.celula)][
+          Math.floor(agente.posicao.x / this.celula)
+        ] = agente.id;
+      });
+
+      this.treinadores.forEach((t) => {
         t.desenha(this.contexto);
       });
       this.treinadores.forEach((t) => {
-        if (t.id === 1000) {
-          return;
-        }
         t.acao(this.contexto, this.mapa, this.agentes);
       });
-
-      // this.Manual();
     }
 
     // eslint-disable-next-line no-undef

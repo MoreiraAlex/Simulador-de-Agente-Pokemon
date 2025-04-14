@@ -1,6 +1,6 @@
 export const pokedex = [
   {
-    nome: "Bulbasaur",
+    especie: "Bulbasaur",
     tipos: ["grama", "veneno"],
     hp: 100,
     ataque: 10,
@@ -9,7 +9,7 @@ export const pokedex = [
     numeroPokedex: 1,
   },
   {
-    nome: "Ivysaur",
+    especie: "Ivysaur",
     tipos: ["grama", "veneno"],
     hp: 100,
     ataque: 10,
@@ -18,7 +18,7 @@ export const pokedex = [
     numeroPokedex: 2,
   },
   {
-    nome: "Venusaur",
+    especie: "Venusaur",
     tipos: ["grama", "veneno"],
     hp: 100,
     ataque: 10,
@@ -27,7 +27,7 @@ export const pokedex = [
     numeroPokedex: 3,
   },
   {
-    nome: "Charmander",
+    especie: "Charmander",
     tipos: ["fogo"],
     hp: 100,
     ataque: 10,
@@ -36,7 +36,7 @@ export const pokedex = [
     numeroPokedex: 4,
   },
   {
-    nome: "Charmeleon",
+    especie: "Charmeleon",
     tipos: ["fogo"],
     hp: 100,
     ataque: 10,
@@ -45,7 +45,7 @@ export const pokedex = [
     numeroPokedex: 5,
   },
   {
-    nome: "Charizard",
+    especie: "Charizard",
     tipos: ["fogo", "voador"],
     hp: 100,
     ataque: 10,
@@ -54,7 +54,7 @@ export const pokedex = [
     numeroPokedex: 6,
   },
   {
-    nome: "Squirtle",
+    especie: "Squirtle",
     tipos: ["agua"],
     hp: 100,
     ataque: 10,
@@ -63,7 +63,7 @@ export const pokedex = [
     numeroPokedex: 7,
   },
   {
-    nome: "Wartortle",
+    especie: "Wartortle",
     tipos: ["agua"],
     hp: 100,
     ataque: 10,
@@ -72,7 +72,7 @@ export const pokedex = [
     numeroPokedex: 8,
   },
   {
-    nome: "Blastoise",
+    especie: "Blastoise",
     tipos: ["agua"],
     hp: 100,
     ataque: 10,
@@ -81,7 +81,7 @@ export const pokedex = [
     numeroPokedex: 9,
   },
   {
-    nome: "Caterpie",
+    especie: "Caterpie",
     tipos: ["inseto"],
     hp: 100,
     ataque: 10,
@@ -90,7 +90,7 @@ export const pokedex = [
     numeroPokedex: 10,
   },
   {
-    nome: "Metapod",
+    especie: "Metapod",
     tipos: ["inseto"],
     hp: 100,
     ataque: 10,
@@ -99,7 +99,7 @@ export const pokedex = [
     numeroPokedex: 11,
   },
   {
-    nome: "Butterfree",
+    especie: "Butterfree",
     tipos: ["inseto", "voador"],
     hp: 100,
     ataque: 10,
@@ -108,7 +108,7 @@ export const pokedex = [
     numeroPokedex: 12,
   },
   {
-    nome: "Weedle",
+    especie: "Weedle",
     tipos: ["inseto", "veneno"],
     hp: 100,
     ataque: 10,
@@ -117,7 +117,7 @@ export const pokedex = [
     numeroPokedex: 13,
   },
   {
-    nome: "Kakuna",
+    especie: "Kakuna",
     tipos: ["inseto", "veneno"],
     hp: 100,
     ataque: 10,
@@ -126,7 +126,7 @@ export const pokedex = [
     numeroPokedex: 14,
   },
   {
-    nome: "Beedrill",
+    especie: "Beedrill",
     tipos: ["inseto", "veneno"],
     hp: 100,
     ataque: 10,
@@ -135,7 +135,7 @@ export const pokedex = [
     numeroPokedex: 15,
   },
   {
-    nome: "Pidgey",
+    especie: "Pidgey",
     tipos: ["normal", "voador"],
     hp: 100,
     ataque: 10,
@@ -144,7 +144,7 @@ export const pokedex = [
     numeroPokedex: 16,
   },
   {
-    nome: "Pidgeotto",
+    especie: "Pidgeotto",
     tipos: ["normal", "voador"],
     hp: 100,
     ataque: 10,
@@ -153,7 +153,7 @@ export const pokedex = [
     numeroPokedex: 17,
   },
   {
-    nome: "Pidgeot",
+    especie: "Pidgeot",
     tipos: ["normal", "voador"],
     hp: 100,
     ataque: 10,
@@ -162,7 +162,7 @@ export const pokedex = [
     numeroPokedex: 18,
   },
   {
-    nome: "Rattata",
+    especie: "Rattata",
     tipos: ["normal"],
     hp: 100,
     ataque: 10,
@@ -171,7 +171,7 @@ export const pokedex = [
     numeroPokedex: 19,
   },
   {
-    nome: "Raticate",
+    especie: "Raticate",
     tipos: ["normal"],
     hp: 100,
     ataque: 10,
@@ -180,7 +180,7 @@ export const pokedex = [
     numeroPokedex: 20,
   },
   {
-    nome: "Spearow",
+    especie: "Spearow",
     tipos: ["normal", "voador"],
     hp: 100,
     ataque: 10,
@@ -189,7 +189,7 @@ export const pokedex = [
     numeroPokedex: 21,
   },
   {
-    nome: "Fearow",
+    especie: "Fearow",
     tipos: ["normal", "voador"],
     hp: 100,
     ataque: 10,
@@ -198,7 +198,7 @@ export const pokedex = [
     numeroPokedex: 22,
   },
   {
-    nome: "Ekans",
+    especie: "Ekans",
     tipos: ["veneno"],
     hp: 100,
     ataque: 10,
@@ -207,7 +207,7 @@ export const pokedex = [
     numeroPokedex: 23,
   },
   {
-    nome: "Arbok",
+    especie: "Arbok",
     tipos: ["veneno"],
     hp: 100,
     ataque: 10,
@@ -216,7 +216,7 @@ export const pokedex = [
     numeroPokedex: 24,
   },
   {
-    nome: "Pikachu",
+    especie: "Pikachu",
     tipos: ["eletrico"],
     hp: 100,
     ataque: 10,
@@ -225,7 +225,7 @@ export const pokedex = [
     numeroPokedex: 25,
   },
   {
-    nome: "Raichu",
+    especie: "Raichu",
     tipos: ["eletrico"],
     hp: 100,
     ataque: 10,
@@ -234,7 +234,7 @@ export const pokedex = [
     numeroPokedex: 26,
   },
   {
-    nome: "Sandshrew",
+    especie: "Sandshrew",
     tipos: ["terra"],
     hp: 100,
     ataque: 10,
@@ -243,7 +243,7 @@ export const pokedex = [
     numeroPokedex: 27,
   },
   {
-    nome: "Sandslash",
+    especie: "Sandslash",
     tipos: ["terra"],
     hp: 100,
     ataque: 10,
@@ -252,7 +252,7 @@ export const pokedex = [
     numeroPokedex: 28,
   },
   {
-    nome: "Nidoran♀",
+    especie: "Nidoran♀",
     tipos: ["veneno"],
     hp: 100,
     ataque: 10,
@@ -261,7 +261,7 @@ export const pokedex = [
     numeroPokedex: 29,
   },
   {
-    nome: "Nidorina",
+    especie: "Nidorina",
     tipos: ["veneno"],
     hp: 100,
     ataque: 10,
@@ -270,7 +270,7 @@ export const pokedex = [
     numeroPokedex: 30,
   },
   {
-    nome: "Nidoqueen",
+    especie: "Nidoqueen",
     tipos: ["veneno", "terra"],
     hp: 100,
     ataque: 10,
@@ -279,7 +279,7 @@ export const pokedex = [
     numeroPokedex: 31,
   },
   {
-    nome: "Nidoran♂",
+    especie: "Nidoran♂",
     tipos: ["veneno"],
     hp: 100,
     ataque: 10,
@@ -288,7 +288,7 @@ export const pokedex = [
     numeroPokedex: 32,
   },
   {
-    nome: "Nidorino",
+    especie: "Nidorino",
     tipos: ["veneno"],
     hp: 100,
     ataque: 10,
@@ -297,7 +297,7 @@ export const pokedex = [
     numeroPokedex: 33,
   },
   {
-    nome: "Nidoking",
+    especie: "Nidoking",
     tipos: ["veneno", "terra"],
     hp: 100,
     ataque: 10,
@@ -306,7 +306,7 @@ export const pokedex = [
     numeroPokedex: 34,
   },
   {
-    nome: "Clefairy",
+    especie: "Clefairy",
     tipos: ["normal"],
     hp: 100,
     ataque: 10,
@@ -315,7 +315,7 @@ export const pokedex = [
     numeroPokedex: 35,
   },
   {
-    nome: "Clefable",
+    especie: "Clefable",
     tipos: ["normal"],
     hp: 100,
     ataque: 10,
@@ -324,7 +324,7 @@ export const pokedex = [
     numeroPokedex: 36,
   },
   {
-    nome: "Vulpix",
+    especie: "Vulpix",
     tipos: ["fogo"],
     hp: 100,
     ataque: 10,
@@ -333,7 +333,7 @@ export const pokedex = [
     numeroPokedex: 37,
   },
   {
-    nome: "Ninetales",
+    especie: "Ninetales",
     tipos: ["fogo"],
     hp: 100,
     ataque: 10,
@@ -342,7 +342,7 @@ export const pokedex = [
     numeroPokedex: 38,
   },
   {
-    nome: "Jigglypuff",
+    especie: "Jigglypuff",
     tipos: ["normal"],
     hp: 100,
     ataque: 10,
@@ -351,7 +351,7 @@ export const pokedex = [
     numeroPokedex: 39,
   },
   {
-    nome: "Wigglytuff",
+    especie: "Wigglytuff",
     tipos: ["normal"],
     hp: 100,
     ataque: 10,
@@ -360,7 +360,7 @@ export const pokedex = [
     numeroPokedex: 40,
   },
   {
-    nome: "Zubat",
+    especie: "Zubat",
     tipos: ["veneno", "voador"],
     hp: 100,
     ataque: 10,
@@ -369,7 +369,7 @@ export const pokedex = [
     numeroPokedex: 41,
   },
   {
-    nome: "Golbat",
+    especie: "Golbat",
     tipos: ["veneno", "voador"],
     hp: 100,
     ataque: 10,
@@ -378,7 +378,7 @@ export const pokedex = [
     numeroPokedex: 42,
   },
   {
-    nome: "Oddish",
+    especie: "Oddish",
     tipos: ["grama", "veneno"],
     hp: 100,
     ataque: 10,
@@ -387,7 +387,7 @@ export const pokedex = [
     numeroPokedex: 43,
   },
   {
-    nome: "Gloom",
+    especie: "Gloom",
     tipos: ["grama", "veneno"],
     hp: 100,
     ataque: 10,
@@ -396,7 +396,7 @@ export const pokedex = [
     numeroPokedex: 44,
   },
   {
-    nome: "Vileplume",
+    especie: "Vileplume",
     tipos: ["grama", "veneno"],
     hp: 100,
     ataque: 10,
@@ -405,7 +405,7 @@ export const pokedex = [
     numeroPokedex: 45,
   },
   {
-    nome: "Paras",
+    especie: "Paras",
     tipos: ["inseto", "grama"],
     hp: 100,
     ataque: 10,
@@ -414,7 +414,7 @@ export const pokedex = [
     numeroPokedex: 46,
   },
   {
-    nome: "Parasect",
+    especie: "Parasect",
     tipos: ["inseto", "grama"],
     hp: 100,
     ataque: 10,
@@ -423,7 +423,7 @@ export const pokedex = [
     numeroPokedex: 47,
   },
   {
-    nome: "Venonat",
+    especie: "Venonat",
     tipos: ["inseto", "veneno"],
     hp: 100,
     ataque: 10,
@@ -432,7 +432,7 @@ export const pokedex = [
     numeroPokedex: 48,
   },
   {
-    nome: "Venomoth",
+    especie: "Venomoth",
     tipos: ["inseto", "veneno"],
     hp: 100,
     ataque: 10,
@@ -441,7 +441,7 @@ export const pokedex = [
     numeroPokedex: 49,
   },
   {
-    nome: "Diglett",
+    especie: "Diglett",
     tipos: ["terra"],
     hp: 100,
     ataque: 10,
@@ -450,7 +450,7 @@ export const pokedex = [
     numeroPokedex: 50,
   },
   {
-    nome: "Dugtrio",
+    especie: "Dugtrio",
     tipos: ["terra"],
     hp: 100,
     ataque: 10,
@@ -459,7 +459,7 @@ export const pokedex = [
     numeroPokedex: 51,
   },
   {
-    nome: "Meowth",
+    especie: "Meowth",
     tipos: ["normal"],
     hp: 100,
     ataque: 10,
@@ -468,7 +468,7 @@ export const pokedex = [
     numeroPokedex: 52,
   },
   {
-    nome: "Persian",
+    especie: "Persian",
     tipos: ["normal"],
     hp: 100,
     ataque: 10,
@@ -477,7 +477,7 @@ export const pokedex = [
     numeroPokedex: 53,
   },
   {
-    nome: "Psyduck",
+    especie: "Psyduck",
     tipos: ["agua"],
     hp: 100,
     ataque: 10,
@@ -486,7 +486,7 @@ export const pokedex = [
     numeroPokedex: 54,
   },
   {
-    nome: "Golduck",
+    especie: "Golduck",
     tipos: ["agua"],
     hp: 100,
     ataque: 10,
@@ -495,7 +495,7 @@ export const pokedex = [
     numeroPokedex: 55,
   },
   {
-    nome: "Mankey",
+    especie: "Mankey",
     tipos: ["lutador"],
     hp: 100,
     ataque: 10,
@@ -504,7 +504,7 @@ export const pokedex = [
     numeroPokedex: 56,
   },
   {
-    nome: "Primeape",
+    especie: "Primeape",
     tipos: ["lutador"],
     hp: 100,
     ataque: 10,
@@ -513,7 +513,7 @@ export const pokedex = [
     numeroPokedex: 57,
   },
   {
-    nome: "Growlithe",
+    especie: "Growlithe",
     tipos: ["fogo"],
     hp: 100,
     ataque: 10,
@@ -522,7 +522,7 @@ export const pokedex = [
     numeroPokedex: 58,
   },
   {
-    nome: "Arcanine",
+    especie: "Arcanine",
     tipos: ["fogo"],
     hp: 100,
     ataque: 10,
@@ -531,7 +531,7 @@ export const pokedex = [
     numeroPokedex: 59,
   },
   {
-    nome: "Poliwag",
+    especie: "Poliwag",
     tipos: ["agua"],
     hp: 100,
     ataque: 10,
@@ -540,7 +540,7 @@ export const pokedex = [
     numeroPokedex: 60,
   },
   {
-    nome: "Poliwhirl",
+    especie: "Poliwhirl",
     tipos: ["agua"],
     hp: 100,
     ataque: 10,
@@ -549,7 +549,7 @@ export const pokedex = [
     numeroPokedex: 61,
   },
   {
-    nome: "Poliwrath",
+    especie: "Poliwrath",
     tipos: ["agua", "lutador"],
     hp: 100,
     ataque: 10,
@@ -558,7 +558,7 @@ export const pokedex = [
     numeroPokedex: 62,
   },
   {
-    nome: "Abra",
+    especie: "Abra",
     tipos: ["psíquico"],
     hp: 100,
     ataque: 10,
@@ -567,7 +567,7 @@ export const pokedex = [
     numeroPokedex: 63,
   },
   {
-    nome: "Kadabra",
+    especie: "Kadabra",
     tipos: ["psíquico"],
     hp: 100,
     ataque: 10,
@@ -576,7 +576,7 @@ export const pokedex = [
     numeroPokedex: 64,
   },
   {
-    nome: "Alakazam",
+    especie: "Alakazam",
     tipos: ["psíquico"],
     hp: 100,
     ataque: 10,
@@ -585,7 +585,7 @@ export const pokedex = [
     numeroPokedex: 65,
   },
   {
-    nome: "Machop",
+    especie: "Machop",
     tipos: ["lutador"],
     hp: 100,
     ataque: 10,
@@ -594,7 +594,7 @@ export const pokedex = [
     numeroPokedex: 66,
   },
   {
-    nome: "Machoke",
+    especie: "Machoke",
     tipos: ["lutador"],
     hp: 100,
     ataque: 10,
@@ -603,7 +603,7 @@ export const pokedex = [
     numeroPokedex: 67,
   },
   {
-    nome: "Machamp",
+    especie: "Machamp",
     tipos: ["lutador"],
     hp: 100,
     ataque: 10,
@@ -612,7 +612,7 @@ export const pokedex = [
     numeroPokedex: 68,
   },
   {
-    nome: "Bellsprout",
+    especie: "Bellsprout",
     tipos: ["grama", "veneno"],
     hp: 100,
     ataque: 10,
@@ -621,7 +621,7 @@ export const pokedex = [
     numeroPokedex: 69,
   },
   {
-    nome: "Weepinbell",
+    especie: "Weepinbell",
     tipos: ["grama", "veneno"],
     hp: 100,
     ataque: 10,
@@ -630,7 +630,7 @@ export const pokedex = [
     numeroPokedex: 70,
   },
   {
-    nome: "Victreebel",
+    especie: "Victreebel",
     tipos: ["grama", "veneno"],
     hp: 100,
     ataque: 10,
@@ -639,7 +639,7 @@ export const pokedex = [
     numeroPokedex: 71,
   },
   {
-    nome: "Tentacool",
+    especie: "Tentacool",
     tipos: ["agua", "veneno"],
     hp: 100,
     ataque: 10,
@@ -648,7 +648,7 @@ export const pokedex = [
     numeroPokedex: 72,
   },
   {
-    nome: "Tentacruel",
+    especie: "Tentacruel",
     tipos: ["agua", "veneno"],
     hp: 100,
     ataque: 10,
@@ -657,7 +657,7 @@ export const pokedex = [
     numeroPokedex: 73,
   },
   {
-    nome: "Geodude",
+    especie: "Geodude",
     tipos: ["pedra", "terra"],
     hp: 100,
     ataque: 10,
@@ -666,7 +666,7 @@ export const pokedex = [
     numeroPokedex: 74,
   },
   {
-    nome: "Graveler",
+    especie: "Graveler",
     tipos: ["pedra", "terra"],
     hp: 100,
     ataque: 10,
@@ -675,7 +675,7 @@ export const pokedex = [
     numeroPokedex: 75,
   },
   {
-    nome: "Golem",
+    especie: "Golem",
     tipos: ["pedra", "terra"],
     hp: 100,
     ataque: 10,
@@ -684,7 +684,7 @@ export const pokedex = [
     numeroPokedex: 76,
   },
   {
-    nome: "Ponyta",
+    especie: "Ponyta",
     tipos: ["fogo"],
     hp: 100,
     ataque: 10,
@@ -693,7 +693,7 @@ export const pokedex = [
     numeroPokedex: 77,
   },
   {
-    nome: "Rapidash",
+    especie: "Rapidash",
     tipos: ["fogo"],
     hp: 100,
     ataque: 10,
@@ -702,7 +702,7 @@ export const pokedex = [
     numeroPokedex: 78,
   },
   {
-    nome: "Slowpoke",
+    especie: "Slowpoke",
     tipos: ["agua", "psíquico"],
     hp: 100,
     ataque: 10,
@@ -711,7 +711,7 @@ export const pokedex = [
     numeroPokedex: 79,
   },
   {
-    nome: "Slowbro",
+    especie: "Slowbro",
     tipos: ["agua", "psíquico"],
     hp: 100,
     ataque: 10,
@@ -720,7 +720,7 @@ export const pokedex = [
     numeroPokedex: 80,
   },
   {
-    nome: "Magnemite",
+    especie: "Magnemite",
     tipos: ["eletrico"],
     hp: 100,
     ataque: 10,
@@ -729,7 +729,7 @@ export const pokedex = [
     numeroPokedex: 81,
   },
   {
-    nome: "Magneton",
+    especie: "Magneton",
     tipos: ["eletrico"],
     hp: 100,
     ataque: 10,
@@ -738,7 +738,7 @@ export const pokedex = [
     numeroPokedex: 82,
   },
   {
-    nome: "Farfetch'd",
+    especie: "Farfetch'd",
     tipos: ["normal", "voador"],
     hp: 100,
     ataque: 10,
@@ -747,7 +747,7 @@ export const pokedex = [
     numeroPokedex: 83,
   },
   {
-    nome: "Doduo",
+    especie: "Doduo",
     tipos: ["normal", "voador"],
     hp: 100,
     ataque: 10,
@@ -756,7 +756,7 @@ export const pokedex = [
     numeroPokedex: 84,
   },
   {
-    nome: "Dodrio",
+    especie: "Dodrio",
     tipos: ["normal", "voador"],
     hp: 100,
     ataque: 10,
@@ -765,7 +765,7 @@ export const pokedex = [
     numeroPokedex: 85,
   },
   {
-    nome: "Seel",
+    especie: "Seel",
     tipos: ["agua"],
     hp: 100,
     ataque: 10,
@@ -774,7 +774,7 @@ export const pokedex = [
     numeroPokedex: 86,
   },
   {
-    nome: "Dewgong",
+    especie: "Dewgong",
     tipos: ["agua", "gelo"],
     hp: 100,
     ataque: 10,
@@ -783,7 +783,7 @@ export const pokedex = [
     numeroPokedex: 87,
   },
   {
-    nome: "Grimer",
+    especie: "Grimer",
     tipos: ["veneno"],
     hp: 100,
     ataque: 10,
@@ -792,7 +792,7 @@ export const pokedex = [
     numeroPokedex: 88,
   },
   {
-    nome: "Muk",
+    especie: "Muk",
     tipos: ["veneno"],
     hp: 100,
     ataque: 10,
@@ -801,7 +801,7 @@ export const pokedex = [
     numeroPokedex: 89,
   },
   {
-    nome: "Shellder",
+    especie: "Shellder",
     tipos: ["agua"],
     hp: 100,
     ataque: 10,
@@ -810,7 +810,7 @@ export const pokedex = [
     numeroPokedex: 90,
   },
   {
-    nome: "Cloyster",
+    especie: "Cloyster",
     tipos: ["agua", "gelo"],
     hp: 100,
     ataque: 10,
@@ -819,7 +819,7 @@ export const pokedex = [
     numeroPokedex: 91,
   },
   {
-    nome: "Gastly",
+    especie: "Gastly",
     tipos: ["fantasma", "veneno"],
     hp: 100,
     ataque: 10,
@@ -828,7 +828,7 @@ export const pokedex = [
     numeroPokedex: 92,
   },
   {
-    nome: "Haunter",
+    especie: "Haunter",
     tipos: ["fantasma", "veneno"],
     hp: 100,
     ataque: 10,
@@ -837,7 +837,7 @@ export const pokedex = [
     numeroPokedex: 93,
   },
   {
-    nome: "Gengar",
+    especie: "Gengar",
     tipos: ["fantasma", "veneno"],
     hp: 100,
     ataque: 10,
@@ -846,7 +846,7 @@ export const pokedex = [
     numeroPokedex: 94,
   },
   {
-    nome: "Onix",
+    especie: "Onix",
     tipos: ["pedra", "terra"],
     hp: 100,
     ataque: 10,
@@ -855,7 +855,7 @@ export const pokedex = [
     numeroPokedex: 95,
   },
   {
-    nome: "Drowzee",
+    especie: "Drowzee",
     tipos: ["psíquico"],
     hp: 100,
     ataque: 10,
@@ -864,7 +864,7 @@ export const pokedex = [
     numeroPokedex: 96,
   },
   {
-    nome: "Hypno",
+    especie: "Hypno",
     tipos: ["psíquico"],
     hp: 100,
     ataque: 10,
@@ -873,7 +873,7 @@ export const pokedex = [
     numeroPokedex: 97,
   },
   {
-    nome: "Krabby",
+    especie: "Krabby",
     tipos: ["agua"],
     hp: 100,
     ataque: 10,
@@ -882,7 +882,7 @@ export const pokedex = [
     numeroPokedex: 98,
   },
   {
-    nome: "Kingler",
+    especie: "Kingler",
     tipos: ["agua"],
     hp: 100,
     ataque: 10,
@@ -891,7 +891,7 @@ export const pokedex = [
     numeroPokedex: 99,
   },
   {
-    nome: "Voltorb",
+    especie: "Voltorb",
     tipos: ["eletrico"],
     hp: 100,
     ataque: 10,
@@ -900,7 +900,7 @@ export const pokedex = [
     numeroPokedex: 100,
   },
   {
-    nome: "Electrode",
+    especie: "Electrode",
     tipos: ["eletrico"],
     hp: 100,
     ataque: 10,
@@ -909,7 +909,7 @@ export const pokedex = [
     numeroPokedex: 101,
   },
   {
-    nome: "Exeggcute",
+    especie: "Exeggcute",
     tipos: ["grama", "psíquico"],
     hp: 100,
     ataque: 10,
@@ -918,7 +918,7 @@ export const pokedex = [
     numeroPokedex: 102,
   },
   {
-    nome: "Exeggutor",
+    especie: "Exeggutor",
     tipos: ["grama", "psíquico"],
     hp: 100,
     ataque: 10,
@@ -927,7 +927,7 @@ export const pokedex = [
     numeroPokedex: 103,
   },
   {
-    nome: "Cubone",
+    especie: "Cubone",
     tipos: ["terra"],
     hp: 100,
     ataque: 10,
@@ -936,7 +936,7 @@ export const pokedex = [
     numeroPokedex: 104,
   },
   {
-    nome: "Marowak",
+    especie: "Marowak",
     tipos: ["terra"],
     hp: 100,
     ataque: 10,
@@ -945,7 +945,7 @@ export const pokedex = [
     numeroPokedex: 105,
   },
   {
-    nome: "Hitmonlee",
+    especie: "Hitmonlee",
     tipos: ["lutador"],
     hp: 100,
     ataque: 10,
@@ -954,7 +954,7 @@ export const pokedex = [
     numeroPokedex: 106,
   },
   {
-    nome: "Hitmonchan",
+    especie: "Hitmonchan",
     tipos: ["lutador"],
     hp: 100,
     ataque: 10,
@@ -963,7 +963,7 @@ export const pokedex = [
     numeroPokedex: 107,
   },
   {
-    nome: "Lickitung",
+    especie: "Lickitung",
     tipos: ["normal"],
     hp: 100,
     ataque: 10,
@@ -972,7 +972,7 @@ export const pokedex = [
     numeroPokedex: 108,
   },
   {
-    nome: "Koffing",
+    especie: "Koffing",
     tipos: ["veneno"],
     hp: 100,
     ataque: 10,
@@ -981,7 +981,7 @@ export const pokedex = [
     numeroPokedex: 109,
   },
   {
-    nome: "Weezing",
+    especie: "Weezing",
     tipos: ["veneno"],
     hp: 100,
     ataque: 10,
@@ -990,7 +990,7 @@ export const pokedex = [
     numeroPokedex: 110,
   },
   {
-    nome: "Rhyhorn",
+    especie: "Rhyhorn",
     tipos: ["terra", "pedra"],
     hp: 100,
     ataque: 10,
@@ -999,7 +999,7 @@ export const pokedex = [
     numeroPokedex: 111,
   },
   {
-    nome: "Rhydon",
+    especie: "Rhydon",
     tipos: ["terra", "pedra"],
     hp: 100,
     ataque: 10,
@@ -1008,7 +1008,7 @@ export const pokedex = [
     numeroPokedex: 112,
   },
   {
-    nome: "Chansey",
+    especie: "Chansey",
     tipos: ["normal"],
     hp: 100,
     ataque: 10,
@@ -1017,7 +1017,7 @@ export const pokedex = [
     numeroPokedex: 113,
   },
   {
-    nome: "Tangela",
+    especie: "Tangela",
     tipos: ["grama"],
     hp: 100,
     ataque: 10,
@@ -1026,7 +1026,7 @@ export const pokedex = [
     numeroPokedex: 114,
   },
   {
-    nome: "Kangaskhan",
+    especie: "Kangaskhan",
     tipos: ["normal"],
     hp: 100,
     ataque: 10,
@@ -1035,7 +1035,7 @@ export const pokedex = [
     numeroPokedex: 115,
   },
   {
-    nome: "Horsea",
+    especie: "Horsea",
     tipos: ["agua"],
     hp: 100,
     ataque: 10,
@@ -1044,7 +1044,7 @@ export const pokedex = [
     numeroPokedex: 116,
   },
   {
-    nome: "Seadra",
+    especie: "Seadra",
     tipos: ["agua"],
     hp: 100,
     ataque: 10,
@@ -1053,7 +1053,7 @@ export const pokedex = [
     numeroPokedex: 117,
   },
   {
-    nome: "Goldeen",
+    especie: "Goldeen",
     tipos: ["agua"],
     hp: 100,
     ataque: 10,
@@ -1062,7 +1062,7 @@ export const pokedex = [
     numeroPokedex: 118,
   },
   {
-    nome: "Seaking",
+    especie: "Seaking",
     tipos: ["agua"],
     hp: 100,
     ataque: 10,
@@ -1071,7 +1071,7 @@ export const pokedex = [
     numeroPokedex: 119,
   },
   {
-    nome: "Staryu",
+    especie: "Staryu",
     tipos: ["agua"],
     hp: 100,
     ataque: 10,
@@ -1080,7 +1080,7 @@ export const pokedex = [
     numeroPokedex: 120,
   },
   {
-    nome: "Starmie",
+    especie: "Starmie",
     tipos: ["agua", "psíquico"],
     hp: 100,
     ataque: 10,
@@ -1089,7 +1089,7 @@ export const pokedex = [
     numeroPokedex: 121,
   },
   {
-    nome: "Mr. Mime",
+    especie: "Mr. Mime",
     tipos: ["psíquico"],
     hp: 100,
     ataque: 10,
@@ -1098,7 +1098,7 @@ export const pokedex = [
     numeroPokedex: 122,
   },
   {
-    nome: "Scyther",
+    especie: "Scyther",
     tipos: ["inseto", "voador"],
     hp: 100,
     ataque: 10,
@@ -1107,7 +1107,7 @@ export const pokedex = [
     numeroPokedex: 123,
   },
   {
-    nome: "Jynx",
+    especie: "Jynx",
     tipos: ["gelo", "psíquico"],
     hp: 100,
     ataque: 10,
@@ -1116,7 +1116,7 @@ export const pokedex = [
     numeroPokedex: 124,
   },
   {
-    nome: "Electabuzz",
+    especie: "Electabuzz",
     tipos: ["eletrico"],
     hp: 100,
     ataque: 10,
@@ -1125,7 +1125,7 @@ export const pokedex = [
     numeroPokedex: 125,
   },
   {
-    nome: "Magmar",
+    especie: "Magmar",
     tipos: ["fogo"],
     hp: 100,
     ataque: 10,
@@ -1134,7 +1134,7 @@ export const pokedex = [
     numeroPokedex: 126,
   },
   {
-    nome: "Pinsir",
+    especie: "Pinsir",
     tipos: ["inseto"],
     hp: 100,
     ataque: 10,
@@ -1143,7 +1143,7 @@ export const pokedex = [
     numeroPokedex: 127,
   },
   {
-    nome: "Tauros",
+    especie: "Tauros",
     tipos: ["normal"],
     hp: 100,
     ataque: 10,
@@ -1152,7 +1152,7 @@ export const pokedex = [
     numeroPokedex: 128,
   },
   {
-    nome: "Magikarp",
+    especie: "Magikarp",
     tipos: ["agua"],
     hp: 100,
     ataque: 10,
@@ -1161,7 +1161,7 @@ export const pokedex = [
     numeroPokedex: 129,
   },
   {
-    nome: "Gyarados",
+    especie: "Gyarados",
     tipos: ["agua", "voador"],
     hp: 100,
     ataque: 10,
@@ -1170,7 +1170,7 @@ export const pokedex = [
     numeroPokedex: 130,
   },
   {
-    nome: "Lapras",
+    especie: "Lapras",
     tipos: ["agua", "gelo"],
     hp: 100,
     ataque: 10,
@@ -1179,7 +1179,7 @@ export const pokedex = [
     numeroPokedex: 131,
   },
   {
-    nome: "Ditto",
+    especie: "Ditto",
     tipos: ["normal"],
     hp: 100,
     ataque: 10,
@@ -1188,7 +1188,7 @@ export const pokedex = [
     numeroPokedex: 132,
   },
   {
-    nome: "Eevee",
+    especie: "Eevee",
     tipos: ["normal"],
     hp: 100,
     ataque: 10,
@@ -1197,7 +1197,7 @@ export const pokedex = [
     numeroPokedex: 133,
   },
   {
-    nome: "Vaporeon",
+    especie: "Vaporeon",
     tipos: ["agua"],
     hp: 100,
     ataque: 10,
@@ -1206,7 +1206,7 @@ export const pokedex = [
     numeroPokedex: 134,
   },
   {
-    nome: "Jolteon",
+    especie: "Jolteon",
     tipos: ["eletrico"],
     hp: 100,
     ataque: 10,
@@ -1215,7 +1215,7 @@ export const pokedex = [
     numeroPokedex: 135,
   },
   {
-    nome: "Flareon",
+    especie: "Flareon",
     tipos: ["fogo"],
     hp: 100,
     ataque: 10,
@@ -1224,7 +1224,7 @@ export const pokedex = [
     numeroPokedex: 136,
   },
   {
-    nome: "Porygon",
+    especie: "Porygon",
     tipos: ["normal"],
     hp: 100,
     ataque: 10,
@@ -1233,7 +1233,7 @@ export const pokedex = [
     numeroPokedex: 137,
   },
   {
-    nome: "Omanyte",
+    especie: "Omanyte",
     tipos: ["pedra", "agua"],
     hp: 100,
     ataque: 10,
@@ -1242,7 +1242,7 @@ export const pokedex = [
     numeroPokedex: 138,
   },
   {
-    nome: "Omastar",
+    especie: "Omastar",
     tipos: ["pedra", "agua"],
     hp: 100,
     ataque: 10,
@@ -1251,7 +1251,7 @@ export const pokedex = [
     numeroPokedex: 139,
   },
   {
-    nome: "Kabuto",
+    especie: "Kabuto",
     tipos: ["pedra", "agua"],
     hp: 100,
     ataque: 10,
@@ -1260,7 +1260,7 @@ export const pokedex = [
     numeroPokedex: 140,
   },
   {
-    nome: "Kabutops",
+    especie: "Kabutops",
     tipos: ["pedra", "agua"],
     hp: 100,
     ataque: 10,
@@ -1269,7 +1269,7 @@ export const pokedex = [
     numeroPokedex: 141,
   },
   {
-    nome: "Aerodactyl",
+    especie: "Aerodactyl",
     tipos: ["pedra", "voador"],
     hp: 100,
     ataque: 10,
@@ -1278,7 +1278,7 @@ export const pokedex = [
     numeroPokedex: 142,
   },
   {
-    nome: "Snorlax",
+    especie: "Snorlax",
     tipos: ["normal"],
     hp: 100,
     ataque: 10,
@@ -1287,7 +1287,7 @@ export const pokedex = [
     numeroPokedex: 143,
   },
   {
-    nome: "Articuno",
+    especie: "Articuno",
     tipos: ["gelo", "voador"],
     hp: 100,
     ataque: 10,
@@ -1296,7 +1296,7 @@ export const pokedex = [
     numeroPokedex: 144,
   },
   {
-    nome: "Zapdos",
+    especie: "Zapdos",
     tipos: ["eletrico", "voador"],
     hp: 100,
     ataque: 10,
@@ -1305,7 +1305,7 @@ export const pokedex = [
     numeroPokedex: 145,
   },
   {
-    nome: "Moltres",
+    especie: "Moltres",
     tipos: ["fogo", "voador"],
     hp: 100,
     ataque: 10,
@@ -1314,7 +1314,7 @@ export const pokedex = [
     numeroPokedex: 146,
   },
   {
-    nome: "Dratini",
+    especie: "Dratini",
     tipos: ["Dragão"],
     hp: 100,
     ataque: 10,
@@ -1323,7 +1323,7 @@ export const pokedex = [
     numeroPokedex: 147,
   },
   {
-    nome: "Dragonair",
+    especie: "Dragonair",
     tipos: ["Dragão"],
     hp: 100,
     ataque: 10,
@@ -1332,7 +1332,7 @@ export const pokedex = [
     numeroPokedex: 148,
   },
   {
-    nome: "Dragonite",
+    especie: "Dragonite",
     tipos: ["Dragão", "voador"],
     hp: 100,
     ataque: 10,
@@ -1341,7 +1341,7 @@ export const pokedex = [
     numeroPokedex: 149,
   },
   {
-    nome: "Mewtwo",
+    especie: "Mewtwo",
     tipos: ["psíquico"],
     hp: 100,
     ataque: 10,
@@ -1350,7 +1350,7 @@ export const pokedex = [
     numeroPokedex: 150,
   },
   {
-    nome: "Mew",
+    especie: "Mew",
     tipos: ["psíquico"],
     hp: 100,
     ataque: 10,
