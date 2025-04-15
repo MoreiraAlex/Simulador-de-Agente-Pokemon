@@ -67,6 +67,7 @@ class Treinador extends Agente {
   }
 
   buscaBioma(biomas) {
+    console.log(this.tiposEscasso());
     const index = Math.floor(Math.random() * biomas.length);
     const { posX, posY, largura, altura } = biomas[index];
 
@@ -75,6 +76,20 @@ class Treinador extends Agente {
 
     // console.log(biomas[index].tipo, biomas[index].posX, biomas[index].posY);
     return { x: destinoX, y: destinoY };
+  }
+
+  tiposEscasso() {
+    return Object.values(
+      this.pokemons.reduce((acc, item) => {
+        item.tipos.forEach((tipo) => {
+          if (!acc[tipo]) {
+            acc[tipo] = { tipo, quantidade: 0 };
+          }
+          acc[tipo].quantidade++;
+        });
+        return acc;
+      }, {}),
+    ).sort((a, b) => a.quantidade - b.quantidade);
   }
 
   verificaColisao(contexto, mapa, agentes) {

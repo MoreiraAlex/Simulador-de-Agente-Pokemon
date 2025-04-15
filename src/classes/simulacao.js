@@ -12,11 +12,11 @@ class Simulacao {
     this.agentes = [];
     this.batalhas = [];
 
-    this.celula = 50;
+    this.celula = 20;
     this.frame = null;
     this.multiplicador = config.multiplicador;
 
-    this.mapa = new Mapa(this.canvas, this.contexto, this.celula);
+    this.mapa = new Mapa(this.canvas, this.contexto, this.celula, config.PF);
     config.treinadores.forEach((t) => {
       const treinador = new Treinador(
         t.id,
@@ -54,8 +54,8 @@ class Simulacao {
         (Math.random() * (i + 1) * 1000).toFixed(0),
         "red",
         poke.especie,
-        poke.tipos,
         poke.vida,
+        poke.tipos,
         poke.ataque,
         poke.defesa,
         0,
