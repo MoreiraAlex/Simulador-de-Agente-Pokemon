@@ -1,11 +1,12 @@
 import { biomas, obstaculos } from "../models/mapa.js";
 
 class Mapa {
-  constructor(canvas, contexto, celula) {
+  constructor(canvas, contexto, celula, pf) {
     this.canvas = canvas;
     this.contexto = contexto;
     this.celula = celula;
     this.matriz = [];
+    this.pf = pf;
 
     this.biomas = biomas;
     this.obstaculos = obstaculos;
@@ -41,8 +42,8 @@ class Mapa {
   desenha() {
     const { contexto } = this;
 
-    if (!this.matriz.length) {
-      this.matriz = this.gerarMatriz(this.celula);
+    if (!this.matriz.nodes) {
+      this.matriz = new this.pf.Grid(this.gerarMatriz(this.celula));
     }
 
     this.biomas.forEach((bioma) => {
@@ -50,9 +51,9 @@ class Mapa {
       contexto.fillRect(bioma.posX, bioma.posY, bioma.largura, bioma.altura);
     });
 
-    this.matriz.forEach((linha, i) => {
+    this.matriz.nodes.forEach((linha, i) => {
       linha.forEach((celula, j) => {
-        if (celula === 1) {
+        if (!celula.walkable) {
           contexto.fillStyle = "black";
           contexto.fillRect(
             j * this.celula,

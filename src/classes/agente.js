@@ -1,13 +1,20 @@
-import AEstrela from "./aEstrela.js";
-
 class Agente {
-  constructor(id, cor, tamanho, especie, velocidade = 1, visao = 10) {
+  constructor(
+    id,
+    cor,
+    tamanho,
+    especie,
+    velocidade = 1,
+    visao = 10,
+    algoritimo,
+  ) {
     this.id = id;
     this.cor = cor;
     this.tamanho = tamanho;
     this.especie = especie;
     this.velocidade = velocidade;
     this.visao = visao;
+    this.algoritimo = algoritimo;
     this.posicao = {
       x: 0,
       y: 0,
@@ -71,8 +78,14 @@ class Agente {
       y: Math.floor(this.destino.y / mapa.celula),
     };
 
-    const aEstrela = new AEstrela(mapa.matriz);
-    return aEstrela.encontrarCaminho(inicio, fim);
+    const matrizClone = mapa.matriz.clone();
+    return this.algoritimo.findPath(
+      inicio.x,
+      inicio.y,
+      fim.x,
+      fim.y,
+      matrizClone,
+    );
   }
 
   move(mapa) {
@@ -84,18 +97,18 @@ class Agente {
       const proximo = this.caminho.shift();
 
       if (proximo) {
-        mapa.matriz[this.posicao.y / this.tamanho][
+        mapa.matriz.nodes[this.posicao.y / this.tamanho][
           this.posicao.x / this.tamanho
-        ] = 0;
+        ].agente = 0;
 
         this.posicao = {
-          x: proximo.x * mapa.celula,
-          y: proximo.y * mapa.celula,
+          x: proximo[0] * mapa.celula,
+          y: proximo[1] * mapa.celula,
         };
 
-        mapa.matriz[this.posicao.y / this.tamanho][
+        mapa.matriz.nodes[this.posicao.y / this.tamanho][
           this.posicao.x / this.tamanho
-        ] = this.id;
+        ].agente = this.id;
 
         this.frame = 0;
       }
@@ -127,15 +140,17 @@ class Agente {
 
         if (
           posY >= 0 &&
-          posY < mapa.matriz.length &&
+          posY < mapa.matriz.nodes.length &&
           posX >= 0 &&
-          posX < mapa.matriz[0].length
+          posX < mapa.matriz.nodes[0].length
         ) {
-          this.obj = mapa.matriz[posY][posX];
-          if (this.obj > 0 && this.obj !== this.id) {
-            if (this.obj > 1) {
-              colisoes.push(this.obj);
-            }
+          this.obj = mapa.matriz.nodes[posY][posX];
+          if (
+            this.obj.agente &&
+            this.obj.agente !== this.id &&
+            this.obj.agente >= 1
+          ) {
+            colisoes.push(this.obj.agente);
 
             contexto.fillStyle = "rgba(0, 255, 0, 0.3)";
             contexto.fillRect(

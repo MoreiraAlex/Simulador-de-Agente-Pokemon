@@ -12,6 +12,7 @@ document.addEventListener("DOMContentLoaded", () => {
     contexto: ctx,
     multiplicador: 1,
     treinadores: 0,
+    pathFinder: window.PF,
   };
 
   GUI(config);

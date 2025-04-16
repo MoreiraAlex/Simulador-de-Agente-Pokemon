@@ -81,12 +81,6 @@ export const obstaculos = [
     altura: 100,
   },
   {
-    posX: 300,
-    posY: 200,
-    largura: 150,
-    altura: 150,
-  },
-  {
     posX: 700,
     posY: 100,
     largura: 150,
@@ -98,18 +92,7 @@ export const obstaculos = [
     largura: 100,
     altura: 100,
   },
-  {
-    posX: 1500,
-    posY: 250,
-    largura: 200,
-    altura: 100,
-  },
-  {
-    posX: 1700,
-    posY: 900,
-    largura: 150,
-    altura: 150,
-  },
+
   {
     posX: 1200,
     posY: 1200,
@@ -121,17 +104,5 @@ export const obstaculos = [
     posY: 1500,
     largura: 200,
     altura: 200,
-  },
-  {
-    posX: 100,
-    posY: 1800,
-    largura: 100,
-    altura: 100,
-  },
-  {
-    posX: 1800,
-    posY: 1800,
-    largura: 100,
-    altura: 100,
   },
 ];

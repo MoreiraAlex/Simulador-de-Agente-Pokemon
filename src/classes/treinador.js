@@ -12,8 +12,9 @@ class Treinador extends Agente {
     equipe,
     pokemons,
     tamanho,
+    pf,
   ) {
-    super(id, cor, tamanho, "humana", velocidade, visao);
+    super(id, cor, tamanho, "humana", velocidade, visao, pf);
 
     this.resistenciaBase = resistencia;
     this.resistencia = resistencia;
@@ -246,7 +247,7 @@ class Treinador extends Agente {
       agentes.findIndex((a) => a.id === pokemon.id),
       1,
     );
-    mapa.matriz[Math.floor(pokemon.posicao.y / mapa.celula)][
+    mapa.matriz.nodes[Math.floor(pokemon.posicao.y / mapa.celula)][
       Math.floor(pokemon.posicao.x / mapa.celula)
     ] = 0;
 
