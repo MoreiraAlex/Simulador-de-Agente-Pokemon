@@ -559,7 +559,7 @@ export const pokedex = [
   },
   {
     especie: "Abra",
-    tipos: ["psíquico"],
+    tipos: ["psiquico"],
     hp: 100,
     ataque: 10,
     defesa: 6,
@@ -568,7 +568,7 @@ export const pokedex = [
   },
   {
     especie: "Kadabra",
-    tipos: ["psíquico"],
+    tipos: ["psiquico"],
     hp: 100,
     ataque: 10,
     defesa: 6,
@@ -577,7 +577,7 @@ export const pokedex = [
   },
   {
     especie: "Alakazam",
-    tipos: ["psíquico"],
+    tipos: ["psiquico"],
     hp: 100,
     ataque: 10,
     defesa: 6,
@@ -703,7 +703,7 @@ export const pokedex = [
   },
   {
     especie: "Slowpoke",
-    tipos: ["agua", "psíquico"],
+    tipos: ["agua", "psiquico"],
     hp: 100,
     ataque: 10,
     defesa: 6,
@@ -712,7 +712,7 @@ export const pokedex = [
   },
   {
     especie: "Slowbro",
-    tipos: ["agua", "psíquico"],
+    tipos: ["agua", "psiquico"],
     hp: 100,
     ataque: 10,
     defesa: 6,
@@ -856,7 +856,7 @@ export const pokedex = [
   },
   {
     especie: "Drowzee",
-    tipos: ["psíquico"],
+    tipos: ["psiquico"],
     hp: 100,
     ataque: 10,
     defesa: 6,
@@ -865,7 +865,7 @@ export const pokedex = [
   },
   {
     especie: "Hypno",
-    tipos: ["psíquico"],
+    tipos: ["psiquico"],
     hp: 100,
     ataque: 10,
     defesa: 6,
@@ -910,7 +910,7 @@ export const pokedex = [
   },
   {
     especie: "Exeggcute",
-    tipos: ["grama", "psíquico"],
+    tipos: ["grama", "psiquico"],
     hp: 100,
     ataque: 10,
     defesa: 6,
@@ -919,7 +919,7 @@ export const pokedex = [
   },
   {
     especie: "Exeggutor",
-    tipos: ["grama", "psíquico"],
+    tipos: ["grama", "psiquico"],
     hp: 100,
     ataque: 10,
     defesa: 6,
@@ -1081,7 +1081,7 @@ export const pokedex = [
   },
   {
     especie: "Starmie",
-    tipos: ["agua", "psíquico"],
+    tipos: ["agua", "psiquico"],
     hp: 100,
     ataque: 10,
     defesa: 6,
@@ -1090,7 +1090,7 @@ export const pokedex = [
   },
   {
     especie: "Mr. Mime",
-    tipos: ["psíquico"],
+    tipos: ["psiquico"],
     hp: 100,
     ataque: 10,
     defesa: 6,
@@ -1108,7 +1108,7 @@ export const pokedex = [
   },
   {
     especie: "Jynx",
-    tipos: ["gelo", "psíquico"],
+    tipos: ["gelo", "psiquico"],
     hp: 100,
     ataque: 10,
     defesa: 6,
@@ -1315,7 +1315,7 @@ export const pokedex = [
   },
   {
     especie: "Dratini",
-    tipos: ["Dragão"],
+    tipos: ["dragao"],
     hp: 100,
     ataque: 10,
     defesa: 6,
@@ -1324,7 +1324,7 @@ export const pokedex = [
   },
   {
     especie: "Dragonair",
-    tipos: ["Dragão"],
+    tipos: ["dragao"],
     hp: 100,
     ataque: 10,
     defesa: 6,
@@ -1333,7 +1333,7 @@ export const pokedex = [
   },
   {
     especie: "Dragonite",
-    tipos: ["Dragão", "voador"],
+    tipos: ["dragao", "voador"],
     hp: 100,
     ataque: 10,
     defesa: 6,
@@ -1342,7 +1342,7 @@ export const pokedex = [
   },
   {
     especie: "Mewtwo",
-    tipos: ["psíquico"],
+    tipos: ["psiquico"],
     hp: 100,
     ataque: 10,
     defesa: 6,
@@ -1351,7 +1351,7 @@ export const pokedex = [
   },
   {
     especie: "Mew",
-    tipos: ["psíquico"],
+    tipos: ["psiquico"],
     hp: 100,
     ataque: 10,
     defesa: 6,

@@ -1,4 +1,5 @@
 import Agente from "./agente.js";
+import { pokedex } from "../models/pokedex.js";
 
 class Treinador extends Agente {
   constructor(
@@ -67,8 +68,7 @@ class Treinador extends Agente {
   }
 
   buscaBioma(biomas) {
-    console.log(this.tiposEscasso());
-    const index = Math.floor(Math.random() * biomas.length);
+    const index = this.tiposEscasso(biomas);
     const { posX, posY, largura, altura } = biomas[index];
 
     const destinoX = Math.floor(posX + largura / 2);
@@ -78,8 +78,30 @@ class Treinador extends Agente {
     return { x: destinoX, y: destinoY };
   }
 
-  tiposEscasso() {
-    return Object.values(
+  tiposEscasso(biomas) {
+    const biomaAtual = biomas.forEach((bioma) => {
+      const posicao = this.calculaDistancia(this.posicao, {
+        x: bioma.posX,
+        y: bioma.posY,
+      });
+      if (posicao <= 3) {
+        return bioma.tipo;
+      }
+    });
+
+    const tipos = Object.values(
+      pokedex.reduce((acc, item) => {
+        item.tipos.forEach((tipo) => {
+          if (!acc[tipo]) {
+            acc[tipo] = { tipo, quantidade: 0 };
+          }
+          acc[tipo].quantidade++;
+        });
+        return acc;
+      }, {}),
+    );
+
+    const tiposTreinador = Object.values(
       this.pokemons.reduce((acc, item) => {
         item.tipos.forEach((tipo) => {
           if (!acc[tipo]) {
@@ -89,7 +111,29 @@ class Treinador extends Agente {
         });
         return acc;
       }, {}),
-    ).sort((a, b) => a.quantidade - b.quantidade);
+    );
+
+    tipos.forEach((tipoGeral) => {
+      if (!tiposTreinador.find((t) => t.tipo === tipoGeral.tipo)) {
+        tiposTreinador.push({ tipo: tipoGeral.tipo, quantidade: 0 });
+      }
+    });
+
+    tiposTreinador.sort((a, b) => a.quantidade - b.quantidade);
+
+    const menorQuantidade = tiposTreinador[0].quantidade;
+    const maisEscassos = tiposTreinador.filter(
+      (t) => t.quantidade === menorQuantidade && t.tipo !== biomaAtual,
+    );
+
+    const aleatorio =
+      maisEscassos[Math.floor(Math.random() * maisEscassos.length)];
+
+    const bioma = biomas.findIndex((bioma) =>
+      bioma.tipos.some((tipo) => tipo === aleatorio.tipo),
+    );
+
+    return bioma;
   }
 
   verificaColisao(contexto, mapa, agentes) {
