@@ -55,13 +55,6 @@ class Agente {
       }
 
       this.move(mapa);
-
-      // if (this.destino.x === this.base.x && this.destino.y === this.base.y) {
-      //   this.paraMovimento = false;
-      //   this.destino = null;
-      //   return 3;
-      // }
-
       return 1;
     }
 

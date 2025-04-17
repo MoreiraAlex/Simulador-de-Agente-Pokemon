@@ -162,7 +162,7 @@ function adicionaRemoveTreinador(config) {
 
         const info = document.createElement("div");
         info.innerHTML = `
-          <p><span class="font-semibold">Espécie:</span> ${pokemon.nome}</p>
+          <p><span class="font-semibold">Espécie:</span> ${pokemon.especie}</p>
           <p><span class="font-semibold">Vida:</span> ${pokemon.hp}</p>
           <p><span class="font-semibold">Ataque:</span> ${pokemon.ataque}</p>
           <p><span class="font-semibold">Defesa:</span> ${pokemon.defesa}</p>
@@ -195,14 +195,76 @@ function setAtributo(id, atributo, valor) {
   }
 }
 
+function verificaFimJogo(cronometro) {
+  if (globalThis.simu) {
+    const btnModo = Array.from(document.querySelectorAll(".modo-btn"));
+    const modo = btnModo.find((b) => b.ariaSelected === "true");
+
+    const mostrarModal = (mensagem) => {
+      const modal = document.getElementById("modal-vencedores");
+      const resultado = document.getElementById("resultado-texto");
+      resultado.textContent = mensagem;
+      modal.classList.remove("hidden");
+
+      document.getElementById("btn-reiniciar").onclick = () => {
+        window.location.reload();
+      };
+    };
+
+    const limite = document
+      .querySelector(".limite")
+      .querySelector("input[type='range']");
+
+    if (modo.value === "total" || modo.value === "captura") {
+      const maximo = Number(limite.value) === 0 ? 151 : Number(limite.value);
+
+      const vencedores = globalThis.simu.treinadores.filter(
+        (treinador) => treinador.pokemons.length === maximo,
+      );
+
+      if (vencedores.length) {
+        let saida = "Vencedores:\n";
+        vencedores.forEach((vencedor) => {
+          saida += `Treinador#${vencedor.id} com ${vencedor.pokemons.length} Pokemon(s)\n`;
+        });
+
+        mostrarModal(saida);
+        globalThis.simu.pausar();
+        clearInterval(cronometro.interval);
+        return true;
+      }
+    } else if (limite.value && cronometro.segundos >= limite.value * 60) {
+      const vencedores = globalThis.simu.treinadores.sort(
+        (a, b) => b.pokemons.length - a.pokemons.length,
+      );
+
+      if (vencedores.length) {
+        let saida = "\n";
+        vencedores.forEach((vencedor, indice) => {
+          saida += `${indice + 1}º Lugar: Treinador#${vencedor.id} com ${vencedor.pokemons.length} Pokemon(s)\n`;
+        });
+
+        mostrarModal(saida);
+        globalThis.simu.pausar();
+        clearInterval(cronometro.interval);
+        return true;
+      }
+    }
+  }
+
+  return false;
+}
+
 function cronometro(config) {
   config.cronometro.interval = setInterval(() => {
-    if (config.cronometro.segundos === 600) {
-      const btnIniciar = document.querySelector(".iniciar");
-      const btnParar = document.querySelector(".parar");
-      const listaTreinadores = document.querySelectorAll(".treinadores-lista");
-
-      parar(btnIniciar, btnParar, listaTreinadores, config);
+    if (globalThis.simu) {
+      globalThis.simu.treinadores.forEach((t) => {
+        const treinador = document.getElementById(`${t.id}`);
+        treinador.children[0].children[1].children[0].textContent =
+          t.pokemons.length;
+      });
+    }
+    if (verificaFimJogo(config.cronometro)) {
       return;
     }
 
@@ -277,16 +339,18 @@ function GUI(config) {
     btn.addEventListener("click", () => {
       // Remove o estilo ativo de todos os botões
       document.querySelectorAll(".modo-btn").forEach((b) => {
+        b.ariaSelected = "false";
         b.classList.remove("bg-gray-900");
         b.classList.add("bg-gray-500");
       });
 
       // Ativa o botão clicado
+      btn.ariaSelected = "true";
       btn.classList.remove("bg-gray-500");
       btn.classList.add("bg-gray-900");
 
       // Aqui você pode armazenar o valor selecionado, se quiser
-      const valorSelecionado = btn.dataset.valor;
+      const valorSelecionado = btn.value;
 
       const div = document.querySelector(".limite");
       const label = div.querySelector("label");
@@ -303,7 +367,7 @@ function GUI(config) {
         display.value = 1;
       } else if (valorSelecionado === "captura") {
         label.textContent = "Limite de captura:";
-        input.setAttribute("min", 10);
+        input.setAttribute("min", 2);
         input.setAttribute("max", 150);
         input.value = 10;
         display.value = 10;
@@ -313,10 +377,45 @@ function GUI(config) {
     });
   });
 
-  document.addEventListener("keydown", (e) => {
-    if (globalThis.simu) {
-      globalThis.simu.tecla = { key: e.key };
-    }
+  config.canvas.addEventListener("mousemove", (e) => {
+    if (!globalThis.simu) return;
+
+    const rect = config.canvas.getBoundingClientRect();
+    const proporcaoX = config.canvas.clientWidth / config.canvas.width;
+    const proporcaoY = config.canvas.clientHeight / config.canvas.height;
+
+    const mouseX = (e.clientX - rect.x) / proporcaoX;
+    const mouseY = (e.clientY - rect.y) / proporcaoY;
+
+    globalThis.simu.pokemons.forEach((pokemon) => {
+      const dentro =
+        mouseX >= pokemon.posicao.x &&
+        mouseX <= pokemon.posicao.x + pokemon.tamanho &&
+        mouseY >= pokemon.posicao.y &&
+        mouseY <= pokemon.posicao.y + pokemon.tamanho;
+
+      if (!dentro) {
+        document.querySelector(".hover-card").style.display = "none";
+        return;
+      }
+
+      const card = document.querySelector(".hover-card");
+      const info = document.createElement("div");
+      info.innerHTML = `
+          <p><span class="font-semibold">Espécie:</span> ${pokemon.especie}</p>
+          <p><span class="font-semibold">Vida:</span> ${pokemon.vida}</p>
+          <p><span class="font-semibold">Ataque:</span> ${pokemon.ataque}</p>
+          <p><span class="font-semibold">Defesa:</span> ${pokemon.defesa}</p>
+          <p><span class="font-semibold">Velocidade:</span> ${pokemon.velocidadeAtaque}</p>
+          <p><span class="font-semibold">Experiência:</span> 0</p>
+          <p><span class="font-semibold">Level:</span> 1</p>
+        `;
+      card.innerHTML = "";
+      card.appendChild(info);
+      card.style.display = "block";
+      card.style.left = `${e.clientX + 10}px`;
+      card.style.top = `${e.clientY + 10}px`;
+    });
   });
 }
 

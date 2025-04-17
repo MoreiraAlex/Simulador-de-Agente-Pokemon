@@ -9,6 +9,7 @@ class Pokemon extends Agente {
     tipos,
     ataque,
     defesa,
+    velocidadeAtaque,
     experiencia,
     level,
     tamanho,
@@ -18,6 +19,7 @@ class Pokemon extends Agente {
     this.tipos = tipos;
     this.ataque = ataque;
     this.defesa = defesa;
+    this.velocidadeAtaque = velocidadeAtaque;
     this.experiencia = experiencia;
     this.level = level;
   }

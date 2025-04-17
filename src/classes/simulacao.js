@@ -1,5 +1,7 @@
 import Mapa from "./mapa.js";
 import Treinador from "./treinador.js";
+import Pokemon from "./pokemon.js";
+import { pokedex } from "../models/pokedex.js";
 
 class Simulacao {
   constructor(config) {
@@ -21,7 +23,9 @@ class Simulacao {
       config.pathFinder,
     );
 
-    const algoritimo = new config.pathFinder.AStarFinder();
+    const algoritimo = new config.pathFinder.AStarFinder({
+      // allowDiagonal: true,
+    });
     config.treinadores.forEach((t) => {
       const treinador = new Treinador(
         t.id,
@@ -54,36 +58,37 @@ class Simulacao {
 
     this.mapa.desenha();
 
-    // Array.from(Array(2)).forEach((_, i) => {
-    //   const poke = pokedex.find((p) => p.especie === "Bulbasaur");
-    //   const pokemon = new Pokemon(
-    //     (Math.random() * (i + 1) * 1000).toFixed(0),
-    //     "red",
-    //     poke.especie,
-    //     poke.vida,
-    //     poke.tipos,
-    //     poke.ataque,
-    //     poke.defesa,
-    //     0,
-    //     1,
-    //     this.celula,
-    //   );
+    Array.from(Array(18)).forEach((_, i) => {
+      const poke = pokedex.find((p) => p.especie === "Bulbasaur");
+      const pokemon = new Pokemon(
+        (Math.random() * (i + 1) * 1000).toFixed(0),
+        "red",
+        poke.especie,
+        poke.hp,
+        poke.tipos,
+        poke.ataque,
+        poke.defesa,
+        1,
+        0,
+        1,
+        this.celula,
+      );
 
-    //   pokemon.posicao = {
-    //     x:
-    //       Math.floor(Math.random() * (this.canvas.width / this.celula)) *
-    //       this.celula,
-    //     y:
-    //       Math.floor(Math.random() * (this.canvas.height / this.celula)) *
-    //       this.celula,
-    //   };
+      pokemon.posicao = {
+        x:
+          Math.floor(Math.random() * (this.canvas.width / this.celula)) *
+          this.celula,
+        y:
+          Math.floor(Math.random() * (this.canvas.height / this.celula)) *
+          this.celula,
+      };
 
-    //   this.mapa.matriz.nodes[Math.floor(pokemon.posicao.y / this.celula)][
-    //     Math.floor(pokemon.posicao.x / this.celula)
-    //   ] = pokemon.id;
+      this.mapa.matriz.nodes[Math.floor(pokemon.posicao.y / this.celula)][
+        Math.floor(pokemon.posicao.x / this.celula)
+      ].agente = pokemon.id;
 
-    //   this.pokemons.push(pokemon);
-    // });
+      this.pokemons.push(pokemon);
+    });
     this.agentes = [...this.treinadores, ...this.pokemons];
 
     this.treinadores.forEach((treinador, idx) => {
@@ -96,23 +101,6 @@ class Simulacao {
         treinador.id;
       treinador.desenha(this.contexto);
     });
-
-    // this.treinadorManual = new Treinador(1000, 1, 1, 2, [], [], this.celula);
-    // this.treinadorManual.posicao = { x: 1000, y: 1000 };
-
-    // this.mapa.matriz[this.treinadorManual.posicao.y / this.celula][
-    //   this.treinadorManual.posicao.x / this.celula
-    // ] = this.treinadorManual.id;
-    // this.treinadorManual.desenha(this.contexto);
-
-    // this.treinadores.push(this.treinadorManual);
-
-    // let saida = "";
-    // for (let i = 0; i < this.mapa.matriz.length; i++) {
-    //   saida += `${this.mapa.matriz[i]} \n`;
-    // }
-
-    // console.log(saida);
   }
 
   loop() {
@@ -126,7 +114,7 @@ class Simulacao {
       agente.desenha(this.contexto);
       this.mapa.matriz.nodes[Math.floor(agente.posicao.y / this.celula)][
         Math.floor(agente.posicao.x / this.celula)
-      ] = agente.id;
+      ].agente = agente.id;
     });
 
     this.treinadores.forEach((t) => {
@@ -138,22 +126,6 @@ class Simulacao {
 
     // eslint-disable-next-line no-undef
     this.frame = requestAnimationFrame(() => this.loop());
-  }
-
-  Manual() {
-    this.mapa.matriz.nodes[this.treinadorManual.posicao.y / this.celula][
-      this.treinadorManual.posicao.x / this.celula
-    ].agente = 0;
-    this.treinadorManual.TreinadorManualmente(
-      this.tecla,
-      this.celula,
-      this.mapa.matriz,
-    );
-    this.mapa.matriz.nodes[this.treinadorManual.posicao.y / this.celula][
-      this.treinadorManual.posicao.x / this.celula
-    ].agente = this.treinadorManual.id;
-    this.treinadorManual.desenha(this.contexto);
-    this.estaDisponivel = true;
   }
 
   pausar() {

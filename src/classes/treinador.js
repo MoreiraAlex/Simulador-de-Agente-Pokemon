@@ -130,11 +130,24 @@ class Treinador extends Agente {
     const aleatorio =
       maisEscassos[Math.floor(Math.random() * maisEscassos.length)];
 
-    const bioma = biomas.findIndex((bioma) =>
-      bioma.tipos.some((tipo) => tipo === aleatorio.tipo),
-    );
+    // const bioma = biomas.findIndex((bioma) =>
+    //   bioma.tipos.some((tipo) => tipo === aleatorio.tipo),
+    // );
+
+    const bioma = this.indiceAleatorioPorTipo(biomas, aleatorio.tipo);
 
     return bioma;
+  }
+
+  indiceAleatorioPorTipo(biomas, tipoDesejado) {
+    const indices = biomas
+      .map((bioma, index) => (bioma.tipos.includes(tipoDesejado) ? index : -1))
+      .filter((index) => index !== -1);
+
+    if (indices.length === 0) return -1;
+
+    const aleatorio = Math.floor(Math.random() * indices.length);
+    return indices[aleatorio];
   }
 
   verificaColisao(contexto, mapa, agentes) {
@@ -182,9 +195,9 @@ class Treinador extends Agente {
       return;
     }
 
-    if (this.pokemons.some((p) => p.especie === alvo.especie)) {
-      return;
-    }
+    // if (this.pokemons.some((p) => p.especie === alvo.especie)) {
+    //   return;
+    // }
 
     if (this.caminho.length) {
       const ultimo = this.caminho[this.caminho.length - 1];
@@ -249,7 +262,7 @@ class Treinador extends Agente {
     );
     mapa.matriz.nodes[Math.floor(pokemon.posicao.y / mapa.celula)][
       Math.floor(pokemon.posicao.x / mapa.celula)
-    ] = 0;
+    ].agente = 0;
 
     this.pokemons.push(pokemon);
   }
