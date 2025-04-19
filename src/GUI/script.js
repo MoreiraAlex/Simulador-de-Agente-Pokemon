@@ -12,6 +12,7 @@ document.addEventListener("DOMContentLoaded", () => {
     contexto: ctx,
     multiplicador: 1,
     treinadores: 0,
+    pathFinder: window.PF,
   };
 
   GUI(config);
@@ -92,21 +93,21 @@ function adicionaRemoveTreinador(config) {
       <div class="space-y-1 text-xs">
         <p class="font-semibold">Pokémon Inicial:</p>
         <div class="flex gap-1 flex-wrap">
-          <button class="config atributo pokemon-btn bg-gray-900 text-white px-2 py-1 rounded" aria-selected="true" value="1">Bulbasaur</button>
-          <button class="config atributo pokemon-btn bg-gray-500 text-white px-2 py-1 rounded" aria-selected="false" value="4">Charmander</button>
-          <button class="config atributo pokemon-btn bg-gray-500 text-white px-2 py-1 rounded" aria-selected="false" value="7">Squirtle</button>
+          <button class="config atributo pokemon-btn bg-gray-900 text-white px-2 py-1 rounded" aria-selected="true" value="Bulbasaur">Bulbasaur</button>
+          <button class="config atributo pokemon-btn bg-gray-500 text-white px-2 py-1 rounded" aria-selected="false" value="Charmander">Charmander</button>
+          <button class="config atributo pokemon-btn bg-gray-500 text-white px-2 py-1 rounded" aria-selected="false" value="Squirtle">Squirtle</button>
         </div>
       </div>
 
-      <div class="space-y-1 text-xs hidden">
+      <div class="equipe space-y-1 text-xs hidden">
         <p class="font-semibold">Equipe Atual:</p>
-        <div class="flex gap-1 flex-wrap">
-            <span class="bg-gray-900 text-white px-2 py-1 rounded">Pikachu</span>
-          <span class="bg-gray-900 text-white px-2 py-1 rounded">Squirtle</span>
-          <span class="bg-gray-900 text-white px-2 py-1 rounded">Charmander</span>
-          <span class="bg-gray-900 text-white px-2 py-1 rounded">Bulbasaur</span>
-        </div>
+        <div class="flex gap-1 flex-wrap"></div>
       </div>        
+
+      <details class="space-y-1 text-xs listaPokemons">
+        <summary class="font-semibold">Pokemons</summary>
+        <ul class="flex gap-1 flex-wrap"></ul>
+      </details>
     `;
 
     const total0 = listaTreinadores[0].childElementCount;
@@ -154,20 +155,17 @@ function adicionaRemoveTreinador(config) {
 
       btn.addEventListener("mouseover", (e) => {
         if (globalThis.simu) return;
-        const pokemon = pokedex.find(
-          (poke) => poke.numeroPokedex === Number(btn.value),
-        );
+        const pokemon = pokedex.find((poke) => poke.especie === btn.value);
         const card = document.querySelector(".hover-card");
 
         const info = document.createElement("div");
         info.innerHTML = `
-          <p><span class="font-semibold">Espécie:</span> ${pokemon.nome}</p>
-          <p><span class="font-semibold">Vida:</span> ${pokemon.hp}</p>
+          <p><span class="font-semibold">Espécie:</span> ${pokemon.especie}</p>
+          <p><span class="font-semibold">Vida:</span> ${pokemon.vida}</p>
           <p><span class="font-semibold">Ataque:</span> ${pokemon.ataque}</p>
           <p><span class="font-semibold">Defesa:</span> ${pokemon.defesa}</p>
-          <p><span class="font-semibold">Velocidade:</span> ${pokemon.atkSpeed}</p>
           <p><span class="font-semibold">Experiência:</span> 0</p>
-          <p><span class="font-semibold">Level:</span> 1</p>
+          <p><span class="font-semibold">nivel:</span> 1</p>
         `;
 
         card.innerHTML = "";
@@ -194,14 +192,138 @@ function setAtributo(id, atributo, valor) {
   }
 }
 
+function verificaFimJogo(cronometro) {
+  if (globalThis.simu) {
+    const btnModo = Array.from(document.querySelectorAll(".modo-btn"));
+    const modo = btnModo.find((b) => b.ariaSelected === "true");
+
+    const mostrarModal = (mensagem) => {
+      const modal = document.getElementById("modal-vencedores");
+      const resultado = document.getElementById("resultado-texto");
+      resultado.textContent = mensagem;
+      modal.classList.remove("hidden");
+
+      document.getElementById("btn-reiniciar").onclick = () => {
+        window.location.reload();
+      };
+    };
+
+    const limite = document
+      .querySelector(".limite")
+      .querySelector("input[type='range']");
+
+    if (modo.value === "total" || modo.value === "captura") {
+      const maximo = Number(limite.value) === 0 ? 151 : Number(limite.value);
+
+      const vencedores = globalThis.simu.treinadores.filter(
+        (treinador) => treinador.pokemons.length === maximo,
+      );
+
+      if (vencedores.length) {
+        let saida = "Vencedores:\n";
+        vencedores.forEach((vencedor) => {
+          saida += `Treinador#${vencedor.id} com ${vencedor.pokemons.length} Pokemon(s)\n`;
+        });
+
+        mostrarModal(saida);
+        globalThis.simu.pausar();
+        clearInterval(cronometro.interval);
+        return true;
+      }
+    } else if (limite.value && cronometro.segundos >= limite.value * 60) {
+      const vencedores = globalThis.simu.treinadores.sort(
+        (a, b) => b.pokemons.length - a.pokemons.length,
+      );
+
+      if (vencedores.length) {
+        let saida = "\n";
+        vencedores.forEach((vencedor, indice) => {
+          saida += `${indice + 1}º Lugar: Treinador#${vencedor.id} com ${vencedor.pokemons.length} Pokemon(s)\n`;
+        });
+
+        mostrarModal(saida);
+        globalThis.simu.pausar();
+        clearInterval(cronometro.interval);
+        return true;
+      }
+    }
+  }
+
+  return false;
+}
+
 function cronometro(config) {
   config.cronometro.interval = setInterval(() => {
-    if (config.cronometro.segundos === 600) {
-      const btnIniciar = document.querySelector(".iniciar");
-      const btnParar = document.querySelector(".parar");
-      const listaTreinadores = document.querySelectorAll(".treinadores-lista");
+    if (globalThis.simu) {
+      globalThis.simu.treinadores.forEach((t) => {
+        const treinador = document.getElementById(`${t.id}`);
+        treinador.children[0].children[1].children[0].textContent =
+          t.pokemons.length;
 
-      parar(btnIniciar, btnParar, listaTreinadores, config);
+        const equipe = treinador.querySelector(".equipe");
+        equipe.style.display = "block";
+        const equipePokemons = equipe.children[1];
+
+        equipePokemons.innerHTML = t.equipe
+          .map(
+            (pokemon) =>
+              `<span class="pokemonDetalhe bg-gray-900 text-white px-2 py-1 rounded">${pokemon.especie}</span>`,
+          )
+          .join("");
+
+        const lista = treinador.querySelector(".listaPokemons");
+        const listaPokemons = lista.children[1];
+        const pokemons = t.pokemons
+          .filter((pokemon) => pokemon.estaAtivo)
+          .sort((a, b) => a.pokedex - b.pokedex);
+
+        listaPokemons.innerHTML = pokemons
+          .map(
+            (pokemon) =>
+              `<li class="pokemonDetalhe bg-gray-900 text-white px-2 py-1 rounded">${pokemon.especie}</li>`,
+          )
+          .join("");
+
+        document.querySelectorAll(".pokemonDetalhe").forEach((poke) => {
+          poke.addEventListener("mouseover", (e) => {
+            const pokemon = t.pokemons.find(
+              (p) => p.especie === poke.innerHTML,
+            );
+            const card = document.querySelector(".hover-card");
+
+            const info = document.createElement("div");
+            info.innerHTML = `
+                <p><span class="font-semibold">ID:</span> ${pokemon.id}</p>
+                <p><span class="font-semibold">Espécie:</span> ${pokemon.especie}</p>
+                <p><span class="font-semibold">Vida:</span> ${pokemon.vida}</p>
+                <p><span class="font-semibold">Ataque:</span> ${pokemon.ataque}</p>
+                <p><span class="font-semibold">Defesa:</span> ${pokemon.defesa}</p>
+                <p><span class="font-semibold">Nivel:</span> ${pokemon.nivel}</p>
+                <p><span class="font-semibold">Experiência:</span> ${pokemon.experiencia}</p>
+              `;
+
+            card.innerHTML = "";
+            card.appendChild(info);
+            card.style.display = "block";
+            card.style.left = `${e.clientX + 10}px`;
+            card.style.top = `${e.clientY + 10}px`;
+          });
+        });
+        document.querySelectorAll(".pokemonDetalhe").forEach((poke) => {
+          poke.addEventListener("mouseout", () => {
+            document.querySelector(".hover-card").style.display = "none";
+          });
+        });
+
+        // <details class="space-y-1 text-xs hidden">
+        //   <summary class="font-semibold">Pokemons</summary>
+        //   <ul class="flex gap-1 flex-wrap">
+        //     <li class="bg-gray-900 text-white px-2 py-1 rounded">Bulbasaur</li>
+        //   </ul>
+        // </details>;
+      });
+    }
+    if (verificaFimJogo(config.cronometro)) {
       return;
     }
 
@@ -276,16 +398,18 @@ function GUI(config) {
     btn.addEventListener("click", () => {
       // Remove o estilo ativo de todos os botões
       document.querySelectorAll(".modo-btn").forEach((b) => {
+        b.ariaSelected = "false";
         b.classList.remove("bg-gray-900");
         b.classList.add("bg-gray-500");
       });
 
       // Ativa o botão clicado
+      btn.ariaSelected = "true";
       btn.classList.remove("bg-gray-500");
       btn.classList.add("bg-gray-900");
 
       // Aqui você pode armazenar o valor selecionado, se quiser
-      const valorSelecionado = btn.dataset.valor;
+      const valorSelecionado = btn.value;
 
       const div = document.querySelector(".limite");
       const label = div.querySelector("label");
@@ -302,7 +426,7 @@ function GUI(config) {
         display.value = 1;
       } else if (valorSelecionado === "captura") {
         label.textContent = "Limite de captura:";
-        input.setAttribute("min", 10);
+        input.setAttribute("min", 2);
         input.setAttribute("max", 150);
         input.value = 10;
         display.value = 10;
@@ -312,9 +436,46 @@ function GUI(config) {
     });
   });
 
-  document.addEventListener("keydown", (e) => {
-    if (globalThis.simu) {
-      globalThis.simu.tecla = { key: e.key };
+  config.canvas.addEventListener("mousemove", (e) => {
+    if (!globalThis.simu) return;
+
+    const rect = config.canvas.getBoundingClientRect();
+    const proporcaoX = config.canvas.clientWidth / config.canvas.width;
+    const proporcaoY = config.canvas.clientHeight / config.canvas.height;
+
+    const mouseX = (e.clientX - rect.x) / proporcaoX;
+    const mouseY = (e.clientY - rect.y) / proporcaoY;
+
+    let encontrou = false;
+
+    globalThis.simu.pokemons.forEach((pokemon) => {
+      const dentro =
+        mouseX >= pokemon.posicao.x &&
+        mouseX <= pokemon.posicao.x + pokemon.tamanho &&
+        mouseY >= pokemon.posicao.y &&
+        mouseY <= pokemon.posicao.y + pokemon.tamanho;
+
+      if (dentro) {
+        encontrou = true;
+
+        const card = document.querySelector(".hover-card");
+        card.style.display = "block";
+        card.innerHTML = `
+          <p><span class="font-semibold">ID:</span> ${pokemon.id}</p>
+          <p><span class="font-semibold">Espécie:</span> ${pokemon.especie}</p>
+          <p><span class="font-semibold">Vida:</span> ${pokemon.vida}</p>
+          <p><span class="font-semibold">Ataque:</span> ${pokemon.ataque}</p>
+          <p><span class="font-semibold">Defesa:</span> ${pokemon.defesa}</p>
+          <p><span class="font-semibold">Nivel:</span> ${pokemon.nivel}</p>
+          <p><span class="font-semibold">Experiência:</span> ${pokemon.experiencia}</p>
+        `;
+        card.style.left = `${e.clientX + 10}px`;
+        card.style.top = `${e.clientY + 10}px`;
+      }
+    });
+
+    if (!encontrou) {
+      document.querySelector(".hover-card").style.display = "none";
     }
   });
 }
@@ -416,8 +577,6 @@ function simulação(listaTreinadores, config) {
     Array.from(lista.children).forEach((t) => {
       const treinador = {
         id: Number(t.id),
-        pokemons: [],
-        equipe: [],
       };
 
       t.querySelectorAll(".atributo").forEach((elemento) => {
@@ -429,8 +588,9 @@ function simulação(listaTreinadores, config) {
           if (elemento.classList.contains("estrategia-btn")) {
             treinador.estrategia = elemento.value;
           } else {
-            treinador.equipe.push(pokedex[Number(elemento.value) - 1]);
-            treinador.pokemons.push(pokedex[Number(elemento.value) - 1]);
+            treinador.pokemon = pokedex.find(
+              (poke) => (poke.especie = elemento.value),
+            );
           }
         }
       });

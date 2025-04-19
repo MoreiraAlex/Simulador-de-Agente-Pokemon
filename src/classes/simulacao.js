@@ -8,16 +8,42 @@ class Simulacao {
     this.canvas = config.canvas;
     this.contexto = config.contexto;
     this.cronometro = config.cronometro;
-    this.treinadores = [];
     this.agentes = [];
-    this.batalhas = [];
+    this.treinadores = [];
+    this.pokemons = [];
 
-    this.celula = 20;
+    this.celula = 50;
     this.frame = null;
     this.multiplicador = config.multiplicador;
 
-    this.mapa = new Mapa(this.canvas, this.contexto, this.celula, config.PF);
+    this.mapa = new Mapa(
+      this.canvas,
+      this.contexto,
+      this.celula,
+      config.pathFinder,
+    );
+
+    const algoritimo = new config.pathFinder.AStarFinder({});
+
     config.treinadores.forEach((t) => {
+      const pokemon = new Pokemon(
+        (Math.random() * 1000).toFixed(0),
+        "red",
+        this.celula,
+        t.pokemon.especie,
+        t.pokemon.pokedex,
+        t.pokemon.tipos,
+        t.pokemon.vida,
+        t.pokemon.ataque,
+        t.pokemon.defesa,
+        t.pokemon.ataques,
+        t.pokemon.evolucao,
+        t.pokemon.incremento,
+        0,
+        1,
+        t.pokemon.estaAtivo,
+      );
+
       const treinador = new Treinador(
         t.id,
         "white",
@@ -25,16 +51,14 @@ class Simulacao {
         t.resistencia,
         t.visao,
         t.estrategia,
-        t.equipe,
-        t.pokemons,
+        [pokemon],
+        [pokemon],
         this.celula,
+        algoritimo,
       );
+
       this.treinadores.push(treinador);
     });
-
-    this.tecla = null;
-
-    this.pokemons = [];
   }
 
   inciar() {
@@ -48,19 +72,26 @@ class Simulacao {
 
     this.mapa.desenha();
 
-    Array.from(Array(2)).forEach((_, i) => {
-      const poke = pokedex.find((p) => p.especie === "Bulbasaur");
+    Array.from(Array(50)).forEach((_, i) => {
+      const poke = pokedex[Math.floor(Math.random() * pokedex.length)];
+      if (!poke.estaAtivo) return;
+
       const pokemon = new Pokemon(
         (Math.random() * (i + 1) * 1000).toFixed(0),
         "red",
+        this.celula,
         poke.especie,
-        poke.vida,
+        poke.pokedex,
         poke.tipos,
+        poke.vida,
         poke.ataque,
         poke.defesa,
+        poke.ataques,
+        poke.evolucao,
+        poke.incremento,
         0,
         1,
-        this.celula,
+        poke.estaAtivo,
       );
 
       pokemon.posicao = {
@@ -72,44 +103,25 @@ class Simulacao {
           this.celula,
       };
 
-      this.mapa.matriz[Math.floor(pokemon.posicao.y / this.celula)][
+      this.mapa.matriz.nodes[Math.floor(pokemon.posicao.y / this.celula)][
         Math.floor(pokemon.posicao.x / this.celula)
-      ] = pokemon.id;
+      ].agente = pokemon.id;
 
       this.pokemons.push(pokemon);
     });
+
     this.agentes = [...this.treinadores, ...this.pokemons];
 
     this.treinadores.forEach((treinador, idx) => {
-      if (treinador.id === 1000) {
-        return;
-      }
       const x = this.mapa.base[idx].posX + this.mapa.base[idx].largura / 2;
       const y = this.mapa.base[idx].posY + this.mapa.base[idx].altura / 2;
 
       treinador.base = { x, y };
       treinador.posicao = { x, y };
-      this.mapa.matriz[y / this.celula][x / this.celula] = treinador.id;
-
+      this.mapa.matriz.nodes[y / this.celula][x / this.celula].agente =
+        treinador.id;
       treinador.desenha(this.contexto);
     });
-
-    // this.treinadorManual = new Treinador(1000, 1, 1, 2, [], [], this.celula);
-    // this.treinadorManual.posicao = { x: 1000, y: 1000 };
-
-    // this.mapa.matriz[this.treinadorManual.posicao.y / this.celula][
-    //   this.treinadorManual.posicao.x / this.celula
-    // ] = this.treinadorManual.id;
-    // this.treinadorManual.desenha(this.contexto);
-
-    // this.treinadores.push(this.treinadorManual);
-
-    // let saida = "";
-    // for (let i = 0; i < this.mapa.matriz.length; i++) {
-    //   saida += `${this.mapa.matriz[i]} \n`;
-    // }
-
-    // console.log(saida);
   }
 
   loop() {
@@ -121,36 +133,21 @@ class Simulacao {
         return;
       }
       agente.desenha(this.contexto);
-      this.mapa.matriz[Math.floor(agente.posicao.y / this.celula)][
+      this.mapa.matriz.nodes[Math.floor(agente.posicao.y / this.celula)][
         Math.floor(agente.posicao.x / this.celula)
-      ] = agente.id;
+      ].agente = agente.id;
+    });
+
+    this.treinadores.forEach((t) => {
+      t.acao(this.contexto, this.mapa, this.agentes);
     });
 
     this.treinadores.forEach((t) => {
       t.desenha(this.contexto);
     });
-    this.treinadores.forEach((t) => {
-      t.acao(this.contexto, this.mapa, this.agentes);
-    });
 
     // eslint-disable-next-line no-undef
     this.frame = requestAnimationFrame(() => this.loop());
-  }
-
-  Manual() {
-    this.mapa.matriz[this.treinadorManual.posicao.y / this.celula][
-      this.treinadorManual.posicao.x / this.celula
-    ] = 0;
-    this.treinadorManual.TreinadorManualmente(
-      this.tecla,
-      this.celula,
-      this.mapa.matriz,
-    );
-    this.mapa.matriz[this.treinadorManual.posicao.y / this.celula][
-      this.treinadorManual.posicao.x / this.celula
-    ] = this.treinadorManual.id;
-    this.treinadorManual.desenha(this.contexto);
-    this.estaDisponivel = true;
   }
 
   pausar() {
