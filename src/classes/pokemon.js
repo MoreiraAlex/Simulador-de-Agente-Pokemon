@@ -4,24 +4,28 @@ class Pokemon extends Agente {
   constructor(
     id,
     cor,
+    tamanho,
     especie,
-    vida,
     tipos,
+    vida,
     ataque,
     defesa,
-    velocidadeAtaque,
+    ataques,
+    evolucao,
+    incremento,
     experiencia,
-    level,
-    tamanho,
+    nivel,
   ) {
     super(id, cor, tamanho, especie);
-    this.vida = vida;
     this.tipos = tipos;
+    this.vida = vida;
     this.ataque = ataque;
     this.defesa = defesa;
-    this.velocidadeAtaque = velocidadeAtaque;
+    this.ataques = ataques;
+    this.evolucao = evolucao;
+    this.incremento = incremento;
     this.experiencia = experiencia;
-    this.level = level;
+    this.nivel = nivel;
   }
 }
 

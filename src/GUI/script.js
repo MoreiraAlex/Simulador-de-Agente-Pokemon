@@ -99,14 +99,9 @@ function adicionaRemoveTreinador(config) {
         </div>
       </div>
 
-      <div class="space-y-1 text-xs hidden">
+      <div class="equipe space-y-1 text-xs hidden">
         <p class="font-semibold">Equipe Atual:</p>
-        <div class="flex gap-1 flex-wrap">
-            <span class="bg-gray-900 text-white px-2 py-1 rounded">Pikachu</span>
-          <span class="bg-gray-900 text-white px-2 py-1 rounded">Squirtle</span>
-          <span class="bg-gray-900 text-white px-2 py-1 rounded">Charmander</span>
-          <span class="bg-gray-900 text-white px-2 py-1 rounded">Bulbasaur</span>
-        </div>
+        <div class="flex gap-1 flex-wrap"></div>
       </div>        
     `;
 
@@ -163,12 +158,11 @@ function adicionaRemoveTreinador(config) {
         const info = document.createElement("div");
         info.innerHTML = `
           <p><span class="font-semibold">Espécie:</span> ${pokemon.especie}</p>
-          <p><span class="font-semibold">Vida:</span> ${pokemon.hp}</p>
+          <p><span class="font-semibold">Vida:</span> ${pokemon.vida}</p>
           <p><span class="font-semibold">Ataque:</span> ${pokemon.ataque}</p>
           <p><span class="font-semibold">Defesa:</span> ${pokemon.defesa}</p>
-          <p><span class="font-semibold">Velocidade:</span> ${pokemon.atkSpeed}</p>
           <p><span class="font-semibold">Experiência:</span> 0</p>
-          <p><span class="font-semibold">Level:</span> 1</p>
+          <p><span class="font-semibold">nivel:</span> 1</p>
         `;
 
         card.innerHTML = "";
@@ -262,6 +256,46 @@ function cronometro(config) {
         const treinador = document.getElementById(`${t.id}`);
         treinador.children[0].children[1].children[0].textContent =
           t.pokemons.length;
+
+        const equipe = treinador.querySelector(".equipe");
+        equipe.style.display = "block";
+        const pokemons = equipe.children[1];
+
+        pokemons.innerHTML = t.equipe
+          .map(
+            (pokemon) =>
+              `<span class="pokemon-equipe bg-gray-900 text-white px-2 py-1 rounded">${pokemon.especie}</span>`,
+          )
+          .join("");
+
+        equipe.querySelectorAll(".pokemon-equipe").forEach((poke) => {
+          poke.addEventListener("mouseover", (e) => {
+            const pokemon = t.equipe.find((p) => p.especie === poke.innerHTML);
+            const card = document.querySelector(".hover-card");
+
+            const info = document.createElement("div");
+            info.innerHTML = `
+                <p><span class="font-semibold">ID:</span> ${pokemon.id}</p>
+                <p><span class="font-semibold">Espécie:</span> ${pokemon.especie}</p>
+                <p><span class="font-semibold">Vida:</span> ${pokemon.vida}</p>
+                <p><span class="font-semibold">Ataque:</span> ${pokemon.ataque}</p>
+                <p><span class="font-semibold">Defesa:</span> ${pokemon.defesa}</p>
+                <p><span class="font-semibold">Nivel:</span> ${pokemon.nivel}</p>
+                <p><span class="font-semibold">Experiência:</span> ${pokemon.experiencia}</p>
+              `;
+
+            card.innerHTML = "";
+            card.appendChild(info);
+            card.style.display = "block";
+            card.style.left = `${e.clientX + 10}px`;
+            card.style.top = `${e.clientY + 10}px`;
+          });
+        });
+        equipe.querySelectorAll(".pokemon-equipe").forEach((poke) => {
+          poke.addEventListener("mouseout", () => {
+            document.querySelector(".hover-card").style.display = "none";
+          });
+        });
       });
     }
     if (verificaFimJogo(config.cronometro)) {
@@ -387,6 +421,8 @@ function GUI(config) {
     const mouseX = (e.clientX - rect.x) / proporcaoX;
     const mouseY = (e.clientY - rect.y) / proporcaoY;
 
+    let encontrou = false;
+
     globalThis.simu.pokemons.forEach((pokemon) => {
       const dentro =
         mouseX >= pokemon.posicao.x &&
@@ -394,28 +430,28 @@ function GUI(config) {
         mouseY >= pokemon.posicao.y &&
         mouseY <= pokemon.posicao.y + pokemon.tamanho;
 
-      if (!dentro) {
-        document.querySelector(".hover-card").style.display = "none";
-        return;
-      }
+      if (dentro) {
+        encontrou = true;
 
-      const card = document.querySelector(".hover-card");
-      const info = document.createElement("div");
-      info.innerHTML = `
+        const card = document.querySelector(".hover-card");
+        card.style.display = "block";
+        card.innerHTML = `
+          <p><span class="font-semibold">ID:</span> ${pokemon.id}</p>
           <p><span class="font-semibold">Espécie:</span> ${pokemon.especie}</p>
           <p><span class="font-semibold">Vida:</span> ${pokemon.vida}</p>
           <p><span class="font-semibold">Ataque:</span> ${pokemon.ataque}</p>
           <p><span class="font-semibold">Defesa:</span> ${pokemon.defesa}</p>
-          <p><span class="font-semibold">Velocidade:</span> ${pokemon.velocidadeAtaque}</p>
-          <p><span class="font-semibold">Experiência:</span> 0</p>
-          <p><span class="font-semibold">Level:</span> 1</p>
+          <p><span class="font-semibold">Nivel:</span> ${pokemon.nivel}</p>
+          <p><span class="font-semibold">Experiência:</span> ${pokemon.experiencia}</p>
         `;
-      card.innerHTML = "";
-      card.appendChild(info);
-      card.style.display = "block";
-      card.style.left = `${e.clientX + 10}px`;
-      card.style.top = `${e.clientY + 10}px`;
+        card.style.left = `${e.clientX + 10}px`;
+        card.style.top = `${e.clientY + 10}px`;
+      }
     });
+
+    if (!encontrou) {
+      document.querySelector(".hover-card").style.display = "none";
+    }
   });
 }
 
@@ -516,8 +552,6 @@ function simulação(listaTreinadores, config) {
     Array.from(lista.children).forEach((t) => {
       const treinador = {
         id: Number(t.id),
-        pokemons: [],
-        equipe: [],
       };
 
       t.querySelectorAll(".atributo").forEach((elemento) => {
@@ -529,8 +563,7 @@ function simulação(listaTreinadores, config) {
           if (elemento.classList.contains("estrategia-btn")) {
             treinador.estrategia = elemento.value;
           } else {
-            treinador.equipe.push(pokedex[Number(elemento.value) - 1]);
-            treinador.pokemons.push(pokedex[Number(elemento.value) - 1]);
+            treinador.pokemon = pokedex[Number(elemento.value) - 1];
           }
         }
       });

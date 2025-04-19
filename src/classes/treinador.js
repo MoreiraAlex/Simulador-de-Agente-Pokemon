@@ -1,5 +1,6 @@
 import Agente from "./agente.js";
 import { pokedex } from "../models/pokedex.js";
+import { tiposEficazesContra } from "../utils/tipos.js";
 
 class Treinador extends Agente {
   constructor(
@@ -35,7 +36,7 @@ class Treinador extends Agente {
 
       if (distanciaBase <= 2) {
         console.log(`Treinador #${this.id} voltou para a base`);
-        this.reset();
+        this.reset(mapa.biomas);
         return;
       }
     }
@@ -69,13 +70,15 @@ class Treinador extends Agente {
   }
 
   buscaBioma(biomas) {
-    const index = this.tiposEscasso(biomas);
-    const { posX, posY, largura, altura } = biomas[index];
+    const tipos = this.tiposEscasso(biomas);
+    const tipo = tipos[Math.floor(Math.random() * tipos.length)];
+    const indice = this.indiceAleatorioPorTipo(biomas, tipo);
+
+    const { posX, posY, largura, altura } = biomas[indice];
 
     const destinoX = Math.floor(posX + largura / 2);
     const destinoY = Math.floor(posY + altura / 2);
 
-    // console.log(biomas[index].tipo, biomas[index].posX, biomas[index].posY);
     return { x: destinoX, y: destinoY };
   }
 
@@ -127,16 +130,7 @@ class Treinador extends Agente {
       (t) => t.quantidade === menorQuantidade && t.tipo !== biomaAtual,
     );
 
-    const aleatorio =
-      maisEscassos[Math.floor(Math.random() * maisEscassos.length)];
-
-    // const bioma = biomas.findIndex((bioma) =>
-    //   bioma.tipos.some((tipo) => tipo === aleatorio.tipo),
-    // );
-
-    const bioma = this.indiceAleatorioPorTipo(biomas, aleatorio.tipo);
-
-    return bioma;
+    return maisEscassos.map((escasso) => escasso.tipo);
   }
 
   indiceAleatorioPorTipo(biomas, tipoDesejado) {
@@ -157,19 +151,6 @@ class Treinador extends Agente {
     if (alvo) {
       this.colide(alvo, contexto, mapa, agentes);
     }
-
-    // if (alvo) {
-    //   switch (alvo.especie) {
-    //     case "humana":
-    //       if (this.estrategia === "agressivo") {
-    //         this.colide(alvo, contexto, mapa);
-    //       }
-    //       break;
-    //     default:
-    //       this.colide(alvo, contexto, mapa);
-    //       break;
-    //   }
-    // }
   }
 
   colisaoMaisProxima(colisoes, agentes) {
@@ -195,9 +176,9 @@ class Treinador extends Agente {
       return;
     }
 
-    // if (this.pokemons.some((p) => p.especie === alvo.especie)) {
-    //   return;
-    // }
+    if (this.pokemons.some((p) => p.especie === alvo.especie)) {
+      return;
+    }
 
     if (this.caminho.length) {
       const ultimo = this.caminho[this.caminho.length - 1];
@@ -265,17 +246,212 @@ class Treinador extends Agente {
     ].agente = 0;
 
     this.pokemons.push(pokemon);
+    if (this.equipe.length < 4) {
+      this.equipe.push(pokemon);
+    }
   }
 
   voltaBase(treinador) {
-    treinador.destino = treinador.base;
     treinador.paraMovimento = false;
+    treinador.destino = treinador.base;
     treinador.caminho = [];
   }
 
-  reset() {
+  montaEquipe(biomas) {
+    if (this.equipe.length < 4) return;
+
+    const eficazes = () => {
+      const tipoEscasso = this.tiposEscasso(biomas);
+      const tiposEficazes = tipoEscasso.map((escasso) =>
+        tiposEficazesContra(escasso),
+      );
+
+      const tiposEficazesFiltrados = tiposEficazes.reduce(
+        (anterior, proximo) => {
+          return [
+            ...anterior,
+            ...proximo.filter((prox) => !anterior.includes(prox)),
+          ];
+        },
+      );
+
+      const pokemonsEficazes = this.pokemons.filter(
+        (pokemon) =>
+          pokemon.tipos.some((tipo) => tiposEficazesFiltrados.includes(tipo)) &&
+          !this.equipe.some((poke) => poke.especie === pokemon.especie),
+      );
+
+      return pokemonsEficazes;
+    };
+
+    const nivel = (pokemons) => {
+      const pokemonsDisponiveis = pokemons.filter(
+        (pokemon) =>
+          !this.equipe.some((poke) => poke.especie === pokemon.especie),
+      );
+      const xpFaltando = pokemonsDisponiveis.map((pokemon) => {
+        return Number(pokemon.nivel) * 10 + 90 - Number(pokemon.experiencia);
+      });
+      const menorXP = Math.min(...xpFaltando.map((p) => p));
+
+      return pokemons.filter(
+        (pokemon) =>
+          Number(pokemon.nivel) * 10 + 90 - Number(pokemon.experiencia) ===
+          menorXP,
+      );
+    };
+
+    const evoluir = (pokemons) => {
+      const pokemonsDisponiveis = pokemons.filter(
+        (pokemon) =>
+          !this.equipe.some((poke) => poke.especie === pokemon.especie),
+      );
+      const nivelFaltando = pokemonsDisponiveis.map((pokemon) => {
+        return Number(pokemon.nivel) - Number(pokemon.evolucao);
+      });
+      const menor = Math.min(...nivelFaltando.map((p) => p));
+
+      return pokemons.filter(
+        (pokemon) => Number(pokemon.nivel) - Number(pokemon.evolucao) === menor,
+      );
+    };
+
+    const forte = (pokemons) => {
+      const pokemonsDisponiveis = pokemons.filter(
+        (pokemon) =>
+          !this.equipe.some((poke) => poke.especie === pokemon.especie),
+      );
+      const forca = pokemonsDisponiveis.map((pokemon) => {
+        return (
+          Number(pokemon.vida) * 0.5 +
+          Number(pokemon.ataque) * 2 +
+          Number(pokemon.defesa) * 1
+        );
+      });
+      const maiorForca = Math.max(...forca.map((p) => p));
+
+      return pokemons.filter(
+        (pokemon) =>
+          Number(pokemon.vida) * 0.5 +
+            Number(pokemon.ataque) * 2 +
+            Number(pokemon.defesa) * 1 ===
+          maiorForca,
+      );
+    };
+
+    this.equipe.length = 0;
+    while (this.equipe.length < 4) {
+      let pokemonsEficazes, pokemonsNivel, pokemonsEvoluir, pokemonsForte;
+
+      switch (this.equipe.length) {
+        case 0:
+          pokemonsEficazes = eficazes();
+          if (pokemonsEficazes.length === 1) {
+            this.equipe.push(pokemonsEficazes[0]);
+            break;
+          }
+
+          pokemonsNivel = nivel(
+            pokemonsEficazes.length ? pokemonsEficazes : this.pokemons,
+          );
+          if (pokemonsNivel.length === 1) {
+            this.equipe.push(pokemonsNivel[0]);
+            break;
+          }
+
+          pokemonsEvoluir = evoluir(
+            pokemonsNivel.length ? pokemonsNivel : this.pokemons,
+          );
+          if (pokemonsEvoluir.length === 1) {
+            this.equipe.push(pokemonsEvoluir[0]);
+            break;
+          }
+
+          pokemonsForte = forte(
+            pokemonsEvoluir.length ? pokemonsEvoluir : this.pokemons,
+          );
+          this.equipe.push(
+            pokemonsForte[Math.floor(Math.random() * pokemonsForte.length)],
+          );
+          break;
+
+        case 1:
+          pokemonsEficazes = eficazes();
+          if (pokemonsEficazes.length === 1) {
+            this.equipe.push(pokemonsEficazes[0]);
+            break;
+          }
+
+          pokemonsNivel = nivel(
+            pokemonsEficazes.length ? pokemonsEficazes : this.pokemons,
+          );
+          if (pokemonsNivel.length === 1) {
+            this.equipe.push(pokemonsNivel[0]);
+            break;
+          }
+
+          pokemonsEvoluir = evoluir(
+            pokemonsNivel.length ? pokemonsNivel : this.pokemons,
+          );
+          if (pokemonsEvoluir.length === 1) {
+            this.equipe.push(pokemonsEvoluir[0]);
+            break;
+          }
+
+          pokemonsForte = forte(
+            pokemonsEvoluir.length ? pokemonsEvoluir : this.pokemons,
+          );
+          this.equipe.push(
+            pokemonsForte[Math.floor(Math.random() * pokemonsForte.length)],
+          );
+          break;
+
+        case 2:
+          pokemonsNivel = nivel(this.pokemons);
+          if (pokemonsNivel.length === 1) {
+            this.equipe.push(pokemonsNivel[0]);
+            break;
+          }
+
+          pokemonsEvoluir = evoluir(
+            pokemonsNivel.length ? pokemonsNivel : this.pokemons,
+          );
+          if (pokemonsEvoluir.length === 1) {
+            this.equipe.push(pokemonsEvoluir[0]);
+            break;
+          }
+
+          pokemonsForte = forte(
+            pokemonsEvoluir.length ? pokemonsEvoluir : this.pokemons,
+          );
+          this.equipe.push(
+            pokemonsForte[Math.floor(Math.random() * pokemonsForte.length)],
+          );
+          break;
+
+        case 3:
+          pokemonsEvoluir = evoluir(this.pokemons);
+          if (pokemonsEvoluir.length === 1) {
+            this.equipe.push(pokemonsEvoluir[0]);
+            break;
+          }
+
+          pokemonsForte = forte(
+            pokemonsEvoluir.length ? pokemonsEvoluir : this.pokemons,
+          );
+          this.equipe.push(
+            pokemonsForte[Math.floor(Math.random() * pokemonsForte.length)],
+          );
+          break;
+      }
+    }
+  }
+
+  reset(biomas) {
     this.paraMovimento = true;
     this.caminho = [];
+
+    this.montaEquipe(biomas);
 
     const tempoNaBase = this.resistenciaBase - this.resistencia;
     setTimeout(
@@ -284,7 +460,7 @@ class Treinador extends Agente {
         this.paraMovimento = false;
         this.resistencia = this.resistenciaBase;
       },
-      (tempoNaBase * 1000) / globalThis.multiplicador,
+      (tempoNaBase * 2000) / globalThis.multiplicador,
     );
   }
 

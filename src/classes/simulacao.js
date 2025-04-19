@@ -8,11 +8,11 @@ class Simulacao {
     this.canvas = config.canvas;
     this.contexto = config.contexto;
     this.cronometro = config.cronometro;
-    this.treinadores = [];
     this.agentes = [];
-    this.batalhas = [];
+    this.treinadores = [];
+    this.pokemons = [];
 
-    this.celula = 50;
+    this.celula = 10;
     this.frame = null;
     this.multiplicador = config.multiplicador;
 
@@ -34,17 +34,33 @@ class Simulacao {
         t.resistencia,
         t.visao,
         t.estrategia,
-        t.equipe,
-        t.pokemons,
+        [],
+        [],
         this.celula,
         algoritimo,
       );
+
+      treinador.equipe.push(
+        new Pokemon(
+          (Math.random() * 1000).toFixed(0),
+          "red",
+          this.celula,
+          t.pokemon.especie,
+          t.pokemon.tipos,
+          t.pokemon.vida,
+          t.pokemon.ataque,
+          t.pokemon.defesa,
+          t.pokemon.ataques,
+          t.pokemon.evolucao,
+          t.pokemon.incremento,
+          0,
+          1,
+        ),
+      );
+
+      treinador.pokemons = [...treinador.equipe];
       this.treinadores.push(treinador);
     });
-
-    this.tecla = null;
-
-    this.pokemons = [];
   }
 
   inciar() {
@@ -59,19 +75,21 @@ class Simulacao {
     this.mapa.desenha();
 
     Array.from(Array(18)).forEach((_, i) => {
-      const poke = pokedex.find((p) => p.especie === "Bulbasaur");
+      const poke = pokedex[Math.floor(Math.random() * pokedex.length)];
       const pokemon = new Pokemon(
         (Math.random() * (i + 1) * 1000).toFixed(0),
         "red",
+        this.celula,
         poke.especie,
-        poke.hp,
         poke.tipos,
+        poke.vida,
         poke.ataque,
         poke.defesa,
-        1,
+        poke.ataques,
+        poke.evolucao,
+        poke.incremento,
         0,
         1,
-        this.celula,
       );
 
       pokemon.posicao = {
@@ -89,6 +107,7 @@ class Simulacao {
 
       this.pokemons.push(pokemon);
     });
+
     this.agentes = [...this.treinadores, ...this.pokemons];
 
     this.treinadores.forEach((treinador, idx) => {
