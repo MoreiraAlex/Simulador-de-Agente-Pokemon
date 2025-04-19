@@ -93,9 +93,9 @@ function adicionaRemoveTreinador(config) {
       <div class="space-y-1 text-xs">
         <p class="font-semibold">Pokémon Inicial:</p>
         <div class="flex gap-1 flex-wrap">
-          <button class="config atributo pokemon-btn bg-gray-900 text-white px-2 py-1 rounded" aria-selected="true" value="1">Bulbasaur</button>
-          <button class="config atributo pokemon-btn bg-gray-500 text-white px-2 py-1 rounded" aria-selected="false" value="4">Charmander</button>
-          <button class="config atributo pokemon-btn bg-gray-500 text-white px-2 py-1 rounded" aria-selected="false" value="7">Squirtle</button>
+          <button class="config atributo pokemon-btn bg-gray-900 text-white px-2 py-1 rounded" aria-selected="true" value="Bulbasaur">Bulbasaur</button>
+          <button class="config atributo pokemon-btn bg-gray-500 text-white px-2 py-1 rounded" aria-selected="false" value="Charmander">Charmander</button>
+          <button class="config atributo pokemon-btn bg-gray-500 text-white px-2 py-1 rounded" aria-selected="false" value="Squirtle">Squirtle</button>
         </div>
       </div>
 
@@ -103,6 +103,11 @@ function adicionaRemoveTreinador(config) {
         <p class="font-semibold">Equipe Atual:</p>
         <div class="flex gap-1 flex-wrap"></div>
       </div>        
+
+      <details class="space-y-1 text-xs listaPokemons">
+        <summary class="font-semibold">Pokemons</summary>
+        <ul class="flex gap-1 flex-wrap"></ul>
+      </details>
     `;
 
     const total0 = listaTreinadores[0].childElementCount;
@@ -150,9 +155,7 @@ function adicionaRemoveTreinador(config) {
 
       btn.addEventListener("mouseover", (e) => {
         if (globalThis.simu) return;
-        const pokemon = pokedex.find(
-          (poke) => poke.numeroPokedex === Number(btn.value),
-        );
+        const pokemon = pokedex.find((poke) => poke.especie === btn.value);
         const card = document.querySelector(".hover-card");
 
         const info = document.createElement("div");
@@ -259,18 +262,33 @@ function cronometro(config) {
 
         const equipe = treinador.querySelector(".equipe");
         equipe.style.display = "block";
-        const pokemons = equipe.children[1];
+        const equipePokemons = equipe.children[1];
 
-        pokemons.innerHTML = t.equipe
+        equipePokemons.innerHTML = t.equipe
           .map(
             (pokemon) =>
-              `<span class="pokemon-equipe bg-gray-900 text-white px-2 py-1 rounded">${pokemon.especie}</span>`,
+              `<span class="pokemonDetalhe bg-gray-900 text-white px-2 py-1 rounded">${pokemon.especie}</span>`,
           )
           .join("");
 
-        equipe.querySelectorAll(".pokemon-equipe").forEach((poke) => {
+        const lista = treinador.querySelector(".listaPokemons");
+        const listaPokemons = lista.children[1];
+        const pokemons = t.pokemons
+          .filter((pokemon) => pokemon.estaAtivo)
+          .sort((a, b) => a.pokedex - b.pokedex);
+
+        listaPokemons.innerHTML = pokemons
+          .map(
+            (pokemon) =>
+              `<li class="pokemonDetalhe bg-gray-900 text-white px-2 py-1 rounded">${pokemon.especie}</li>`,
+          )
+          .join("");
+
+        document.querySelectorAll(".pokemonDetalhe").forEach((poke) => {
           poke.addEventListener("mouseover", (e) => {
-            const pokemon = t.equipe.find((p) => p.especie === poke.innerHTML);
+            const pokemon = t.pokemons.find(
+              (p) => p.especie === poke.innerHTML,
+            );
             const card = document.querySelector(".hover-card");
 
             const info = document.createElement("div");
@@ -291,11 +309,18 @@ function cronometro(config) {
             card.style.top = `${e.clientY + 10}px`;
           });
         });
-        equipe.querySelectorAll(".pokemon-equipe").forEach((poke) => {
+        document.querySelectorAll(".pokemonDetalhe").forEach((poke) => {
           poke.addEventListener("mouseout", () => {
             document.querySelector(".hover-card").style.display = "none";
           });
         });
+
+        // <details class="space-y-1 text-xs hidden">
+        //   <summary class="font-semibold">Pokemons</summary>
+        //   <ul class="flex gap-1 flex-wrap">
+        //     <li class="bg-gray-900 text-white px-2 py-1 rounded">Bulbasaur</li>
+        //   </ul>
+        // </details>;
       });
     }
     if (verificaFimJogo(config.cronometro)) {
@@ -563,7 +588,9 @@ function simulação(listaTreinadores, config) {
           if (elemento.classList.contains("estrategia-btn")) {
             treinador.estrategia = elemento.value;
           } else {
-            treinador.pokemon = pokedex[Number(elemento.value) - 1];
+            treinador.pokemon = pokedex.find(
+              (poke) => (poke.especie = elemento.value),
+            );
           }
         }
       });

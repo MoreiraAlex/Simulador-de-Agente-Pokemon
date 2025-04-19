@@ -113,6 +113,7 @@ class Agente {
   }
 
   detectaColisao(contexto, mapa) {
+    if (!this.estaDisponivel) return [];
     const visaoMetade = Math.floor(this.visao / 2) * this.tamanho;
 
     const inicioX = this.posicao.x - visaoMetade;

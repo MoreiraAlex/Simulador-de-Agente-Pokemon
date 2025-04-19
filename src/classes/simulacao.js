@@ -12,7 +12,7 @@ class Simulacao {
     this.treinadores = [];
     this.pokemons = [];
 
-    this.celula = 10;
+    this.celula = 50;
     this.frame = null;
     this.multiplicador = config.multiplicador;
 
@@ -23,9 +23,8 @@ class Simulacao {
       config.pathFinder,
     );
 
-    const algoritimo = new config.pathFinder.AStarFinder({
-      // allowDiagonal: true,
-    });
+    const algoritimo = new config.pathFinder.AStarFinder({});
+
     config.treinadores.forEach((t) => {
       const treinador = new Treinador(
         t.id,
@@ -46,6 +45,7 @@ class Simulacao {
           "red",
           this.celula,
           t.pokemon.especie,
+          t.pokemon.pokedex,
           t.pokemon.tipos,
           t.pokemon.vida,
           t.pokemon.ataque,
@@ -55,6 +55,7 @@ class Simulacao {
           t.pokemon.incremento,
           0,
           1,
+          t.pokemon.estaAtivo,
         ),
       );
 
@@ -74,13 +75,16 @@ class Simulacao {
 
     this.mapa.desenha();
 
-    Array.from(Array(18)).forEach((_, i) => {
+    Array.from(Array(50)).forEach((_, i) => {
       const poke = pokedex[Math.floor(Math.random() * pokedex.length)];
+      if (!poke.estaAtivo) return;
+
       const pokemon = new Pokemon(
         (Math.random() * (i + 1) * 1000).toFixed(0),
         "red",
         this.celula,
         poke.especie,
+        poke.pokedex,
         poke.tipos,
         poke.vida,
         poke.ataque,
@@ -90,6 +94,7 @@ class Simulacao {
         poke.incremento,
         0,
         1,
+        poke.estaAtivo,
       );
 
       pokemon.posicao = {
@@ -137,10 +142,11 @@ class Simulacao {
     });
 
     this.treinadores.forEach((t) => {
-      t.desenha(this.contexto);
-    });
-    this.treinadores.forEach((t) => {
       t.acao(this.contexto, this.mapa, this.agentes);
+    });
+
+    this.treinadores.forEach((t) => {
+      t.desenha(this.contexto);
     });
 
     // eslint-disable-next-line no-undef

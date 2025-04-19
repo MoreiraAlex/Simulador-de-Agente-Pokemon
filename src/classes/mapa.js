@@ -70,7 +70,7 @@ class Mapa {
       contexto.fillRect(base.posX, base.posY, base.largura, base.altura);
     });
 
-    // this.grade(this.celula);
+    this.grade(this.celula);
   }
 
   grade(tamanhoCelula) {

@@ -25,9 +25,7 @@ class Treinador extends Agente {
   }
 
   acao(contexto, mapa, agentes) {
-    if (this.resistencia <= 0 && this.paraMovimento) {
-      console.log(`Treinador #${this.id} zerou a resistencia`);
-      this.voltaBase(this);
+    if (this.paraMovimento) {
       return;
     }
 
@@ -39,10 +37,6 @@ class Treinador extends Agente {
         this.reset(mapa.biomas);
         return;
       }
-    }
-
-    if (this.paraMovimento) {
-      return;
     }
 
     this.verificaColisao(contexto, mapa, agentes);
@@ -58,13 +52,6 @@ class Treinador extends Agente {
       case 2:
         // console.log(`${this.id} chegou`);
         this.destino = this.buscaBioma(mapa.biomas);
-        break;
-      case 3:
-        // console.log(`${this.id} está na base`);
-        this.base();
-        break;
-      default:
-        console.log("Não previsto");
         break;
     }
   }
@@ -156,7 +143,12 @@ class Treinador extends Agente {
   colisaoMaisProxima(colisoes, agentes) {
     const candidatos = colisoes
       .map((id) => agentes.find((t) => t.id === id))
-      .filter((alvo) => alvo && alvo.estaDisponivel && this.estaDisponivel);
+      .filter(
+        (alvo) =>
+          alvo &&
+          alvo.estaDisponivel &&
+          !this.pokemons.some((poke) => poke.especie === alvo.especie),
+      );
 
     let filtrados = candidatos.filter((alvo) => alvo.especie !== "humana");
 
@@ -176,24 +168,20 @@ class Treinador extends Agente {
       return;
     }
 
-    if (this.pokemons.some((p) => p.especie === alvo.especie)) {
-      return;
-    }
+    this.destino = alvo.posicao;
 
     if (this.caminho.length) {
       const ultimo = this.caminho[this.caminho.length - 1];
+      const fim = { x: ultimo[0], y: ultimo[1] };
       const destino = {
         x: Math.floor(alvo.posicao.x / mapa.celula),
         y: Math.floor(alvo.posicao.y / mapa.celula),
       };
-
-      const distancia = this.calculaDistancia(ultimo, destino);
-
-      if (distancia >= 5) {
+      const distancia = this.calculaDistancia(fim, destino);
+      if (distancia >= 3) {
         this.caminho = [];
       }
     }
-    this.destino = alvo.posicao;
 
     const alvoColisoes = alvo.detectaColisao(contexto, mapa);
     if (alvoColisoes.length && alvoColisoes.some((a) => a === this.id)) {
@@ -209,31 +197,46 @@ class Treinador extends Agente {
   iniciaBatalha(alvo, agentes, mapa) {
     this.estaDisponivel = false;
     this.paraMovimento = true;
+    this.resistencia--;
 
     alvo.estaDisponivel = false;
     alvo.paraMovimento = true;
+    alvo.resistencia--;
 
     console.log(`Treinador #${this.id} Inicia Batalha`);
 
     setTimeout(() => {
+      if (alvo.especie !== "humana") {
+        this.vencePokemon(alvo, agentes, mapa);
+        this.verificaEstado(this);
+        return;
+      }
+
       const id = Math.random() < 0.5 ? this.id : alvo.id;
       if (id === this.id) {
         console.log(`Treinador #${this.id} venceu a batalha`);
-        this.estaDisponivel = true;
-        this.paraMovimento = false;
-
-        if (alvo.especie === "humana") {
-          alvo.resistencia = 0;
-        } else {
-          this.vencePokemon(alvo, agentes, mapa);
-        }
+        alvo.equipe.forEach((pokemon) => (pokemon.vida = 0));
       } else {
         console.log(`Agente #${alvo.id} venceu a batalha`);
-        alvo.estaDisponivel = true;
-        alvo.paraMovimento = false;
-        this.resistencia = 0;
+        this.equipe.forEach((pokemon) => (pokemon.vida = 0));
       }
+
+      this.verificaEstado(this);
+      this.verificaEstado(alvo);
     }, 2000 / globalThis.multiplicador);
+  }
+
+  verificaEstado(treinador) {
+    treinador.paraMovimento = false;
+    treinador.estaDisponivel = true;
+
+    if (
+      treinador.resistencia <= 0 ||
+      treinador.equipe.every((pokemon) => pokemon.vida <= 0)
+    ) {
+      treinador.estaDisponivel = false;
+      treinador.voltaBase(treinador);
+    }
   }
 
   vencePokemon(pokemon, agentes, mapa) {
@@ -252,6 +255,7 @@ class Treinador extends Agente {
   }
 
   voltaBase(treinador) {
+    treinador.estaDisponivel = false;
     treinador.paraMovimento = false;
     treinador.destino = treinador.base;
     treinador.caminho = [];
@@ -451,14 +455,13 @@ class Treinador extends Agente {
     this.paraMovimento = true;
     this.caminho = [];
 
-    this.montaEquipe(biomas);
-
     const tempoNaBase = this.resistenciaBase - this.resistencia;
     setTimeout(
       () => {
+        this.montaEquipe(biomas);
         this.estaDisponivel = true;
         this.paraMovimento = false;
-        this.resistencia = this.resistenciaBase;
+        this.resistencia = Number(this.resistenciaBase);
       },
       (tempoNaBase * 2000) / globalThis.multiplicador,
     );

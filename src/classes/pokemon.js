@@ -6,6 +6,7 @@ class Pokemon extends Agente {
     cor,
     tamanho,
     especie,
+    pokedex,
     tipos,
     vida,
     ataque,
@@ -15,8 +16,10 @@ class Pokemon extends Agente {
     incremento,
     experiencia,
     nivel,
+    estaAtivo,
   ) {
     super(id, cor, tamanho, especie);
+    this.pokedex = pokedex;
     this.tipos = tipos;
     this.vida = vida;
     this.ataque = ataque;
@@ -26,6 +29,7 @@ class Pokemon extends Agente {
     this.incremento = incremento;
     this.experiencia = experiencia;
     this.nivel = nivel;
+    this.estaAtivo = estaAtivo;
   }
 }
 
