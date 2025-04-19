@@ -71,8 +71,9 @@ class Simulacao {
     }
 
     this.mapa.desenha();
+    this.mapa.pokeBioma(this.celula, this.pokemons);
 
-    Array.from(Array(50)).forEach((_, i) => {
+    Array.from(Array(0)).forEach((_, i) => {
       const poke = pokedex[Math.floor(Math.random() * pokedex.length)];
       if (!poke.estaAtivo) return;
 
