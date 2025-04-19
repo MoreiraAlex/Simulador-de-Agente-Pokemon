@@ -178,7 +178,7 @@ class Treinador extends Agente {
         y: Math.floor(alvo.posicao.y / mapa.celula),
       };
       const distancia = this.calculaDistancia(fim, destino);
-      if (distancia >= 3) {
+      if (distancia > 3) {
         this.caminho = [];
       }
     }
@@ -279,10 +279,13 @@ class Treinador extends Agente {
         },
       );
 
-      const pokemonsEficazes = this.pokemons.filter(
+      const pokemonsDisponiveis = this.pokemons.filter(
         (pokemon) =>
-          pokemon.tipos.some((tipo) => tiposEficazesFiltrados.includes(tipo)) &&
           !this.equipe.some((poke) => poke.especie === pokemon.especie),
+      );
+
+      const pokemonsEficazes = pokemonsDisponiveis.filter((pokemon) =>
+        pokemon.tipos.some((tipo) => tiposEficazesFiltrados.includes(tipo)),
       );
 
       return pokemonsEficazes;
@@ -298,7 +301,7 @@ class Treinador extends Agente {
       });
       const menorXP = Math.min(...xpFaltando.map((p) => p));
 
-      return pokemons.filter(
+      return pokemonsDisponiveis.filter(
         (pokemon) =>
           Number(pokemon.nivel) * 10 + 90 - Number(pokemon.experiencia) ===
           menorXP,
@@ -315,7 +318,7 @@ class Treinador extends Agente {
       });
       const menor = Math.min(...nivelFaltando.map((p) => p));
 
-      return pokemons.filter(
+      return pokemonsDisponiveis.filter(
         (pokemon) => Number(pokemon.nivel) - Number(pokemon.evolucao) === menor,
       );
     };
@@ -334,7 +337,7 @@ class Treinador extends Agente {
       });
       const maiorForca = Math.max(...forca.map((p) => p));
 
-      return pokemons.filter(
+      return pokemonsDisponiveis.filter(
         (pokemon) =>
           Number(pokemon.vida) * 0.5 +
             Number(pokemon.ataque) * 2 +

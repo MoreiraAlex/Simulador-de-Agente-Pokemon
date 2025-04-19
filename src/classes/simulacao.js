@@ -26,6 +26,24 @@ class Simulacao {
     const algoritimo = new config.pathFinder.AStarFinder({});
 
     config.treinadores.forEach((t) => {
+      const pokemon = new Pokemon(
+        (Math.random() * 1000).toFixed(0),
+        "red",
+        this.celula,
+        t.pokemon.especie,
+        t.pokemon.pokedex,
+        t.pokemon.tipos,
+        t.pokemon.vida,
+        t.pokemon.ataque,
+        t.pokemon.defesa,
+        t.pokemon.ataques,
+        t.pokemon.evolucao,
+        t.pokemon.incremento,
+        0,
+        1,
+        t.pokemon.estaAtivo,
+      );
+
       const treinador = new Treinador(
         t.id,
         "white",
@@ -33,33 +51,12 @@ class Simulacao {
         t.resistencia,
         t.visao,
         t.estrategia,
-        [],
-        [],
+        [pokemon],
+        [pokemon],
         this.celula,
         algoritimo,
       );
 
-      treinador.equipe.push(
-        new Pokemon(
-          (Math.random() * 1000).toFixed(0),
-          "red",
-          this.celula,
-          t.pokemon.especie,
-          t.pokemon.pokedex,
-          t.pokemon.tipos,
-          t.pokemon.vida,
-          t.pokemon.ataque,
-          t.pokemon.defesa,
-          t.pokemon.ataques,
-          t.pokemon.evolucao,
-          t.pokemon.incremento,
-          0,
-          1,
-          t.pokemon.estaAtivo,
-        ),
-      );
-
-      treinador.pokemons = [...treinador.equipe];
       this.treinadores.push(treinador);
     });
   }
