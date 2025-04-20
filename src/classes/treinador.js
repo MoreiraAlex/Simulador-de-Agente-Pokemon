@@ -1,6 +1,6 @@
 import Agente from "./agente.js";
 import { pokedex } from "../models/pokedex.js";
-import { tiposEficazesContra } from "../utils/tipos.js";
+import { tiposEficazesContra } from "../utils/utils.js";
 
 class Treinador extends Agente {
   constructor(
@@ -13,9 +13,9 @@ class Treinador extends Agente {
     equipe,
     pokemons,
     tamanho,
-    pf,
+    algoritimo,
   ) {
-    super(id, cor, tamanho, "humana", velocidade, visao, pf);
+    super(id, cor, tamanho, "humana", algoritimo, velocidade, visao);
 
     this.resistenciaBase = resistencia;
     this.resistencia = resistencia;

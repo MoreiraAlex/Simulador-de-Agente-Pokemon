@@ -1,3 +1,4 @@
+import { posicaoAleatoriaBioma } from "../utils/utils.js";
 import Agente from "./agente.js";
 
 class Pokemon extends Agente {
@@ -6,6 +7,7 @@ class Pokemon extends Agente {
     cor,
     tamanho,
     especie,
+    algoritimo,
     pokedex,
     tipos,
     vida,
@@ -18,7 +20,7 @@ class Pokemon extends Agente {
     nivel,
     estaAtivo,
   ) {
-    super(id, cor, tamanho, especie);
+    super(id, cor, tamanho, especie, algoritimo);
     this.pokedex = pokedex;
     this.tipos = tipos;
     this.vida = vida;
@@ -30,6 +32,36 @@ class Pokemon extends Agente {
     this.experiencia = experiencia;
     this.nivel = nivel;
     this.estaAtivo = estaAtivo;
+  }
+
+  acao(mapa) {
+    if (this.paraMovimento) {
+      return;
+    }
+
+    switch (this.movimento(mapa)) {
+      case 0:
+        this.destino = this.moveBioma(mapa.biomas);
+        break;
+      case 1:
+        break;
+      case 2:
+        this.destino = this.moveBioma(mapa.biomas);
+        break;
+    }
+  }
+
+  moveBioma(biomas) {
+    const bioma = biomas.find(
+      (bioma) =>
+        this.posicao.x >= bioma.posX &&
+        this.posicao.x <= bioma.posX + bioma.largura &&
+        this.posicao.y >= bioma.posY &&
+        this.posicao.y <= bioma.posY + bioma.altura &&
+        this.tipos.some((tipo) => bioma.tipos.includes(tipo)),
+    );
+
+    return posicaoAleatoriaBioma(bioma);
   }
 }
 

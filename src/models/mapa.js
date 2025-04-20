@@ -74,35 +74,34 @@ export const biomas = [
 ];
 
 export const obstaculos = [
-  {
-    posX: 200,
-    posY: 500,
-    largura: 100,
-    altura: 100,
-  },
-  {
-    posX: 700,
-    posY: 100,
-    largura: 150,
-    altura: 150,
-  },
-  {
-    posX: 900,
-    posY: 500,
-    largura: 100,
-    altura: 100,
-  },
-
-  {
-    posX: 1200,
-    posY: 1200,
-    largura: 100,
-    altura: 100,
-  },
-  {
-    posX: 400,
-    posY: 1500,
-    largura: 200,
-    altura: 200,
-  },
+  // {
+  //   posX: 200,
+  //   posY: 500,
+  //   largura: 100,
+  //   altura: 100,
+  // },
+  // {
+  //   posX: 700,
+  //   posY: 100,
+  //   largura: 150,
+  //   altura: 150,
+  // },
+  // {
+  //   posX: 900,
+  //   posY: 500,
+  //   largura: 100,
+  //   altura: 100,
+  // },
+  // {
+  //   posX: 1200,
+  //   posY: 1200,
+  //   largura: 100,
+  //   altura: 100,
+  // },
+  // {
+  //   posX: 400,
+  //   posY: 1500,
+  //   largura: 200,
+  //   altura: 200,
+  // },
 ];

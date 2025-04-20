@@ -1,14 +1,16 @@
 import { biomas, obstaculos } from "../models/mapa.js";
 import { pokedex } from "../models/pokedex.js";
+import { posicaoAleatoriaBioma } from "../utils/utils.js";
 import Pokemon from "./pokemon.js";
 
 class Mapa {
-  constructor(canvas, contexto, celula, pf) {
+  constructor(canvas, contexto, celula, pf, algoritimo) {
     this.canvas = canvas;
     this.contexto = contexto;
     this.celula = celula;
     this.matriz = [];
     this.pf = pf;
+    this.algoritimo = algoritimo;
 
     this.biomas = biomas;
     this.obstaculos = obstaculos;
@@ -72,7 +74,7 @@ class Mapa {
       contexto.fillRect(base.posX, base.posY, base.largura, base.altura);
     });
 
-    this.grade(this.celula);
+    // this.grade(this.celula);
   }
 
   grade(tamanhoCelula) {
@@ -134,10 +136,11 @@ class Mapa {
       while (pokerdm.length < 2) {
         const poke = pokemons[Math.floor(Math.random() * pokemons.length)];
         const pokemon = new Pokemon(
-          (Math.random() + 1 * 1000).toFixed(0),
+          (Math.random() + poke.pokedex * 1000).toFixed(0),
           "red",
           celula,
           poke.especie,
+          this.algoritimo,
           poke.pokedex,
           poke.tipos,
           poke.vida,
@@ -156,16 +159,9 @@ class Mapa {
       }
 
       pokerdm.forEach((pokemon) => {
-        const xteste = Math.floor(
-          ((bioma.posX + bioma.largura) / this.celula) * Math.random(),
-        );
-        const yteste = Math.floor(
-          ((bioma.posY + bioma.altura) / this.celula) * Math.random(),
-        );
-
-        const x = xteste * this.celula;
-        const y = yteste * this.celula;
+        const { x, y } = posicaoAleatoriaBioma(bioma);
         pokemon.posicao = { x, y };
+
         this.matriz.nodes[Math.floor(y / this.celula)][
           Math.floor(x / this.celula)
         ].agente = pokemon.id;

@@ -1,7 +1,6 @@
 import Mapa from "./mapa.js";
 import Treinador from "./treinador.js";
 import Pokemon from "./pokemon.js";
-import { pokedex } from "../models/pokedex.js";
 
 class Simulacao {
   constructor(config) {
@@ -16,14 +15,15 @@ class Simulacao {
     this.frame = null;
     this.multiplicador = config.multiplicador;
 
+    const algoritimo = new config.pathFinder.AStarFinder({});
+
     this.mapa = new Mapa(
       this.canvas,
       this.contexto,
       this.celula,
       config.pathFinder,
+      algoritimo,
     );
-
-    const algoritimo = new config.pathFinder.AStarFinder({});
 
     config.treinadores.forEach((t) => {
       const pokemon = new Pokemon(
@@ -31,6 +31,7 @@ class Simulacao {
         "red",
         this.celula,
         t.pokemon.especie,
+        algoritimo,
         t.pokemon.pokedex,
         t.pokemon.tipos,
         t.pokemon.vida,
@@ -73,44 +74,6 @@ class Simulacao {
     this.mapa.desenha();
     this.mapa.pokeBioma(this.celula, this.pokemons);
 
-    Array.from(Array(0)).forEach((_, i) => {
-      const poke = pokedex[Math.floor(Math.random() * pokedex.length)];
-      if (!poke.estaAtivo) return;
-
-      const pokemon = new Pokemon(
-        (Math.random() * (i + 1) * 1000).toFixed(0),
-        "red",
-        this.celula,
-        poke.especie,
-        poke.pokedex,
-        poke.tipos,
-        poke.vida,
-        poke.ataque,
-        poke.defesa,
-        poke.ataques,
-        poke.evolucao,
-        poke.incremento,
-        0,
-        1,
-        poke.estaAtivo,
-      );
-
-      pokemon.posicao = {
-        x:
-          Math.floor(Math.random() * (this.canvas.width / this.celula)) *
-          this.celula,
-        y:
-          Math.floor(Math.random() * (this.canvas.height / this.celula)) *
-          this.celula,
-      };
-
-      this.mapa.matriz.nodes[Math.floor(pokemon.posicao.y / this.celula)][
-        Math.floor(pokemon.posicao.x / this.celula)
-      ].agente = pokemon.id;
-
-      this.pokemons.push(pokemon);
-    });
-
     this.agentes = [...this.treinadores, ...this.pokemons];
 
     this.treinadores.forEach((treinador, idx) => {
@@ -137,6 +100,8 @@ class Simulacao {
       this.mapa.matriz.nodes[Math.floor(agente.posicao.y / this.celula)][
         Math.floor(agente.posicao.x / this.celula)
       ].agente = agente.id;
+
+      agente.acao(this.mapa);
     });
 
     this.treinadores.forEach((t) => {

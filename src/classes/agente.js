@@ -4,9 +4,9 @@ class Agente {
     cor,
     tamanho,
     especie,
+    algoritimo,
     velocidade = 1,
     visao = 10,
-    algoritimo,
   ) {
     this.id = id;
     this.cor = cor;
@@ -28,19 +28,65 @@ class Agente {
     this.estaDisponivel = true;
     this.paraMovimento = false;
     this.frame = 0;
+
+    this.direcao = "baixo";
+    const direcoes = {
+      baixo: 3,
+      cima: 3,
+      esquerda: 3,
+      direita: 3,
+    };
+
+    this.posAnim = this.posicao;
+
+    this.imagens = [];
+
+    for (const [direcao, quantidade] of Object.entries(direcoes)) {
+      this.imagens[direcao] = [];
+      for (let i = 1; i <= quantidade; i++) {
+        if (this.especie !== "humana") return;
+        // eslint-disable-next-line no-undef
+        const img = new Image();
+        img.src = `./recursos/${this.especie}/${direcao}${String(i).padStart(2, "0")}.png`;
+        this.imagens[direcao].push(img);
+      }
+    }
+
+    this.frameAtual = 0;
   }
 
   desenha(contexto) {
+    contexto.font = "48px Arial";
     contexto.fillStyle = this.cor;
-    contexto.fillRect(
+    contexto.fillText(`#${this.id}`, this.posicao.x, this.posicao.y - 5);
+
+    if (this.especie !== "humana") {
+      contexto.fillStyle = "red";
+      contexto.fillRect(
+        this.posicao.x,
+        this.posicao.y,
+        this.tamanho,
+        this.tamanho,
+      );
+
+      return;
+    }
+
+    if (this.posAnim !== this.posicao) {
+      this.posAnim = this.posicao;
+      this.frameAtual = this.frameAtual === 1 ? 2 : 1;
+    }
+
+    const imagemAtual =
+      this.imagens[this.direcao][this.paraMovimento ? 0 : this.frameAtual];
+
+    contexto.drawImage(
+      imagemAtual,
       this.posicao.x,
       this.posicao.y,
       this.tamanho,
       this.tamanho,
     );
-
-    contexto.font = "50px Arial";
-    contexto.fillText(`#${this.id}`, this.posicao.x, this.posicao.y);
   }
 
   movimento(mapa) {
@@ -90,6 +136,7 @@ class Agente {
       const proximo = this.caminho.shift();
 
       if (proximo) {
+        this.defineDirecao(proximo);
         mapa.matriz.nodes[this.posicao.y / this.tamanho][
           this.posicao.x / this.tamanho
         ].agente = 0;
@@ -110,6 +157,29 @@ class Agente {
     if (this.caminho.length === 0) {
       this.destino = null;
     }
+  }
+
+  defineDirecao(destino) {
+    if (
+      destino[0] === this.posicao.x / this.tamanho &&
+      destino[1] > this.posicao.y / this.tamanho
+    )
+      this.direcao = "baixo";
+    else if (
+      destino[0] === this.posicao.x / this.tamanho &&
+      destino[1] < this.posicao.y / this.tamanho
+    )
+      this.direcao = "cima";
+    else if (
+      destino[1] === this.posicao.y / this.tamanho &&
+      destino[0] > this.posicao.x / this.tamanho
+    )
+      this.direcao = "direita";
+    else if (
+      destino[1] === this.posicao.y / this.tamanho &&
+      destino[0] < this.posicao.x / this.tamanho
+    )
+      this.direcao = "esquerda";
   }
 
   detectaColisao(contexto, mapa) {
