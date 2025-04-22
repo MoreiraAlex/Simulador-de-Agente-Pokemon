@@ -1,3 +1,4 @@
+import { pokedex } from "../models/pokedex.js";
 import { posicaoAleatoriaBioma } from "../utils/utils.js";
 import Agente from "./agente.js";
 
@@ -19,6 +20,7 @@ class Pokemon extends Agente {
     experiencia,
     nivel,
     estaAtivo,
+    pokeball = true,
   ) {
     super(id, cor, tamanho, especie, algoritimo);
     this.pokedex = pokedex;
@@ -32,27 +34,28 @@ class Pokemon extends Agente {
     this.experiencia = experiencia;
     this.nivel = nivel;
     this.estaAtivo = estaAtivo;
+    this.pokeball = pokeball;
   }
 
-  acao(mapa) {
+  acao(_, mapa) {
     if (this.paraMovimento) {
       return;
     }
 
     switch (this.movimento(mapa)) {
       case 0:
-        this.destino = this.moveBioma(mapa.biomas);
+        this.destino = this.moveBioma(mapa);
         break;
       case 1:
         break;
       case 2:
-        this.destino = this.moveBioma(mapa.biomas);
+        this.destino = this.moveBioma(mapa);
         break;
     }
   }
 
-  moveBioma(biomas) {
-    const bioma = biomas.find(
+  moveBioma(mapa) {
+    const bioma = mapa.biomas.find(
       (bioma) =>
         this.posicao.x >= bioma.posX &&
         this.posicao.x <= bioma.posX + bioma.largura &&
@@ -61,7 +64,63 @@ class Pokemon extends Agente {
         this.tipos.some((tipo) => bioma.tipos.includes(tipo)),
     );
 
-    return posicaoAleatoriaBioma(bioma);
+    return posicaoAleatoriaBioma(bioma, mapa.matriz, this.tamanho);
+  }
+
+  sobeNivel(pokemons) {
+    const experienciaTotal = Number(this.nivel) * 10 + 90;
+
+    if (this.experiencia >= experienciaTotal) {
+      this.nivel++;
+
+      const atributos = [
+        { vida: this.vida },
+        { ataque: this.ataque },
+        { defesa: this.defesa },
+      ];
+
+      const atributoMelhorado =
+        atributos[Math.floor(Math.random() * atributos.length)];
+
+      this[Object.keys(atributoMelhorado)] += this.incremento;
+
+      this.ataques.forEach((ataque) => {
+        ataque.recarga += this.incremento / 250;
+      });
+
+      const pokemon = this.verificaEvolucao();
+      if (pokemon) {
+        pokemons.push(pokemon);
+      }
+    }
+  }
+
+  verificaEvolucao() {
+    if (!this.evolucao || this.nivel < this.evolucao.nivel) return;
+
+    this.estaAtivo = false;
+    const evolucao = pokedex.find(
+      (poke) => poke.pokedex === this.evolucao.pokedex,
+    );
+
+    return new Pokemon(
+      (Math.random() * 1000).toFixed(0),
+      "red",
+      this.celula,
+      evolucao.especie,
+      this.algoritimo,
+      evolucao.pokedex,
+      evolucao.tipos,
+      (this.vida += this.evolucao.buff),
+      (this.ataque += this.evolucao.buff),
+      (this.defesa += this.evolucao.buff),
+      evolucao.ataques,
+      evolucao.evolucao,
+      evolucao.incremento,
+      this.experiencia,
+      this.nivel,
+      true,
+    );
   }
 }
 

@@ -1,6 +1,9 @@
 import { biomas, obstaculos } from "../models/mapa.js";
 import { pokedex } from "../models/pokedex.js";
-import { posicaoAleatoriaBioma } from "../utils/utils.js";
+import {
+  atualizaPosicaoNaMatriz,
+  posicaoAleatoriaBioma,
+} from "../utils/utils.js";
 import Pokemon from "./pokemon.js";
 
 class Mapa {
@@ -74,7 +77,7 @@ class Mapa {
       contexto.fillRect(base.posX, base.posY, base.largura, base.altura);
     });
 
-    // this.grade(this.celula);
+    this.grade(this.celula);
   }
 
   grade(tamanhoCelula) {
@@ -125,7 +128,7 @@ class Mapa {
     return matriz;
   }
 
-  pokeBioma(celula, pokemonsLista) {
+  pokeBioma(celula, agentes) {
     biomas.forEach((bioma) => {
       const pokemons = pokedex.filter(
         (pokemon) =>
@@ -133,7 +136,7 @@ class Mapa {
       );
 
       const pokerdm = [];
-      while (pokerdm.length < 2) {
+      while (pokerdm.length < 4) {
         const poke = pokemons[Math.floor(Math.random() * pokemons.length)];
         const pokemon = new Pokemon(
           (Math.random() + poke.pokedex * 1000).toFixed(0),
@@ -159,14 +162,22 @@ class Mapa {
       }
 
       pokerdm.forEach((pokemon) => {
-        const { x, y } = posicaoAleatoriaBioma(bioma);
-        pokemon.posicao = { x, y };
+        const { x, y } = posicaoAleatoriaBioma(
+          bioma,
+          this.matriz,
+          this.tamanho,
+        );
 
-        this.matriz.nodes[Math.floor(y / this.celula)][
-          Math.floor(x / this.celula)
-        ].agente = pokemon.id;
+        pokemon.posicao = { x, y };
+        atualizaPosicaoNaMatriz(
+          this.matriz,
+          pokemon.posicao,
+          this.celula,
+          pokemon.id,
+        );
       });
-      pokemonsLista.push(...pokerdm);
+
+      agentes.push(...pokerdm);
     });
   }
 }

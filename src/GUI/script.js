@@ -18,8 +18,9 @@ document.addEventListener("DOMContentLoaded", () => {
   GUI(config);
   adicionaRemoveTreinador(config);
 
-  window.setAtributo = setAtributo;
   window.alternarBotao = alternarBotao;
+  window.atualizaSliders = atualizaSliders;
+  window.setAtributo = setAtributo;
 });
 
 function adicionaRemoveTreinador(config) {
@@ -58,27 +59,33 @@ function adicionaRemoveTreinador(config) {
       <div class="space-y-1 text-xs">
         <span class="flex justify-between items-center">
           <label for="velocidade" class="block">Velocidade</label>
-          <input type="text" id="displayVel${treinador.id}" value="1" readonly class="w-8 text-center border rounded-md bg-gray-200">
+          <input type="text" id="displayVel${treinador.id}" value="3" readonly class="w-8 text-center border rounded-md bg-gray-200">
         </span>
-        <input type="range" name="velocidade" min="1" max="5" value="1" oninput="displayVel${treinador.id}.value=value" 
+        <input id="slVel${treinador.id}" type="range" name="velocidade" min="1" max="5" value="3" oninput="displayVel${treinador.id}.value=value" 
           class="atributo w-full h-1 accent-gray-900 cursor-pointer"
-          onchange="displayVel${treinador.id}.value=value; setAtributo(${treinador.id}, 'velocidade', value)"
+          onchange="
+            displayVel${treinador.id}.value=value; 
+            atualizaSliders(${treinador.id}, 'velocidade', value);"
         >
         <span class="flex justify-between items-center">
           <label for="resistencia" class="block">Resistência</label>
-          <input type="text" id="displayRe${treinador.id}" value="5" readonly class="w-8 text-center border rounded-md bg-gray-200">
+          <input type="text" id="displayRe${treinador.id}" value="8" readonly class="w-8 text-center border rounded-md bg-gray-200">
         </span>
-        <input type="range" name="resistencia" min="5" max="10" value="1" oninput="displayRe${treinador.id}.value=value"
+        <input id="slRe${treinador.id}" type="range" name="resistencia" min="6" max="10" value="8" oninput="displayRe${treinador.id}.value=value"
           class="atributo w-full h-1 accent-gray-900 cursor-pointer"
-          onchange="setAtributo(${treinador.id}, 'resistencia', value); displayRe${treinador.id}.value=value"
+          onchange="
+            displayRe${treinador.id}.value=value
+            atualizaSliders(${treinador.id}, 'resistencia', value);"
         >
         <span class="flex justify-between items-center">
           <label for="visao" class="block">Visão</label>
-          <input type="text" id="displayVi${treinador.id}" value="10" readonly class="w-8 text-center border rounded-md bg-gray-200">
+          <input type="text" id="displayVi${treinador.id}" value="14" readonly class="w-8 text-center border rounded-md bg-gray-200">
         </span>
-        <input type="range" name="visao" min="10" max="30" value="1" oninput="displayVi${treinador.id}.value=value"  
+        <input id="slVi${treinador.id}" type="range" name="visao" min="10" max="18" value="14" step="2" oninput="displayVi${treinador.id}.value=value"  
           class="atributo w-full h-1 accent-gray-900 cursor-pointer"
-          onchange="setAtributo(${treinador.id}, 'visao', value); displayVi${treinador.id}.value=value"
+          onchange="
+            displayVi${treinador.id}.value=value
+            atualizaSliders(${treinador.id}, 'visao', value);"
         >      
       </div>
       
@@ -160,10 +167,10 @@ function adicionaRemoveTreinador(config) {
 
         const info = document.createElement("div");
         info.innerHTML = `
-          <p><span class="font-semibold">Espécie:</span> ${pokemon.especie}</p>
-          <p><span class="font-semibold">Vida:</span> ${pokemon.vida}</p>
-          <p><span class="font-semibold">Ataque:</span> ${pokemon.ataque}</p>
-          <p><span class="font-semibold">Defesa:</span> ${pokemon.defesa}</p>
+          <p><span class="font-semibold">Espécie:</span> ${pokemon?.especie}</p>
+          <p><span class="font-semibold">Vida:</span> ${pokemon?.vida}</p>
+          <p><span class="font-semibold">Ataque:</span> ${pokemon?.ataque}</p>
+          <p><span class="font-semibold">Defesa:</span> ${pokemon?.defesa}</p>
           <p><span class="font-semibold">Experiência:</span> 0</p>
           <p><span class="font-semibold">nivel:</span> 1</p>
         `;
@@ -171,8 +178,27 @@ function adicionaRemoveTreinador(config) {
         card.innerHTML = "";
         card.appendChild(info);
         card.style.display = "block";
-        card.style.left = `${e.clientX + 10}px`;
-        card.style.top = `${e.clientY + 10}px`;
+        // eslint-disable-next-line no-undef
+        requestAnimationFrame(() => {
+          const padding = 10;
+          const cardRect = card.getBoundingClientRect();
+
+          let left = e.clientX + padding;
+          let top = e.clientY + padding;
+
+          // Inverte horizontalmente se ultrapassar largura da tela
+          if (left + cardRect.width > window.innerWidth) {
+            left = e.clientX - cardRect.width - padding;
+          }
+
+          // Inverte verticalmente se ultrapassar altura da tela
+          if (top + cardRect.height > window.innerHeight) {
+            top = e.clientY - cardRect.height - padding;
+          }
+
+          card.style.left = `${left}px`;
+          card.style.top = `${top}px`;
+        });
       });
       btn.addEventListener("mouseout", () => {
         document.querySelector(".hover-card").style.display = "none";
@@ -183,13 +209,44 @@ function adicionaRemoveTreinador(config) {
 
 function setAtributo(id, atributo, valor) {
   if (globalThis.simu) {
-    let index = 0;
-    globalThis.simu.treinadores.find((t, idx) => {
-      index = idx;
-      return t.id === id;
-    });
-    globalThis.simu.treinadores[index][atributo] = valor;
+    const index = globalThis.simu.agentes.findIndex((t) => t.id === id);
+    globalThis.simu.agentes[index][atributo] = valor;
   }
+}
+
+function atualizaSliders(id, atributo, valor) {
+  const velocidade = document.querySelector(`#slVel${id}`);
+  const velocidadeDisplay = document.querySelector(`#displayVel${id}`);
+  const resistencia = document.querySelector(`#slRe${id}`);
+  const resistenciaDisplay = document.querySelector(`#displayRe${id}`);
+  const visao = document.querySelector(`#slVi${id}`);
+  const visaoDisplay = document.querySelector(`#displayVi${id}`);
+
+  valor = parseInt(valor);
+
+  if (atributo === "velocidade") {
+    resistencia.value = Math.max(5, 10 - (valor - 1));
+    resistenciaDisplay.value = resistencia.value;
+
+    visao.value = Math.min(18, 18 - (valor - 1) * 2);
+    visaoDisplay.value = visao.value;
+  } else if (atributo === "resistencia") {
+    velocidade.value = Math.max(1, 5 - (valor - 6));
+    velocidadeDisplay.value = velocidade.value;
+
+    visao.value = Math.min(18, 10 + (valor - 6) * 2);
+    visaoDisplay.value = visao.value;
+  } else if (atributo === "visao") {
+    velocidade.value = Math.max(1, 5 - Math.floor((valor - 10) / 2));
+    velocidadeDisplay.value = velocidade.value;
+
+    resistencia.value = Math.min(10, 6 + Math.floor((valor - 10) / 2));
+    resistenciaDisplay.value = resistencia.value;
+  }
+
+  setAtributo(id, "velocidade", velocidade.value);
+  setAtributo(id, "resistencia", resistencia.value);
+  setAtributo(id, "visao", visao.value);
 }
 
 function verificaFimJogo(cronometro) {
@@ -215,8 +272,8 @@ function verificaFimJogo(cronometro) {
     if (modo.value === "total" || modo.value === "captura") {
       const maximo = Number(limite.value) === 0 ? 151 : Number(limite.value);
 
-      const vencedores = globalThis.simu.treinadores.filter(
-        (treinador) => treinador.pokemons.length === maximo,
+      const vencedores = globalThis.simu.agentes.filter(
+        (treinador) => treinador.pokemons?.length === maximo,
       );
 
       if (vencedores.length) {
@@ -231,8 +288,8 @@ function verificaFimJogo(cronometro) {
         return true;
       }
     } else if (limite.value && cronometro.segundos >= limite.value * 60) {
-      const vencedores = globalThis.simu.treinadores.sort(
-        (a, b) => b.pokemons.length - a.pokemons.length,
+      const vencedores = globalThis.simu.agentes.sort(
+        (a, b) => b.pokemons?.length - a.pokemons?.length,
       );
 
       if (vencedores.length) {
@@ -255,7 +312,8 @@ function verificaFimJogo(cronometro) {
 function cronometro(config) {
   config.cronometro.interval = setInterval(() => {
     if (globalThis.simu) {
-      globalThis.simu.treinadores.forEach((t) => {
+      globalThis.simu.agentes.forEach((t) => {
+        if (t.especie !== "humana") return;
         const treinador = document.getElementById(`${t.id}`);
         treinador.children[0].children[1].children[0].textContent =
           t.pokemons.length;
@@ -293,20 +351,40 @@ function cronometro(config) {
 
             const info = document.createElement("div");
             info.innerHTML = `
-                <p><span class="font-semibold">ID:</span> ${pokemon.id}</p>
-                <p><span class="font-semibold">Espécie:</span> ${pokemon.especie}</p>
-                <p><span class="font-semibold">Vida:</span> ${pokemon.vida}</p>
-                <p><span class="font-semibold">Ataque:</span> ${pokemon.ataque}</p>
-                <p><span class="font-semibold">Defesa:</span> ${pokemon.defesa}</p>
-                <p><span class="font-semibold">Nivel:</span> ${pokemon.nivel}</p>
-                <p><span class="font-semibold">Experiência:</span> ${pokemon.experiencia}</p>
+                <p><span class="font-semibold">ID:</span> ${pokemon?.id}</p>
+                <p><span class="font-semibold">Espécie:</span> ${pokemon?.especie}</p>
+                <p><span class="font-semibold">Vida:</span> ${pokemon?.vida}</p>
+                <p><span class="font-semibold">Ataque:</span> ${pokemon?.ataque}</p>
+                <p><span class="font-semibold">Defesa:</span> ${pokemon?.defesa}</p>
+                <p><span class="font-semibold">Nivel:</span> ${pokemon?.nivel}</p>
+                <p><span class="font-semibold">Experiência:</span> ${pokemon?.experiencia}</p>
               `;
 
             card.innerHTML = "";
             card.appendChild(info);
             card.style.display = "block";
-            card.style.left = `${e.clientX + 10}px`;
-            card.style.top = `${e.clientY + 10}px`;
+
+            // eslint-disable-next-line no-undef
+            requestAnimationFrame(() => {
+              const padding = 10;
+              const cardRect = card.getBoundingClientRect();
+
+              let left = e.clientX + padding;
+              let top = e.clientY + padding;
+
+              // Inverte horizontalmente se ultrapassar largura da tela
+              if (left + cardRect.width > window.innerWidth) {
+                left = e.clientX - cardRect.width - padding;
+              }
+
+              // Inverte verticalmente se ultrapassar altura da tela
+              if (top + cardRect.height > window.innerHeight) {
+                top = e.clientY - cardRect.height - padding;
+              }
+
+              card.style.left = `${left}px`;
+              card.style.top = `${top}px`;
+            });
           });
         });
         document.querySelectorAll(".pokemonDetalhe").forEach((poke) => {
@@ -314,13 +392,6 @@ function cronometro(config) {
             document.querySelector(".hover-card").style.display = "none";
           });
         });
-
-        // <details class="space-y-1 text-xs hidden">
-        //   <summary class="font-semibold">Pokemons</summary>
-        //   <ul class="flex gap-1 flex-wrap">
-        //     <li class="bg-gray-900 text-white px-2 py-1 rounded">Bulbasaur</li>
-        //   </ul>
-        // </details>;
       });
     }
     if (verificaFimJogo(config.cronometro)) {
@@ -344,7 +415,13 @@ function multiplicadorControle(config, multiplicador, direcao) {
 
   multiplicador.textContent = valor;
 
-  if (globalThis.multiplicador) {
+  const pause =
+    document
+      .querySelector(".iniciar")
+      .querySelector("svg")
+      .getAttribute("data-lucide") !== "pause-circle";
+
+  if (globalThis.multiplicador && !pause) {
     globalThis.multiplicador = valor;
     clearInterval(config.cronometro.interval);
     cronometro(config);
@@ -383,7 +460,7 @@ function GUI(config) {
   });
 
   btnParar.addEventListener("click", () => {
-    parar(btnIniciar, btnParar, listaTreinadores, config);
+    parar(btnIniciar, btnParar, listaTreinadores, multiplicador, config);
   });
 
   btnRetroceder.addEventListener("click", () => {
@@ -448,7 +525,7 @@ function GUI(config) {
 
     let encontrou = false;
 
-    globalThis.simu.pokemons.forEach((pokemon) => {
+    globalThis.simu.agentes.forEach((pokemon) => {
       const dentro =
         mouseX >= pokemon.posicao.x &&
         mouseX <= pokemon.posicao.x + pokemon.tamanho &&
@@ -461,16 +538,36 @@ function GUI(config) {
         const card = document.querySelector(".hover-card");
         card.style.display = "block";
         card.innerHTML = `
-          <p><span class="font-semibold">ID:</span> ${pokemon.id}</p>
-          <p><span class="font-semibold">Espécie:</span> ${pokemon.especie}</p>
-          <p><span class="font-semibold">Vida:</span> ${pokemon.vida}</p>
-          <p><span class="font-semibold">Ataque:</span> ${pokemon.ataque}</p>
-          <p><span class="font-semibold">Defesa:</span> ${pokemon.defesa}</p>
-          <p><span class="font-semibold">Nivel:</span> ${pokemon.nivel}</p>
-          <p><span class="font-semibold">Experiência:</span> ${pokemon.experiencia}</p>
+          <p><span class="font-semibold">ID:</span> ${pokemon?.id}</p>
+          <p><span class="font-semibold">Espécie:</span> ${pokemon?.especie}</p>
+          <p><span class="font-semibold">Vida:</span> ${pokemon?.vida}</p>
+          <p><span class="font-semibold">Ataque:</span> ${pokemon?.ataque}</p>
+          <p><span class="font-semibold">Defesa:</span> ${pokemon?.defesa}</p>
+          <p><span class="font-semibold">Nivel:</span> ${pokemon?.nivel}</p>
+          <p><span class="font-semibold">Experiência:</span> ${pokemon?.experiencia}</p>
         `;
-        card.style.left = `${e.clientX + 10}px`;
-        card.style.top = `${e.clientY + 10}px`;
+
+        // eslint-disable-next-line no-undef
+        requestAnimationFrame(() => {
+          const padding = 10;
+          const cardRect = card.getBoundingClientRect();
+
+          let left = e.clientX + padding;
+          let top = e.clientY + padding;
+
+          // Inverte horizontalmente se ultrapassar largura da tela
+          if (left + cardRect.width > window.innerWidth) {
+            left = e.clientX - cardRect.width - padding;
+          }
+
+          // Inverte verticalmente se ultrapassar altura da tela
+          if (top + cardRect.height > window.innerHeight) {
+            top = e.clientY - cardRect.height - padding;
+          }
+
+          card.style.left = `${left}px`;
+          card.style.top = `${top}px`;
+        });
       }
     });
 
@@ -528,14 +625,16 @@ function rodar(btnIniciar, btnParar, listaTreinadores, config) {
   cronometro(config);
 }
 
-function parar(btnIniciar, btnParar, listaTreinadores, config) {
+function parar(btnIniciar, btnParar, listaTreinadores, multiplicador, config) {
   if (globalThis.simu) {
     globalThis.simu.parar();
     globalThis.simu = null;
+    globalThis.multiplicador = null;
   }
   clearInterval(config.cronometro.interval);
   config.cronometro.conteudo.textContent = "00:00";
   config.cronometro.segundos = 0;
+  multiplicador.textContent = 1;
 
   config.contadorTreinadores = 0;
 

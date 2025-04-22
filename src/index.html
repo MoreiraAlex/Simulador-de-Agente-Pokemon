@@ -7,16 +7,22 @@
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="flex flex-col h-screen w-screen overflow-x-hidden">
-  <header class="p-4 flex justify-between items-center shadow-md bg-zinc-50">
-      <button class="config adicionar px-4 py-2 bg-gray-500 hover:bg-gray-900 text-white rounded-md">Adicionar Treinador</button>
-      <div class="flex items-center justify-between gap-4 p-4 bg-gray-100 rounded-lg shadow-md max-w-3xl mx-auto">
+  <header class="p-4 flex justify-between items-center shadow-md bg-zinc-50 relative">
+    <div class="flex-1 flex justify-start">
+      <button class="config adicionar px-4 py-2 bg-gray-500 hover:bg-gray-900 text-white rounded-md">
+        Adicionar Treinador
+      </button>
+    </div>
+  
+    <div class="flex-none">
+      <div class="flex items-center justify-between gap-4 p-4 bg-gray-100 rounded-lg shadow-md">
         <button class="iniciar px-5 py-2 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-lg transition">
           <i data-lucide='circle-play' class='w-5 h-5 rotate-180'></i>
         </button>
         <button class="retroceder px-4 py-2 bg-gray-600 hover:bg-gray-800 text-white rounded-lg transition flex items-center justify-center">
           <i data-lucide="fast-forward" class="w-5 h-5 rotate-180"></i>
         </button>
-
+  
         <div class="flex flex-col items-center justify-center min-w-[80px]">
           <p>
             <span class="multiplicador text-lg font-mono font-bold">1</span>
@@ -24,7 +30,7 @@
           </p>
           <p class="relogio text-sm font-mono text-gray-700">00:00</p>
         </div>
-
+  
         <button class="avancar px-4 py-2 bg-gray-600 hover:bg-gray-800 text-white rounded-lg transition flex items-center justify-center">
           <i data-lucide="fast-forward" class="w-5 h-5"></i>
         </button>
@@ -32,24 +38,26 @@
           <i data-lucide="circle-stop" class="w-5 h-5 rotate-180"></i>
         </button>
       </div>
-      
-      <div >
-        <div class="flex flex-col items-center gap-2" id="modo-vitoria">
-          <p class="font-bold">Modo de Vitória</p>
-          <div>
-            <button class="config modo-btn px-4 py-2 rounded-md bg-gray-900 text-white" value="total" aria-selected="true">Captura Total</button>
-            <button class="config modo-btn px-4 py-2 rounded-md bg-gray-500 text-white" value="tempo">Tempo</button>
-            <button class="config modo-btn px-4 py-2 rounded-md bg-gray-500 text-white" value="captura">Limite</button>
-          </div>
-          <div class="limite hidden flex ">
-            <label class="text-sm font-semibold"></label>
-            <input type="range" name="vol" oninput="display.value=value" onchange="display.value=value" value="0" class="config h-1 accent-gray-900 cursor-pointer">
-            <input type="text" id="display" value="0" readonly class="w-12 text-center border rounded-md bg-gray-200">
-          </div>
-        </div>        
+    </div>
+  
+    <div class="flex-1 flex justify-end">
+      <div class="flex flex-col items-center gap-2" id="modo-vitoria">
+        <p class="font-bold">Modo de Vitória</p>
+        <div>
+          <button class="config modo-btn px-4 py-2 rounded-md bg-gray-900 text-white" value="total" aria-selected="true">Captura Total</button>
+          <button class="config modo-btn px-4 py-2 rounded-md bg-gray-500 text-white" value="tempo">Tempo</button>
+          <button class="config modo-btn px-4 py-2 rounded-md bg-gray-500 text-white" value="captura">Limite</button>
+        </div>
+        <div class="limite hidden flex">
+          <label class="text-sm font-semibold"></label>
+          <input type="range" name="vol" oninput="display.value=value" onchange="display.value=value" value="0" class="config h-1 accent-gray-900 cursor-pointer">
+          <input type="text" id="display" value="0" readonly class="w-12 text-center border rounded-md bg-gray-200">
+        </div>
       </div>
+    </div>
   </header>
-  <main class="flex flex-grow m-4 space-x-4 overflow-hidden">
+  
+  <main class="flex flex-grow my-4 mr-4 space-x-4 justify-center overflow-hidden">
     <div class="absolute z-10 bg-gray-500 text-white text-sm shadow-xl rounded p-3 w-60 hover-card hidden"></div>
     <aside class="treinadores-lista w-1/4 p-4 border rounded-md flex flex-col justify-around overflow-y-auto shadow-md bg-zinc-50 gap-4"></aside>  
     <canvas id="game-canvas" width="2000" height="2000" class="flex-grow border rounded-md shadow-md bg-zinc-50"></canvas>

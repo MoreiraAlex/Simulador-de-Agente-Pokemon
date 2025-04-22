@@ -1,3 +1,5 @@
+import { atualizaPosicaoNaMatriz } from "../utils/utils.js";
+
 class Agente {
   constructor(
     id,
@@ -29,6 +31,7 @@ class Agente {
     this.paraMovimento = false;
     this.frame = 0;
 
+    this.imagens = [];
     this.direcao = "baixo";
     const direcoes = {
       baixo: 3,
@@ -37,48 +40,45 @@ class Agente {
       direita: 3,
     };
 
-    this.posAnim = this.posicao;
-
-    this.imagens = [];
-
     for (const [direcao, quantidade] of Object.entries(direcoes)) {
       this.imagens[direcao] = [];
       for (let i = 1; i <= quantidade; i++) {
-        if (this.especie !== "humana") return;
+        // if (this.especie !== "humana") return;
         // eslint-disable-next-line no-undef
         const img = new Image();
-        img.src = `./recursos/${this.especie}/${direcao}${String(i).padStart(2, "0")}.png`;
+        img.src = `./recursos/humana/${direcao}${String(i).padStart(2, "0")}.png`;
+        // img.src = `./recursos/${this.especie}/${direcao}${String(i).padStart(2, "0")}.png`;
         this.imagens[direcao].push(img);
       }
     }
 
-    this.frameAtual = 0;
+    this.imagem = 0;
   }
 
   desenha(contexto) {
-    contexto.font = "48px Arial";
-    contexto.fillStyle = this.cor;
-    contexto.fillText(`#${this.id}`, this.posicao.x, this.posicao.y - 5);
-
-    if (this.especie !== "humana") {
-      contexto.fillStyle = "red";
-      contexto.fillRect(
-        this.posicao.x,
-        this.posicao.y,
-        this.tamanho,
-        this.tamanho,
+    if (this.especie === "humana") {
+      contexto.font = "48px Arial";
+      contexto.fillStyle = this.cor;
+      contexto.fillText(
+        `#${this.id}`,
+        this.posicao.x - 10,
+        this.posicao.y - 10,
       );
-
-      return;
     }
+    // if (this.especie !== "humana") {
+    //   contexto.fillStyle = "red";
+    //   contexto.fillRect(
+    //     this.posicao.x,
+    //     this.posicao.y,
+    //     this.tamanho,
+    //     this.tamanho,
+    //   );
 
-    if (this.posAnim !== this.posicao) {
-      this.posAnim = this.posicao;
-      this.frameAtual = this.frameAtual === 1 ? 2 : 1;
-    }
+    //   return;
+    // }
 
     const imagemAtual =
-      this.imagens[this.direcao][this.paraMovimento ? 0 : this.frameAtual];
+      this.imagens[this.direcao][this.paraMovimento ? 0 : this.imagem];
 
     contexto.drawImage(
       imagemAtual,
@@ -92,8 +92,8 @@ class Agente {
   movimento(mapa) {
     if (this.destino) {
       if (!this.caminho.length) {
-        // console.log(`Treinador #${this.id} inicia um caminho`);
         this.caminho = this.calculaMovimento(mapa, this.destino);
+        this.caminho.shift();
 
         if (this.caminho.length < 1) {
           return 0;
@@ -137,18 +137,19 @@ class Agente {
 
       if (proximo) {
         this.defineDirecao(proximo);
-        mapa.matriz.nodes[this.posicao.y / this.tamanho][
-          this.posicao.x / this.tamanho
-        ].agente = 0;
+        this.imagem = this.imagem === 1 ? 2 : 1;
 
+        atualizaPosicaoNaMatriz(mapa.matriz, this.posicao, this.tamanho, 0);
         this.posicao = {
           x: proximo[0] * mapa.celula,
           y: proximo[1] * mapa.celula,
         };
-
-        mapa.matriz.nodes[this.posicao.y / this.tamanho][
-          this.posicao.x / this.tamanho
-        ].agente = this.id;
+        atualizaPosicaoNaMatriz(
+          mapa.matriz,
+          this.posicao,
+          this.tamanho,
+          this.id,
+        );
 
         this.frame = 0;
       }

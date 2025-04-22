@@ -8,8 +8,6 @@ class Simulacao {
     this.contexto = config.contexto;
     this.cronometro = config.cronometro;
     this.agentes = [];
-    this.treinadores = [];
-    this.pokemons = [];
 
     this.celula = 50;
     this.frame = null;
@@ -58,7 +56,7 @@ class Simulacao {
         algoritimo,
       );
 
-      this.treinadores.push(treinador);
+      this.agentes.push(treinador);
     });
   }
 
@@ -72,11 +70,8 @@ class Simulacao {
     }
 
     this.mapa.desenha();
-    this.mapa.pokeBioma(this.celula, this.pokemons);
 
-    this.agentes = [...this.treinadores, ...this.pokemons];
-
-    this.treinadores.forEach((treinador, idx) => {
+    this.agentes.forEach((treinador, idx) => {
       const x = this.mapa.base[idx].posX + this.mapa.base[idx].largura / 2;
       const y = this.mapa.base[idx].posY + this.mapa.base[idx].altura / 2;
 
@@ -92,23 +87,25 @@ class Simulacao {
     this.contexto.reset();
     this.mapa.desenha();
 
-    this.agentes.forEach((agente) => {
-      if (agente.especie === "humana") {
-        return;
-      }
-      agente.desenha(this.contexto);
-      this.mapa.matriz.nodes[Math.floor(agente.posicao.y / this.celula)][
-        Math.floor(agente.posicao.x / this.celula)
-      ].agente = agente.id;
+    if (this.cronometro.segundos % 30 === 0 && !this.invocou) {
+      this.invocou = true;
+      this.agentes.splice(
+        0,
+        this.agentes.length,
+        ...this.agentes.filter(
+          (a) => a.especie === "humana" || !a.estaDisponivel,
+        ),
+      );
 
-      agente.acao(this.mapa);
-    });
+      this.mapa.pokeBioma(this.celula, this.agentes);
+      setTimeout(() => (this.invocou = false), 2000 / globalThis.multiplicador);
+    }
 
-    this.treinadores.forEach((t) => {
+    this.agentes.forEach((t) => {
       t.acao(this.contexto, this.mapa, this.agentes);
     });
 
-    this.treinadores.forEach((t) => {
+    this.agentes.forEach((t) => {
       t.desenha(this.contexto);
     });
 

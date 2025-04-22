@@ -1,6 +1,9 @@
 import Agente from "./agente.js";
 import { pokedex } from "../models/pokedex.js";
-import { tiposEficazesContra } from "../utils/utils.js";
+import {
+  atualizaPosicaoNaMatriz,
+  tiposEficazesContra,
+} from "../utils/utils.js";
 
 class Treinador extends Agente {
   constructor(
@@ -22,9 +25,19 @@ class Treinador extends Agente {
     this.estrategia = estrategia;
     this.pokemons = pokemons;
     this.equipe = equipe;
+    this.capturouTodos = false;
   }
 
   acao(contexto, mapa, agentes) {
+    this.pokemons.forEach((pokemon) => {
+      const evolucao = pokemon.verificaEvolucao();
+      if (evolucao) this.pokemons.push(evolucao);
+
+      if (!pokemon.pokeball) {
+        pokemon.desenha(contexto);
+      }
+    });
+
     if (this.paraMovimento) {
       return;
     }
@@ -70,18 +83,22 @@ class Treinador extends Agente {
   }
 
   tiposEscasso(biomas) {
-    const biomaAtual = biomas.forEach((bioma) => {
-      const posicao = this.calculaDistancia(this.posicao, {
-        x: bioma.posX,
-        y: bioma.posY,
-      });
-      if (posicao <= 3) {
-        return bioma.tipo;
-      }
-    });
+    const biomaAtual = biomas
+      .map((bioma) => {
+        const posicao = this.calculaDistancia(this.posicao, {
+          x: bioma.posX + bioma.largura / 2,
+          y: bioma.posY + bioma.altura / 2,
+        });
+        if (posicao <= 3) {
+          return bioma.tipo;
+        }
+        return null;
+      })
+      .filter((tipo) => tipo);
 
     const tipos = Object.values(
       pokedex.reduce((acc, item) => {
+        if (!item.estaAtivo) return acc;
         item.tipos.forEach((tipo) => {
           if (!acc[tipo]) {
             acc[tipo] = { tipo, quantidade: 0 };
@@ -94,6 +111,7 @@ class Treinador extends Agente {
 
     const tiposTreinador = Object.values(
       this.pokemons.reduce((acc, item) => {
+        if (!item.estaAtivo) return acc;
         item.tipos.forEach((tipo) => {
           if (!acc[tipo]) {
             acc[tipo] = { tipo, quantidade: 0 };
@@ -104,17 +122,38 @@ class Treinador extends Agente {
       }, {}),
     );
 
+    const tiposFaltantesTreinador = [];
     tipos.forEach((tipoGeral) => {
-      if (!tiposTreinador.find((t) => t.tipo === tipoGeral.tipo)) {
-        tiposTreinador.push({ tipo: tipoGeral.tipo, quantidade: 0 });
+      const tipoTreinador = tiposTreinador.find(
+        (t) => t.tipo === tipoGeral.tipo,
+      );
+
+      if (!tipoTreinador) {
+        tiposFaltantesTreinador.push({
+          tipo: tipoGeral.tipo,
+          quantidade: tipoGeral.quantidade,
+        });
+      } else {
+        const quantidadeFaltante =
+          Number(tipoGeral.quantidade) - Number(tipoTreinador.quantidade);
+
+        tiposFaltantesTreinador.push({
+          tipo: tipoGeral.tipo,
+          quantidade: quantidadeFaltante,
+        });
       }
     });
 
-    tiposTreinador.sort((a, b) => a.quantidade - b.quantidade);
+    tiposFaltantesTreinador.sort((a, b) => b.quantidade - a.quantidade);
 
-    const menorQuantidade = tiposTreinador[0].quantidade;
-    const maisEscassos = tiposTreinador.filter(
-      (t) => t.quantidade === menorQuantidade && t.tipo !== biomaAtual,
+    const maiorQuantidadeFaltante = tiposFaltantesTreinador[0].quantidade;
+    if (maiorQuantidadeFaltante === 0) {
+      this.capturouTodos = true;
+      return tipos.map((tipo) => tipo.tipo);
+    }
+
+    const maisEscassos = tiposFaltantesTreinador.filter(
+      (t) => t.quantidade === maiorQuantidadeFaltante && t.tipo !== biomaAtual,
     );
 
     return maisEscassos.map((escasso) => escasso.tipo);
@@ -147,7 +186,8 @@ class Treinador extends Agente {
         (alvo) =>
           alvo &&
           alvo.estaDisponivel &&
-          !this.pokemons.some((poke) => poke.especie === alvo.especie),
+          // eslint-disable-next-line prettier/prettier
+          ( !this.pokemons.some((poke) => poke.especie === alvo.especie) || this.capturouTodos ),
       );
 
     let filtrados = candidatos.filter((alvo) => alvo.especie !== "humana");
@@ -184,13 +224,12 @@ class Treinador extends Agente {
     }
 
     const alvoColisoes = alvo.detectaColisao(contexto, mapa);
-    if (alvoColisoes.length && alvoColisoes.some((a) => a === this.id)) {
-      if (
-        this.calculaDistancia(this.posicao, alvo.posicao) <=
-        this.tamanho * 3
-      ) {
-        this.iniciaBatalha(alvo, agentes, mapa);
-      }
+    if (
+      alvoColisoes.length &&
+      alvoColisoes.some((a) => a === this.id) &&
+      this.calculaDistancia(this.posicao, alvo.posicao) <= this.tamanho * 3
+    ) {
+      this.iniciaBatalha(alvo, agentes, mapa);
     }
   }
 
@@ -203,9 +242,13 @@ class Treinador extends Agente {
     alvo.paraMovimento = true;
     alvo.resistencia--;
 
-    console.log(`Treinador #${this.id} Inicia Batalha`);
+    /// /////////////////////////////// Para batalha
+    const pokemons = this.invocaPokemon(alvo);
+    this.verificaDirecao();
 
     setTimeout(() => {
+      pokemons.forEach((p) => (p.pokeball = true));
+
       if (alvo.especie !== "humana") {
         this.vencePokemon(alvo, agentes, mapa);
         this.verificaEstado(this);
@@ -226,6 +269,122 @@ class Treinador extends Agente {
     }, 2000 / globalThis.multiplicador);
   }
 
+  verificaDirecao() {
+    const pokemon = this.equipe[0];
+    const dx = pokemon.posicao.x - this.posicao.x;
+    const dy = pokemon.posicao.y - this.posicao.y;
+
+    if (Math.abs(dx) > Math.abs(dy)) {
+      this.direcao = dx > 0 ? "direita" : "esquerda";
+
+      if (this.posicao === pokemon.posicao) {
+        this.posicao = {
+          x: this.posicao.x + this.tamanho * Math.sign(dx),
+          y: this.posicao.y,
+        };
+      }
+    } else {
+      this.direcao = dy > 0 ? "baixo" : "cima";
+      this.posicao = {
+        x: this.posicao.x,
+        y: this.posicao.y + this.tamanho * Math.sign(dx),
+      };
+    }
+  }
+
+  invocaPokemon(alvo) {
+    const pokemonAtacante = this.equipe[0];
+    const pokemonDefensor = alvo.especie !== "humana" ? alvo : alvo.equipe[0];
+
+    this.posicionaPokemons(alvo, pokemonDefensor, pokemonAtacante);
+    this.direcionaPokemons(pokemonAtacante, pokemonDefensor);
+
+    pokemonAtacante.pokeball = false;
+    pokemonDefensor.pokeball = false;
+
+    return [pokemonAtacante, pokemonDefensor];
+  }
+
+  posicionaPokemons(alvo, pokemonAtacante, pokemonDefensor) {
+    const t = alvo.tamanho;
+    let posAtacante, posDefensor;
+
+    switch (alvo.direcao) {
+      case "cima":
+        posDefensor = { x: alvo.posicao.x, y: alvo.posicao.y - t };
+        posAtacante = { x: alvo.posicao.x, y: alvo.posicao.y - t * 2 };
+        break;
+      case "baixo":
+        posDefensor = { x: alvo.posicao.x, y: alvo.posicao.y + t };
+        posAtacante = { x: alvo.posicao.x, y: alvo.posicao.y + t * 2 };
+        break;
+      case "direita":
+        posDefensor = { x: alvo.posicao.x + t, y: alvo.posicao.y };
+        posAtacante = { x: alvo.posicao.x + t * 2, y: alvo.posicao.y };
+        break;
+      case "esquerda":
+        posDefensor = { x: alvo.posicao.x - t, y: alvo.posicao.y };
+        posAtacante = { x: alvo.posicao.x - t * 2, y: alvo.posicao.y };
+        break;
+    }
+
+    // Verifica se os pokemons não estão saindo do mapa
+    pokemonDefensor.posicao = this.clampPosicao(
+      posDefensor.x,
+      posDefensor.y,
+      t,
+    );
+    pokemonAtacante.posicao = this.clampPosicao(
+      posAtacante.x,
+      posAtacante.y,
+      t,
+    );
+  }
+
+  clampPosicao(x, y, tamanho) {
+    return {
+      x: Math.max(0, Math.min(x, 2000 - tamanho)),
+      y: Math.max(0, Math.min(y, 2000 - tamanho)),
+    };
+  }
+
+  direcionaPokemons(pokemonAtacante, pokemonDefensor) {
+    const a = pokemonAtacante.posicao;
+    const d = pokemonDefensor.posicao;
+
+    if (a.x === d.x) {
+      if (a.y < d.y) {
+        pokemonAtacante.direcao = "baixo";
+        pokemonDefensor.direcao = "cima";
+      } else {
+        pokemonAtacante.direcao = "cima";
+        pokemonDefensor.direcao = "baixo";
+      }
+    } else if (a.y === d.y) {
+      if (a.x < d.x) {
+        pokemonAtacante.direcao = "direita";
+        pokemonDefensor.direcao = "esquerda";
+      } else {
+        pokemonAtacante.direcao = "esquerda";
+        pokemonDefensor.direcao = "direita";
+      }
+    } else {
+      // caso estejam em posição diagonal, pode calcular com base na diferença dos eixos
+      const deltaX = d.x - a.x;
+      const deltaY = d.y - a.y;
+
+      if (Math.abs(deltaX) > Math.abs(deltaY)) {
+        // prioriza horizontal
+        pokemonAtacante.direcao = deltaX > 0 ? "direita" : "esquerda";
+        pokemonDefensor.direcao = deltaX > 0 ? "esquerda" : "direita";
+      } else {
+        // prioriza vertical
+        pokemonAtacante.direcao = deltaY > 0 ? "baixo" : "cima";
+        pokemonDefensor.direcao = deltaY > 0 ? "cima" : "baixo";
+      }
+    }
+  }
+
   verificaEstado(treinador) {
     treinador.paraMovimento = false;
     treinador.estaDisponivel = true;
@@ -244,9 +403,9 @@ class Treinador extends Agente {
       agentes.findIndex((a) => a.id === pokemon.id),
       1,
     );
-    mapa.matriz.nodes[Math.floor(pokemon.posicao.y / mapa.celula)][
-      Math.floor(pokemon.posicao.x / mapa.celula)
-    ].agente = 0;
+    atualizaPosicaoNaMatriz(mapa.matriz, pokemon.posicao, this.tamanho, 0);
+
+    if (this.capturouTodos) return;
 
     this.pokemons.push(pokemon);
     if (this.equipe.length < 4) {
@@ -260,6 +419,8 @@ class Treinador extends Agente {
     treinador.destino = treinador.base;
     treinador.caminho = [];
   }
+
+  /// /////////////////////////////// Para batalha
 
   montaEquipe(biomas) {
     if (this.equipe.length < 4) return;
@@ -281,7 +442,8 @@ class Treinador extends Agente {
 
       const pokemonsDisponiveis = this.pokemons.filter(
         (pokemon) =>
-          !this.equipe.some((poke) => poke.especie === pokemon.especie),
+          !this.equipe.some((poke) => poke.especie === pokemon.especie) &&
+          pokemon.estaAtivo,
       );
 
       const pokemonsEficazes = pokemonsDisponiveis.filter((pokemon) =>
@@ -294,7 +456,8 @@ class Treinador extends Agente {
     const nivel = (pokemons) => {
       const pokemonsDisponiveis = pokemons.filter(
         (pokemon) =>
-          !this.equipe.some((poke) => poke.especie === pokemon.especie),
+          !this.equipe.some((poke) => poke.especie === pokemon.especie) &&
+          pokemon.estaAtivo,
       );
       const xpFaltando = pokemonsDisponiveis.map((pokemon) => {
         return Number(pokemon.nivel) * 10 + 90 - Number(pokemon.experiencia);
@@ -311,12 +474,16 @@ class Treinador extends Agente {
     const evoluir = (pokemons) => {
       const pokemonsDisponiveis = pokemons.filter(
         (pokemon) =>
-          !this.equipe.some((poke) => poke.especie === pokemon.especie),
+          !this.equipe.some((poke) => poke.especie === pokemon.especie) &&
+          pokemon.estaAtivo,
       );
       const nivelFaltando = pokemonsDisponiveis.map((pokemon) => {
-        return Number(pokemon.nivel) - Number(pokemon.evolucao);
+        if (!pokemon.evolucao) return null;
+        return Number(pokemon.nivel) - Number(pokemon.evolucao.nivel);
       });
-      const menor = Math.min(...nivelFaltando.map((p) => p));
+      const menor = Math.min(
+        ...nivelFaltando.filter((p) => typeof p === "number"),
+      );
 
       return pokemonsDisponiveis.filter(
         (pokemon) => Number(pokemon.nivel) - Number(pokemon.evolucao) === menor,
@@ -326,7 +493,8 @@ class Treinador extends Agente {
     const forte = (pokemons) => {
       const pokemonsDisponiveis = pokemons.filter(
         (pokemon) =>
-          !this.equipe.some((poke) => poke.especie === pokemon.especie),
+          !this.equipe.some((poke) => poke.especie === pokemon.especie) &&
+          pokemon.estaAtivo,
       );
       const forca = pokemonsDisponiveis.map((pokemon) => {
         return (
@@ -349,6 +517,22 @@ class Treinador extends Agente {
     this.equipe.length = 0;
     while (this.equipe.length < 4) {
       let pokemonsEficazes, pokemonsNivel, pokemonsEvoluir, pokemonsForte;
+
+      if (this.capturouTodos) {
+        pokemonsEvoluir = evoluir(this.pokemons);
+        if (pokemonsEvoluir.length === 1) {
+          this.equipe.push(pokemonsEvoluir[0]);
+          continue;
+        }
+
+        pokemonsForte = forte(
+          pokemonsEvoluir.length ? pokemonsEvoluir : this.pokemons,
+        );
+        this.equipe.push(
+          pokemonsForte[Math.floor(Math.random() * pokemonsForte.length)],
+        );
+        continue;
+      }
 
       switch (this.equipe.length) {
         case 0:

@@ -11,7 +11,7 @@ export const pokedex = [
       basico: { dano: 10, recarga: 1 },
       habilidade: { dano: 20, recarga: 5 },
     },
-    evolucao: 15,
+    evolucao: { pokedex: 1, especie: "Ivysaur", nivel: 15, buff: 20 },
     incremento: 2,
   },
   {
@@ -26,7 +26,7 @@ export const pokedex = [
       basico: { dano: 10, recarga: 1 },
       habilidade: { dano: 20, recarga: 5 },
     },
-    evolucao: 15,
+    evolucao: { pokedex: 1, especie: "Ivysaur", nivel: 15, buff: 20 },
     incremento: 2,
   },
   {
@@ -41,7 +41,7 @@ export const pokedex = [
       basico: { dano: 10, recarga: 1 },
       habilidade: { dano: 20, recarga: 5 },
     },
-    evolucao: 15,
+    evolucao: { pokedex: 1, especie: "Ivysaur", nivel: 15, buff: 20 },
     incremento: 2,
   },
   {
@@ -56,7 +56,7 @@ export const pokedex = [
       basico: { dano: 10, recarga: 1 },
       habilidade: { dano: 20, recarga: 5 },
     },
-    evolucao: 15,
+    evolucao: { pokedex: 1, especie: "Ivysaur", nivel: 15, buff: 20 },
     incremento: 2,
   },
   {
@@ -71,7 +71,7 @@ export const pokedex = [
       basico: { dano: 10, recarga: 1 },
       habilidade: { dano: 20, recarga: 5 },
     },
-    evolucao: 15,
+    evolucao: { pokedex: 1, especie: "Ivysaur", nivel: 15, buff: 20 },
     incremento: 2,
   },
   {
@@ -86,7 +86,7 @@ export const pokedex = [
       basico: { dano: 10, recarga: 1 },
       habilidade: { dano: 20, recarga: 5 },
     },
-    evolucao: 15,
+    evolucao: { pokedex: 1, especie: "Ivysaur", nivel: 15, buff: 20 },
     incremento: 2,
   },
   {
@@ -101,7 +101,7 @@ export const pokedex = [
       basico: { dano: 10, recarga: 1 },
       habilidade: { dano: 20, recarga: 5 },
     },
-    evolucao: 15,
+    evolucao: { pokedex: 1, especie: "Ivysaur", nivel: 15, buff: 20 },
     incremento: 2,
   },
   {
@@ -116,7 +116,7 @@ export const pokedex = [
       basico: { dano: 10, recarga: 1 },
       habilidade: { dano: 20, recarga: 5 },
     },
-    evolucao: 15,
+    evolucao: { pokedex: 1, especie: "Ivysaur", nivel: 15, buff: 20 },
     incremento: 2,
   },
   {
@@ -131,7 +131,7 @@ export const pokedex = [
       basico: { dano: 10, recarga: 1 },
       habilidade: { dano: 20, recarga: 5 },
     },
-    evolucao: 15,
+    evolucao: { pokedex: 1, especie: "Ivysaur", nivel: 15, buff: 20 },
     incremento: 2,
   },
   {
@@ -146,7 +146,7 @@ export const pokedex = [
       basico: { dano: 10, recarga: 1 },
       habilidade: { dano: 20, recarga: 5 },
     },
-    evolucao: 15,
+    evolucao: { pokedex: 1, especie: "Ivysaur", nivel: 15, buff: 20 },
     incremento: 2,
   },
   {
@@ -161,7 +161,7 @@ export const pokedex = [
       basico: { dano: 10, recarga: 1 },
       habilidade: { dano: 20, recarga: 5 },
     },
-    evolucao: 15,
+    evolucao: { pokedex: 1, especie: "Ivysaur", nivel: 15, buff: 20 },
     incremento: 2,
   },
   {
@@ -176,7 +176,7 @@ export const pokedex = [
       basico: { dano: 10, recarga: 1 },
       habilidade: { dano: 20, recarga: 5 },
     },
-    evolucao: 15,
+    evolucao: { pokedex: 1, especie: "Ivysaur", nivel: 15, buff: 20 },
     incremento: 2,
   },
   {
@@ -191,7 +191,7 @@ export const pokedex = [
       basico: { dano: 10, recarga: 1 },
       habilidade: { dano: 20, recarga: 5 },
     },
-    evolucao: 15,
+    evolucao: { pokedex: 1, especie: "Ivysaur", nivel: 15, buff: 20 },
     incremento: 2,
   },
   {
@@ -206,7 +206,7 @@ export const pokedex = [
       basico: { dano: 10, recarga: 1 },
       habilidade: { dano: 20, recarga: 5 },
     },
-    evolucao: 15,
+    evolucao: { pokedex: 1, especie: "Ivysaur", nivel: 15, buff: 20 },
     incremento: 2,
   },
   {
@@ -221,7 +221,7 @@ export const pokedex = [
       basico: { dano: 10, recarga: 1 },
       habilidade: { dano: 20, recarga: 5 },
     },
-    evolucao: 15,
+    evolucao: { pokedex: 1, especie: "Ivysaur", nivel: 15, buff: 20 },
     incremento: 2,
   },
   {
@@ -236,7 +236,7 @@ export const pokedex = [
       basico: { dano: 10, recarga: 1 },
       habilidade: { dano: 20, recarga: 5 },
     },
-    evolucao: 15,
+    evolucao: { pokedex: 1, especie: "Ivysaur", nivel: 15, buff: 20 },
     incremento: 2,
   },
   {
@@ -251,7 +251,7 @@ export const pokedex = [
       basico: { dano: 10, recarga: 1 },
       habilidade: { dano: 20, recarga: 5 },
     },
-    evolucao: 15,
+    evolucao: { pokedex: 1, especie: "Ivysaur", nivel: 15, buff: 20 },
     incremento: 2,
   },
   {
@@ -266,7 +266,7 @@ export const pokedex = [
       basico: { dano: 10, recarga: 1 },
       habilidade: { dano: 20, recarga: 5 },
     },
-    evolucao: 15,
+    evolucao: { pokedex: 1, especie: "Ivysaur", nivel: 15, buff: 20 },
     incremento: 2,
   },
   {
@@ -281,7 +281,7 @@ export const pokedex = [
       basico: { dano: 10, recarga: 1 },
       habilidade: { dano: 20, recarga: 5 },
     },
-    evolucao: 15,
+    evolucao: { pokedex: 1, especie: "Ivysaur", nivel: 15, buff: 20 },
     incremento: 2,
   },
   {
@@ -296,7 +296,7 @@ export const pokedex = [
       basico: { dano: 10, recarga: 1 },
       habilidade: { dano: 20, recarga: 5 },
     },
-    evolucao: 15,
+    evolucao: { pokedex: 1, especie: "Ivysaur", nivel: 15, buff: 20 },
     incremento: 2,
   },
   {
@@ -311,7 +311,7 @@ export const pokedex = [
       basico: { dano: 10, recarga: 1 },
       habilidade: { dano: 20, recarga: 5 },
     },
-    evolucao: 15,
+    evolucao: { pokedex: 1, especie: "Ivysaur", nivel: 15, buff: 20 },
     incremento: 2,
   },
   {
@@ -326,7 +326,7 @@ export const pokedex = [
       basico: { dano: 10, recarga: 1 },
       habilidade: { dano: 20, recarga: 5 },
     },
-    evolucao: 15,
+    evolucao: { pokedex: 1, especie: "Ivysaur", nivel: 15, buff: 20 },
     incremento: 2,
   },
   {
@@ -341,7 +341,7 @@ export const pokedex = [
       basico: { dano: 10, recarga: 1 },
       habilidade: { dano: 20, recarga: 5 },
     },
-    evolucao: 15,
+    evolucao: { pokedex: 1, especie: "Ivysaur", nivel: 15, buff: 20 },
     incremento: 2,
   },
   {
@@ -356,7 +356,7 @@ export const pokedex = [
       basico: { dano: 10, recarga: 1 },
       habilidade: { dano: 20, recarga: 5 },
     },
-    evolucao: 15,
+    evolucao: { pokedex: 1, especie: "Ivysaur", nivel: 15, buff: 20 },
     incremento: 2,
   },
   {
@@ -371,7 +371,7 @@ export const pokedex = [
       basico: { dano: 10, recarga: 1 },
       habilidade: { dano: 20, recarga: 5 },
     },
-    evolucao: 15,
+    evolucao: { pokedex: 1, especie: "Ivysaur", nivel: 15, buff: 20 },
     incremento: 2,
   },
   {
@@ -386,7 +386,7 @@ export const pokedex = [
       basico: { dano: 10, recarga: 1 },
       habilidade: { dano: 20, recarga: 5 },
     },
-    evolucao: 15,
+    evolucao: { pokedex: 1, especie: "Ivysaur", nivel: 15, buff: 20 },
     incremento: 2,
   },
   {
@@ -401,7 +401,7 @@ export const pokedex = [
       basico: { dano: 10, recarga: 1 },
       habilidade: { dano: 20, recarga: 5 },
     },
-    evolucao: 15,
+    evolucao: { pokedex: 1, especie: "Ivysaur", nivel: 15, buff: 20 },
     incremento: 2,
   },
   {
@@ -416,7 +416,7 @@ export const pokedex = [
       basico: { dano: 10, recarga: 1 },
       habilidade: { dano: 20, recarga: 5 },
     },
-    evolucao: 15,
+    evolucao: { pokedex: 1, especie: "Ivysaur", nivel: 15, buff: 20 },
     incremento: 2,
   },
   {
@@ -431,7 +431,7 @@ export const pokedex = [
       basico: { dano: 10, recarga: 1 },
       habilidade: { dano: 20, recarga: 5 },
     },
-    evolucao: 15,
+    evolucao: { pokedex: 1, especie: "Ivysaur", nivel: 15, buff: 20 },
     incremento: 2,
   },
   {
@@ -446,7 +446,7 @@ export const pokedex = [
       basico: { dano: 10, recarga: 1 },
       habilidade: { dano: 20, recarga: 5 },
     },
-    evolucao: 15,
+    evolucao: { pokedex: 1, especie: "Ivysaur", nivel: 15, buff: 20 },
     incremento: 2,
   },
   {
@@ -461,7 +461,7 @@ export const pokedex = [
       basico: { dano: 10, recarga: 1 },
       habilidade: { dano: 20, recarga: 5 },
     },
-    evolucao: 15,
+    evolucao: { pokedex: 1, especie: "Ivysaur", nivel: 15, buff: 20 },
     incremento: 2,
   },
   {
@@ -476,7 +476,7 @@ export const pokedex = [
       basico: { dano: 10, recarga: 1 },
       habilidade: { dano: 20, recarga: 5 },
     },
-    evolucao: 15,
+    evolucao: { pokedex: 1, especie: "Ivysaur", nivel: 15, buff: 20 },
     incremento: 2,
   },
   {
@@ -491,7 +491,7 @@ export const pokedex = [
       basico: { dano: 10, recarga: 1 },
       habilidade: { dano: 20, recarga: 5 },
     },
-    evolucao: 15,
+    evolucao: { pokedex: 1, especie: "Ivysaur", nivel: 15, buff: 20 },
     incremento: 2,
   },
   {
@@ -506,7 +506,7 @@ export const pokedex = [
       basico: { dano: 10, recarga: 1 },
       habilidade: { dano: 20, recarga: 5 },
     },
-    evolucao: 15,
+    evolucao: { pokedex: 1, especie: "Ivysaur", nivel: 15, buff: 20 },
     incremento: 2,
   },
   {
@@ -521,7 +521,7 @@ export const pokedex = [
       basico: { dano: 10, recarga: 1 },
       habilidade: { dano: 20, recarga: 5 },
     },
-    evolucao: 15,
+    evolucao: { pokedex: 1, especie: "Ivysaur", nivel: 15, buff: 20 },
     incremento: 2,
   },
   {
@@ -536,7 +536,7 @@ export const pokedex = [
       basico: { dano: 10, recarga: 1 },
       habilidade: { dano: 20, recarga: 5 },
     },
-    evolucao: 15,
+    evolucao: { pokedex: 1, especie: "Ivysaur", nivel: 15, buff: 20 },
     incremento: 2,
   },
   {
@@ -551,7 +551,7 @@ export const pokedex = [
       basico: { dano: 10, recarga: 1 },
       habilidade: { dano: 20, recarga: 5 },
     },
-    evolucao: 15,
+    evolucao: { pokedex: 1, especie: "Ivysaur", nivel: 15, buff: 20 },
     incremento: 2,
   },
   {
@@ -566,7 +566,7 @@ export const pokedex = [
       basico: { dano: 10, recarga: 1 },
       habilidade: { dano: 20, recarga: 5 },
     },
-    evolucao: 15,
+    evolucao: { pokedex: 1, especie: "Ivysaur", nivel: 15, buff: 20 },
     incremento: 2,
   },
   {
@@ -581,7 +581,7 @@ export const pokedex = [
       basico: { dano: 10, recarga: 1 },
       habilidade: { dano: 20, recarga: 5 },
     },
-    evolucao: 15,
+    evolucao: { pokedex: 1, especie: "Ivysaur", nivel: 15, buff: 20 },
     incremento: 2,
   },
   {
@@ -596,7 +596,7 @@ export const pokedex = [
       basico: { dano: 10, recarga: 1 },
       habilidade: { dano: 20, recarga: 5 },
     },
-    evolucao: 15,
+    evolucao: { pokedex: 1, especie: "Ivysaur", nivel: 15, buff: 20 },
     incremento: 2,
   },
   {
@@ -611,7 +611,7 @@ export const pokedex = [
       basico: { dano: 10, recarga: 1 },
       habilidade: { dano: 20, recarga: 5 },
     },
-    evolucao: 15,
+    evolucao: { pokedex: 1, especie: "Ivysaur", nivel: 15, buff: 20 },
     incremento: 2,
   },
   {
@@ -626,7 +626,7 @@ export const pokedex = [
       basico: { dano: 10, recarga: 1 },
       habilidade: { dano: 20, recarga: 5 },
     },
-    evolucao: 15,
+    evolucao: { pokedex: 1, especie: "Ivysaur", nivel: 15, buff: 20 },
     incremento: 2,
   },
   {
@@ -641,7 +641,7 @@ export const pokedex = [
       basico: { dano: 10, recarga: 1 },
       habilidade: { dano: 20, recarga: 5 },
     },
-    evolucao: 15,
+    evolucao: { pokedex: 1, especie: "Ivysaur", nivel: 15, buff: 20 },
     incremento: 2,
   },
   {
@@ -656,7 +656,7 @@ export const pokedex = [
       basico: { dano: 10, recarga: 1 },
       habilidade: { dano: 20, recarga: 5 },
     },
-    evolucao: 15,
+    evolucao: { pokedex: 1, especie: "Ivysaur", nivel: 15, buff: 20 },
     incremento: 2,
   },
   {
@@ -671,7 +671,7 @@ export const pokedex = [
       basico: { dano: 10, recarga: 1 },
       habilidade: { dano: 20, recarga: 5 },
     },
-    evolucao: 15,
+    evolucao: { pokedex: 1, especie: "Ivysaur", nivel: 15, buff: 20 },
     incremento: 2,
   },
   {
@@ -686,7 +686,7 @@ export const pokedex = [
       basico: { dano: 10, recarga: 1 },
       habilidade: { dano: 20, recarga: 5 },
     },
-    evolucao: 15,
+    evolucao: { pokedex: 1, especie: "Ivysaur", nivel: 15, buff: 20 },
     incremento: 2,
   },
   {
@@ -701,7 +701,7 @@ export const pokedex = [
       basico: { dano: 10, recarga: 1 },
       habilidade: { dano: 20, recarga: 5 },
     },
-    evolucao: 15,
+    evolucao: { pokedex: 1, especie: "Ivysaur", nivel: 15, buff: 20 },
     incremento: 2,
   },
   {
@@ -716,7 +716,7 @@ export const pokedex = [
       basico: { dano: 10, recarga: 1 },
       habilidade: { dano: 20, recarga: 5 },
     },
-    evolucao: 15,
+    evolucao: { pokedex: 1, especie: "Ivysaur", nivel: 15, buff: 20 },
     incremento: 2,
   },
   {
@@ -731,7 +731,7 @@ export const pokedex = [
       basico: { dano: 10, recarga: 1 },
       habilidade: { dano: 20, recarga: 5 },
     },
-    evolucao: 15,
+    evolucao: { pokedex: 1, especie: "Ivysaur", nivel: 15, buff: 20 },
     incremento: 2,
   },
   {
@@ -746,7 +746,7 @@ export const pokedex = [
       basico: { dano: 10, recarga: 1 },
       habilidade: { dano: 20, recarga: 5 },
     },
-    evolucao: 15,
+    evolucao: { pokedex: 1, especie: "Ivysaur", nivel: 15, buff: 20 },
     incremento: 2,
   },
   {
@@ -761,7 +761,7 @@ export const pokedex = [
       basico: { dano: 10, recarga: 1 },
       habilidade: { dano: 20, recarga: 5 },
     },
-    evolucao: 15,
+    evolucao: { pokedex: 1, especie: "Ivysaur", nivel: 15, buff: 20 },
     incremento: 2,
   },
   {
@@ -776,7 +776,7 @@ export const pokedex = [
       basico: { dano: 10, recarga: 1 },
       habilidade: { dano: 20, recarga: 5 },
     },
-    evolucao: 15,
+    evolucao: { pokedex: 1, especie: "Ivysaur", nivel: 15, buff: 20 },
     incremento: 2,
   },
   {
@@ -791,7 +791,7 @@ export const pokedex = [
       basico: { dano: 10, recarga: 1 },
       habilidade: { dano: 20, recarga: 5 },
     },
-    evolucao: 15,
+    evolucao: { pokedex: 1, especie: "Ivysaur", nivel: 15, buff: 20 },
     incremento: 2,
   },
   {
@@ -806,7 +806,7 @@ export const pokedex = [
       basico: { dano: 10, recarga: 1 },
       habilidade: { dano: 20, recarga: 5 },
     },
-    evolucao: 15,
+    evolucao: { pokedex: 1, especie: "Ivysaur", nivel: 15, buff: 20 },
     incremento: 2,
   },
   {
@@ -821,7 +821,7 @@ export const pokedex = [
       basico: { dano: 10, recarga: 1 },
       habilidade: { dano: 20, recarga: 5 },
     },
-    evolucao: 15,
+    evolucao: { pokedex: 1, especie: "Ivysaur", nivel: 15, buff: 20 },
     incremento: 2,
   },
   {
@@ -836,7 +836,7 @@ export const pokedex = [
       basico: { dano: 10, recarga: 1 },
       habilidade: { dano: 20, recarga: 5 },
     },
-    evolucao: 15,
+    evolucao: { pokedex: 1, especie: "Ivysaur", nivel: 15, buff: 20 },
     incremento: 2,
   },
   {
@@ -851,7 +851,7 @@ export const pokedex = [
       basico: { dano: 10, recarga: 1 },
       habilidade: { dano: 20, recarga: 5 },
     },
-    evolucao: 15,
+    evolucao: { pokedex: 1, especie: "Ivysaur", nivel: 15, buff: 20 },
     incremento: 2,
   },
   {
@@ -866,7 +866,7 @@ export const pokedex = [
       basico: { dano: 10, recarga: 1 },
       habilidade: { dano: 20, recarga: 5 },
     },
-    evolucao: 15,
+    evolucao: { pokedex: 1, especie: "Ivysaur", nivel: 15, buff: 20 },
     incremento: 2,
   },
   {
@@ -881,7 +881,7 @@ export const pokedex = [
       basico: { dano: 10, recarga: 1 },
       habilidade: { dano: 20, recarga: 5 },
     },
-    evolucao: 15,
+    evolucao: { pokedex: 1, especie: "Ivysaur", nivel: 15, buff: 20 },
     incremento: 2,
   },
   {
@@ -896,7 +896,7 @@ export const pokedex = [
       basico: { dano: 10, recarga: 1 },
       habilidade: { dano: 20, recarga: 5 },
     },
-    evolucao: 15,
+    evolucao: { pokedex: 1, especie: "Ivysaur", nivel: 15, buff: 20 },
     incremento: 2,
   },
   {
@@ -911,7 +911,7 @@ export const pokedex = [
       basico: { dano: 10, recarga: 1 },
       habilidade: { dano: 20, recarga: 5 },
     },
-    evolucao: 15,
+    evolucao: { pokedex: 1, especie: "Ivysaur", nivel: 15, buff: 20 },
     incremento: 2,
   },
   {
@@ -926,7 +926,7 @@ export const pokedex = [
       basico: { dano: 10, recarga: 1 },
       habilidade: { dano: 20, recarga: 5 },
     },
-    evolucao: 15,
+    evolucao: { pokedex: 1, especie: "Ivysaur", nivel: 15, buff: 20 },
     incremento: 2,
   },
   {
@@ -941,7 +941,7 @@ export const pokedex = [
       basico: { dano: 10, recarga: 1 },
       habilidade: { dano: 20, recarga: 5 },
     },
-    evolucao: 15,
+    evolucao: { pokedex: 1, especie: "Ivysaur", nivel: 15, buff: 20 },
     incremento: 2,
   },
   {
@@ -956,7 +956,7 @@ export const pokedex = [
       basico: { dano: 10, recarga: 1 },
       habilidade: { dano: 20, recarga: 5 },
     },
-    evolucao: 15,
+    evolucao: { pokedex: 1, especie: "Ivysaur", nivel: 15, buff: 20 },
     incremento: 2,
   },
   {
@@ -971,7 +971,7 @@ export const pokedex = [
       basico: { dano: 10, recarga: 1 },
       habilidade: { dano: 20, recarga: 5 },
     },
-    evolucao: 15,
+    evolucao: { pokedex: 1, especie: "Ivysaur", nivel: 15, buff: 20 },
     incremento: 2,
   },
   {
@@ -986,7 +986,7 @@ export const pokedex = [
       basico: { dano: 10, recarga: 1 },
       habilidade: { dano: 20, recarga: 5 },
     },
-    evolucao: 15,
+    evolucao: { pokedex: 1, especie: "Ivysaur", nivel: 15, buff: 20 },
     incremento: 2,
   },
   {
@@ -1001,7 +1001,7 @@ export const pokedex = [
       basico: { dano: 10, recarga: 1 },
       habilidade: { dano: 20, recarga: 5 },
     },
-    evolucao: 15,
+    evolucao: { pokedex: 1, especie: "Ivysaur", nivel: 15, buff: 20 },
     incremento: 2,
   },
   {
@@ -1016,7 +1016,7 @@ export const pokedex = [
       basico: { dano: 10, recarga: 1 },
       habilidade: { dano: 20, recarga: 5 },
     },
-    evolucao: 15,
+    evolucao: { pokedex: 1, especie: "Ivysaur", nivel: 15, buff: 20 },
     incremento: 2,
   },
   {
@@ -1031,7 +1031,7 @@ export const pokedex = [
       basico: { dano: 10, recarga: 1 },
       habilidade: { dano: 20, recarga: 5 },
     },
-    evolucao: 15,
+    evolucao: { pokedex: 1, especie: "Ivysaur", nivel: 15, buff: 20 },
     incremento: 2,
   },
   {
@@ -1046,7 +1046,7 @@ export const pokedex = [
       basico: { dano: 10, recarga: 1 },
       habilidade: { dano: 20, recarga: 5 },
     },
-    evolucao: 15,
+    evolucao: { pokedex: 1, especie: "Ivysaur", nivel: 15, buff: 20 },
     incremento: 2,
   },
   {
@@ -1061,7 +1061,7 @@ export const pokedex = [
       basico: { dano: 10, recarga: 1 },
       habilidade: { dano: 20, recarga: 5 },
     },
-    evolucao: 15,
+    evolucao: { pokedex: 1, especie: "Ivysaur", nivel: 15, buff: 20 },
     incremento: 2,
   },
   {
@@ -1076,7 +1076,7 @@ export const pokedex = [
       basico: { dano: 10, recarga: 1 },
       habilidade: { dano: 20, recarga: 5 },
     },
-    evolucao: 15,
+    evolucao: { pokedex: 1, especie: "Ivysaur", nivel: 15, buff: 20 },
     incremento: 2,
   },
   {
@@ -1091,7 +1091,7 @@ export const pokedex = [
       basico: { dano: 10, recarga: 1 },
       habilidade: { dano: 20, recarga: 5 },
     },
-    evolucao: 15,
+    evolucao: { pokedex: 1, especie: "Ivysaur", nivel: 15, buff: 20 },
     incremento: 2,
   },
   {
@@ -1106,7 +1106,7 @@ export const pokedex = [
       basico: { dano: 10, recarga: 1 },
       habilidade: { dano: 20, recarga: 5 },
     },
-    evolucao: 15,
+    evolucao: { pokedex: 1, especie: "Ivysaur", nivel: 15, buff: 20 },
     incremento: 2,
   },
   {
@@ -1121,7 +1121,7 @@ export const pokedex = [
       basico: { dano: 10, recarga: 1 },
       habilidade: { dano: 20, recarga: 5 },
     },
-    evolucao: 15,
+    evolucao: { pokedex: 1, especie: "Ivysaur", nivel: 15, buff: 20 },
     incremento: 2,
   },
   {
@@ -1136,7 +1136,7 @@ export const pokedex = [
       basico: { dano: 10, recarga: 1 },
       habilidade: { dano: 20, recarga: 5 },
     },
-    evolucao: 15,
+    evolucao: { pokedex: 1, especie: "Ivysaur", nivel: 15, buff: 20 },
     incremento: 2,
   },
   {
@@ -1151,7 +1151,7 @@ export const pokedex = [
       basico: { dano: 10, recarga: 1 },
       habilidade: { dano: 20, recarga: 5 },
     },
-    evolucao: 15,
+    evolucao: { pokedex: 1, especie: "Ivysaur", nivel: 15, buff: 20 },
     incremento: 2,
   },
   {
@@ -1166,7 +1166,7 @@ export const pokedex = [
       basico: { dano: 10, recarga: 1 },
       habilidade: { dano: 20, recarga: 5 },
     },
-    evolucao: 15,
+    evolucao: { pokedex: 1, especie: "Ivysaur", nivel: 15, buff: 20 },
     incremento: 2,
   },
   {
@@ -1181,7 +1181,7 @@ export const pokedex = [
       basico: { dano: 10, recarga: 1 },
       habilidade: { dano: 20, recarga: 5 },
     },
-    evolucao: 15,
+    evolucao: { pokedex: 1, especie: "Ivysaur", nivel: 15, buff: 20 },
     incremento: 2,
   },
   {
@@ -1196,7 +1196,7 @@ export const pokedex = [
       basico: { dano: 10, recarga: 1 },
       habilidade: { dano: 20, recarga: 5 },
     },
-    evolucao: 15,
+    evolucao: { pokedex: 1, especie: "Ivysaur", nivel: 15, buff: 20 },
     incremento: 2,
   },
   {
@@ -1211,7 +1211,7 @@ export const pokedex = [
       basico: { dano: 10, recarga: 1 },
       habilidade: { dano: 20, recarga: 5 },
     },
-    evolucao: 15,
+    evolucao: { pokedex: 1, especie: "Ivysaur", nivel: 15, buff: 20 },
     incremento: 2,
   },
   {
@@ -1226,7 +1226,7 @@ export const pokedex = [
       basico: { dano: 10, recarga: 1 },
       habilidade: { dano: 20, recarga: 5 },
     },
-    evolucao: 15,
+    evolucao: { pokedex: 1, especie: "Ivysaur", nivel: 15, buff: 20 },
     incremento: 2,
   },
   {
@@ -1241,7 +1241,7 @@ export const pokedex = [
       basico: { dano: 10, recarga: 1 },
       habilidade: { dano: 20, recarga: 5 },
     },
-    evolucao: 15,
+    evolucao: { pokedex: 1, especie: "Ivysaur", nivel: 15, buff: 20 },
     incremento: 2,
   },
   {
@@ -1256,7 +1256,7 @@ export const pokedex = [
       basico: { dano: 10, recarga: 1 },
       habilidade: { dano: 20, recarga: 5 },
     },
-    evolucao: 15,
+    evolucao: { pokedex: 1, especie: "Ivysaur", nivel: 15, buff: 20 },
     incremento: 2,
   },
   {
@@ -1271,7 +1271,7 @@ export const pokedex = [
       basico: { dano: 10, recarga: 1 },
       habilidade: { dano: 20, recarga: 5 },
     },
-    evolucao: 15,
+    evolucao: { pokedex: 1, especie: "Ivysaur", nivel: 15, buff: 20 },
     incremento: 2,
   },
   {
@@ -1286,7 +1286,7 @@ export const pokedex = [
       basico: { dano: 10, recarga: 1 },
       habilidade: { dano: 20, recarga: 5 },
     },
-    evolucao: 15,
+    evolucao: { pokedex: 1, especie: "Ivysaur", nivel: 15, buff: 20 },
     incremento: 2,
   },
   {
@@ -1301,7 +1301,7 @@ export const pokedex = [
       basico: { dano: 10, recarga: 1 },
       habilidade: { dano: 20, recarga: 5 },
     },
-    evolucao: 15,
+    evolucao: { pokedex: 1, especie: "Ivysaur", nivel: 15, buff: 20 },
     incremento: 2,
   },
   {
@@ -1316,7 +1316,7 @@ export const pokedex = [
       basico: { dano: 10, recarga: 1 },
       habilidade: { dano: 20, recarga: 5 },
     },
-    evolucao: 15,
+    evolucao: { pokedex: 1, especie: "Ivysaur", nivel: 15, buff: 20 },
     incremento: 2,
   },
   {
@@ -1331,7 +1331,7 @@ export const pokedex = [
       basico: { dano: 10, recarga: 1 },
       habilidade: { dano: 20, recarga: 5 },
     },
-    evolucao: 15,
+    evolucao: { pokedex: 1, especie: "Ivysaur", nivel: 15, buff: 20 },
     incremento: 2,
   },
   {
@@ -1346,7 +1346,7 @@ export const pokedex = [
       basico: { dano: 10, recarga: 1 },
       habilidade: { dano: 20, recarga: 5 },
     },
-    evolucao: 15,
+    evolucao: { pokedex: 1, especie: "Ivysaur", nivel: 15, buff: 20 },
     incremento: 2,
   },
   {
@@ -1361,7 +1361,7 @@ export const pokedex = [
       basico: { dano: 10, recarga: 1 },
       habilidade: { dano: 20, recarga: 5 },
     },
-    evolucao: 15,
+    evolucao: { pokedex: 1, especie: "Ivysaur", nivel: 15, buff: 20 },
     incremento: 2,
   },
   {
@@ -1376,7 +1376,7 @@ export const pokedex = [
       basico: { dano: 10, recarga: 1 },
       habilidade: { dano: 20, recarga: 5 },
     },
-    evolucao: 15,
+    evolucao: { pokedex: 1, especie: "Ivysaur", nivel: 15, buff: 20 },
     incremento: 2,
   },
   {
@@ -1391,7 +1391,7 @@ export const pokedex = [
       basico: { dano: 10, recarga: 1 },
       habilidade: { dano: 20, recarga: 5 },
     },
-    evolucao: 15,
+    evolucao: { pokedex: 1, especie: "Ivysaur", nivel: 15, buff: 20 },
     incremento: 2,
   },
   {
@@ -1406,7 +1406,7 @@ export const pokedex = [
       basico: { dano: 10, recarga: 1 },
       habilidade: { dano: 20, recarga: 5 },
     },
-    evolucao: 15,
+    evolucao: { pokedex: 1, especie: "Ivysaur", nivel: 15, buff: 20 },
     incremento: 2,
   },
   {
@@ -1421,7 +1421,7 @@ export const pokedex = [
       basico: { dano: 10, recarga: 1 },
       habilidade: { dano: 20, recarga: 5 },
     },
-    evolucao: 15,
+    evolucao: { pokedex: 1, especie: "Ivysaur", nivel: 15, buff: 20 },
     incremento: 2,
   },
   {
@@ -1436,7 +1436,7 @@ export const pokedex = [
       basico: { dano: 10, recarga: 1 },
       habilidade: { dano: 20, recarga: 5 },
     },
-    evolucao: 15,
+    evolucao: { pokedex: 1, especie: "Ivysaur", nivel: 15, buff: 20 },
     incremento: 2,
   },
   {
@@ -1451,7 +1451,7 @@ export const pokedex = [
       basico: { dano: 10, recarga: 1 },
       habilidade: { dano: 20, recarga: 5 },
     },
-    evolucao: 15,
+    evolucao: { pokedex: 1, especie: "Ivysaur", nivel: 15, buff: 20 },
     incremento: 2,
   },
   {
@@ -1466,7 +1466,7 @@ export const pokedex = [
       basico: { dano: 10, recarga: 1 },
       habilidade: { dano: 20, recarga: 5 },
     },
-    evolucao: 15,
+    evolucao: { pokedex: 1, especie: "Ivysaur", nivel: 15, buff: 20 },
     incremento: 2,
   },
   {
@@ -1481,7 +1481,7 @@ export const pokedex = [
       basico: { dano: 10, recarga: 1 },
       habilidade: { dano: 20, recarga: 5 },
     },
-    evolucao: 15,
+    evolucao: { pokedex: 1, especie: "Ivysaur", nivel: 15, buff: 20 },
     incremento: 2,
   },
   {
@@ -1496,7 +1496,7 @@ export const pokedex = [
       basico: { dano: 10, recarga: 1 },
       habilidade: { dano: 20, recarga: 5 },
     },
-    evolucao: 15,
+    evolucao: { pokedex: 1, especie: "Ivysaur", nivel: 15, buff: 20 },
     incremento: 2,
   },
   {
@@ -1511,7 +1511,7 @@ export const pokedex = [
       basico: { dano: 10, recarga: 1 },
       habilidade: { dano: 20, recarga: 5 },
     },
-    evolucao: 15,
+    evolucao: { pokedex: 1, especie: "Ivysaur", nivel: 15, buff: 20 },
     incremento: 2,
   },
   {
@@ -1526,12 +1526,12 @@ export const pokedex = [
       basico: { dano: 10, recarga: 1 },
       habilidade: { dano: 20, recarga: 5 },
     },
-    evolucao: 15,
+    evolucao: { pokedex: 1, especie: "Ivysaur", nivel: 15, buff: 20 },
     incremento: 2,
   },
   {
     pokedex: 103,
-    estaAtivo: true,
+    estaAtivo: false,
     especie: "Exeggutor",
     tipos: ["grama", "psiquico"],
     vida: 100,
@@ -1541,7 +1541,7 @@ export const pokedex = [
       basico: { dano: 10, recarga: 1 },
       habilidade: { dano: 20, recarga: 5 },
     },
-    evolucao: 15,
+    evolucao: { pokedex: 1, especie: "Ivysaur", nivel: 15, buff: 20 },
     incremento: 2,
   },
   {
@@ -1556,7 +1556,7 @@ export const pokedex = [
       basico: { dano: 10, recarga: 1 },
       habilidade: { dano: 20, recarga: 5 },
     },
-    evolucao: 15,
+    evolucao: { pokedex: 1, especie: "Ivysaur", nivel: 15, buff: 20 },
     incremento: 2,
   },
   {
@@ -1571,7 +1571,7 @@ export const pokedex = [
       basico: { dano: 10, recarga: 1 },
       habilidade: { dano: 20, recarga: 5 },
     },
-    evolucao: 15,
+    evolucao: { pokedex: 1, especie: "Ivysaur", nivel: 15, buff: 20 },
     incremento: 2,
   },
   {
@@ -1586,7 +1586,7 @@ export const pokedex = [
       basico: { dano: 10, recarga: 1 },
       habilidade: { dano: 20, recarga: 5 },
     },
-    evolucao: 15,
+    evolucao: { pokedex: 1, especie: "Ivysaur", nivel: 15, buff: 20 },
     incremento: 2,
   },
   {
@@ -1601,7 +1601,7 @@ export const pokedex = [
       basico: { dano: 10, recarga: 1 },
       habilidade: { dano: 20, recarga: 5 },
     },
-    evolucao: 15,
+    evolucao: { pokedex: 1, especie: "Ivysaur", nivel: 15, buff: 20 },
     incremento: 2,
   },
   {
@@ -1616,7 +1616,7 @@ export const pokedex = [
       basico: { dano: 10, recarga: 1 },
       habilidade: { dano: 20, recarga: 5 },
     },
-    evolucao: 15,
+    evolucao: { pokedex: 1, especie: "Ivysaur", nivel: 15, buff: 20 },
     incremento: 2,
   },
   {
@@ -1631,7 +1631,7 @@ export const pokedex = [
       basico: { dano: 10, recarga: 1 },
       habilidade: { dano: 20, recarga: 5 },
     },
-    evolucao: 15,
+    evolucao: { pokedex: 1, especie: "Ivysaur", nivel: 15, buff: 20 },
     incremento: 2,
   },
   {
@@ -1646,7 +1646,7 @@ export const pokedex = [
       basico: { dano: 10, recarga: 1 },
       habilidade: { dano: 20, recarga: 5 },
     },
-    evolucao: 15,
+    evolucao: { pokedex: 1, especie: "Ivysaur", nivel: 15, buff: 20 },
     incremento: 2,
   },
   {
@@ -1661,7 +1661,7 @@ export const pokedex = [
       basico: { dano: 10, recarga: 1 },
       habilidade: { dano: 20, recarga: 5 },
     },
-    evolucao: 15,
+    evolucao: { pokedex: 1, especie: "Ivysaur", nivel: 15, buff: 20 },
     incremento: 2,
   },
   {
@@ -1676,7 +1676,7 @@ export const pokedex = [
       basico: { dano: 10, recarga: 1 },
       habilidade: { dano: 20, recarga: 5 },
     },
-    evolucao: 15,
+    evolucao: { pokedex: 1, especie: "Ivysaur", nivel: 15, buff: 20 },
     incremento: 2,
   },
   {
@@ -1691,7 +1691,7 @@ export const pokedex = [
       basico: { dano: 10, recarga: 1 },
       habilidade: { dano: 20, recarga: 5 },
     },
-    evolucao: 15,
+    evolucao: { pokedex: 1, especie: "Ivysaur", nivel: 15, buff: 20 },
     incremento: 2,
   },
   {
@@ -1706,7 +1706,7 @@ export const pokedex = [
       basico: { dano: 10, recarga: 1 },
       habilidade: { dano: 20, recarga: 5 },
     },
-    evolucao: 15,
+    evolucao: { pokedex: 1, especie: "Ivysaur", nivel: 15, buff: 20 },
     incremento: 2,
   },
   {
@@ -1721,7 +1721,7 @@ export const pokedex = [
       basico: { dano: 10, recarga: 1 },
       habilidade: { dano: 20, recarga: 5 },
     },
-    evolucao: 15,
+    evolucao: { pokedex: 1, especie: "Ivysaur", nivel: 15, buff: 20 },
     incremento: 2,
   },
   {
@@ -1736,7 +1736,7 @@ export const pokedex = [
       basico: { dano: 10, recarga: 1 },
       habilidade: { dano: 20, recarga: 5 },
     },
-    evolucao: 15,
+    evolucao: { pokedex: 1, especie: "Ivysaur", nivel: 15, buff: 20 },
     incremento: 2,
   },
   {
@@ -1751,7 +1751,7 @@ export const pokedex = [
       basico: { dano: 10, recarga: 1 },
       habilidade: { dano: 20, recarga: 5 },
     },
-    evolucao: 15,
+    evolucao: { pokedex: 1, especie: "Ivysaur", nivel: 15, buff: 20 },
     incremento: 2,
   },
   {
@@ -1766,7 +1766,7 @@ export const pokedex = [
       basico: { dano: 10, recarga: 1 },
       habilidade: { dano: 20, recarga: 5 },
     },
-    evolucao: 15,
+    evolucao: { pokedex: 1, especie: "Ivysaur", nivel: 15, buff: 20 },
     incremento: 2,
   },
   {
@@ -1781,7 +1781,7 @@ export const pokedex = [
       basico: { dano: 10, recarga: 1 },
       habilidade: { dano: 20, recarga: 5 },
     },
-    evolucao: 15,
+    evolucao: { pokedex: 1, especie: "Ivysaur", nivel: 15, buff: 20 },
     incremento: 2,
   },
   {
@@ -1796,7 +1796,7 @@ export const pokedex = [
       basico: { dano: 10, recarga: 1 },
       habilidade: { dano: 20, recarga: 5 },
     },
-    evolucao: 15,
+    evolucao: { pokedex: 1, especie: "Ivysaur", nivel: 15, buff: 20 },
     incremento: 2,
   },
   {
@@ -1811,7 +1811,7 @@ export const pokedex = [
       basico: { dano: 10, recarga: 1 },
       habilidade: { dano: 20, recarga: 5 },
     },
-    evolucao: 15,
+    evolucao: { pokedex: 1, especie: "Ivysaur", nivel: 15, buff: 20 },
     incremento: 2,
   },
   {
@@ -1826,7 +1826,7 @@ export const pokedex = [
       basico: { dano: 10, recarga: 1 },
       habilidade: { dano: 20, recarga: 5 },
     },
-    evolucao: 15,
+    evolucao: { pokedex: 1, especie: "Ivysaur", nivel: 15, buff: 20 },
     incremento: 2,
   },
   {
@@ -1841,7 +1841,7 @@ export const pokedex = [
       basico: { dano: 10, recarga: 1 },
       habilidade: { dano: 20, recarga: 5 },
     },
-    evolucao: 15,
+    evolucao: { pokedex: 1, especie: "Ivysaur", nivel: 15, buff: 20 },
     incremento: 2,
   },
   {
@@ -1856,7 +1856,7 @@ export const pokedex = [
       basico: { dano: 10, recarga: 1 },
       habilidade: { dano: 20, recarga: 5 },
     },
-    evolucao: 15,
+    evolucao: { pokedex: 1, especie: "Ivysaur", nivel: 15, buff: 20 },
     incremento: 2,
   },
   {
@@ -1871,7 +1871,7 @@ export const pokedex = [
       basico: { dano: 10, recarga: 1 },
       habilidade: { dano: 20, recarga: 5 },
     },
-    evolucao: 15,
+    evolucao: { pokedex: 1, especie: "Ivysaur", nivel: 15, buff: 20 },
     incremento: 2,
   },
   {
@@ -1886,7 +1886,7 @@ export const pokedex = [
       basico: { dano: 10, recarga: 1 },
       habilidade: { dano: 20, recarga: 5 },
     },
-    evolucao: 15,
+    evolucao: { pokedex: 1, especie: "Ivysaur", nivel: 15, buff: 20 },
     incremento: 2,
   },
   {
@@ -1901,7 +1901,7 @@ export const pokedex = [
       basico: { dano: 10, recarga: 1 },
       habilidade: { dano: 20, recarga: 5 },
     },
-    evolucao: 15,
+    evolucao: { pokedex: 1, especie: "Ivysaur", nivel: 15, buff: 20 },
     incremento: 2,
   },
   {
@@ -1916,7 +1916,7 @@ export const pokedex = [
       basico: { dano: 10, recarga: 1 },
       habilidade: { dano: 20, recarga: 5 },
     },
-    evolucao: 15,
+    evolucao: { pokedex: 1, especie: "Ivysaur", nivel: 15, buff: 20 },
     incremento: 2,
   },
   {
@@ -1931,7 +1931,7 @@ export const pokedex = [
       basico: { dano: 10, recarga: 1 },
       habilidade: { dano: 20, recarga: 5 },
     },
-    evolucao: 15,
+    evolucao: { pokedex: 1, especie: "Ivysaur", nivel: 15, buff: 20 },
     incremento: 2,
   },
   {
@@ -1946,7 +1946,7 @@ export const pokedex = [
       basico: { dano: 10, recarga: 1 },
       habilidade: { dano: 20, recarga: 5 },
     },
-    evolucao: 15,
+    evolucao: { pokedex: 1, especie: "Ivysaur", nivel: 15, buff: 20 },
     incremento: 2,
   },
   {
@@ -1961,7 +1961,7 @@ export const pokedex = [
       basico: { dano: 10, recarga: 1 },
       habilidade: { dano: 20, recarga: 5 },
     },
-    evolucao: 15,
+    evolucao: { pokedex: 1, especie: "Ivysaur", nivel: 15, buff: 20 },
     incremento: 2,
   },
   {
@@ -1976,7 +1976,7 @@ export const pokedex = [
       basico: { dano: 10, recarga: 1 },
       habilidade: { dano: 20, recarga: 5 },
     },
-    evolucao: 15,
+    evolucao: { pokedex: 1, especie: "Ivysaur", nivel: 15, buff: 20 },
     incremento: 2,
   },
   {
@@ -1991,7 +1991,7 @@ export const pokedex = [
       basico: { dano: 10, recarga: 1 },
       habilidade: { dano: 20, recarga: 5 },
     },
-    evolucao: 15,
+    evolucao: { pokedex: 1, especie: "Ivysaur", nivel: 15, buff: 20 },
     incremento: 2,
   },
   {
@@ -2006,7 +2006,7 @@ export const pokedex = [
       basico: { dano: 10, recarga: 1 },
       habilidade: { dano: 20, recarga: 5 },
     },
-    evolucao: 15,
+    evolucao: { pokedex: 1, especie: "Ivysaur", nivel: 15, buff: 20 },
     incremento: 2,
   },
   {
@@ -2021,7 +2021,7 @@ export const pokedex = [
       basico: { dano: 10, recarga: 1 },
       habilidade: { dano: 20, recarga: 5 },
     },
-    evolucao: 15,
+    evolucao: { pokedex: 1, especie: "Ivysaur", nivel: 15, buff: 20 },
     incremento: 2,
   },
   {
@@ -2036,7 +2036,7 @@ export const pokedex = [
       basico: { dano: 10, recarga: 1 },
       habilidade: { dano: 20, recarga: 5 },
     },
-    evolucao: 15,
+    evolucao: { pokedex: 1, especie: "Ivysaur", nivel: 15, buff: 20 },
     incremento: 2,
   },
   {
@@ -2051,7 +2051,7 @@ export const pokedex = [
       basico: { dano: 10, recarga: 1 },
       habilidade: { dano: 20, recarga: 5 },
     },
-    evolucao: 15,
+    evolucao: { pokedex: 1, especie: "Ivysaur", nivel: 15, buff: 20 },
     incremento: 2,
   },
   {
@@ -2066,7 +2066,7 @@ export const pokedex = [
       basico: { dano: 10, recarga: 1 },
       habilidade: { dano: 20, recarga: 5 },
     },
-    evolucao: 15,
+    evolucao: { pokedex: 1, especie: "Ivysaur", nivel: 15, buff: 20 },
     incremento: 2,
   },
   {
@@ -2081,7 +2081,7 @@ export const pokedex = [
       basico: { dano: 10, recarga: 1 },
       habilidade: { dano: 20, recarga: 5 },
     },
-    evolucao: 15,
+    evolucao: { pokedex: 1, especie: "Ivysaur", nivel: 15, buff: 20 },
     incremento: 2,
   },
   {
@@ -2096,7 +2096,7 @@ export const pokedex = [
       basico: { dano: 10, recarga: 1 },
       habilidade: { dano: 20, recarga: 5 },
     },
-    evolucao: 15,
+    evolucao: { pokedex: 1, especie: "Ivysaur", nivel: 15, buff: 20 },
     incremento: 2,
   },
   {
@@ -2111,7 +2111,7 @@ export const pokedex = [
       basico: { dano: 10, recarga: 1 },
       habilidade: { dano: 20, recarga: 5 },
     },
-    evolucao: 15,
+    evolucao: { pokedex: 1, especie: "Ivysaur", nivel: 15, buff: 20 },
     incremento: 2,
   },
   {
@@ -2126,7 +2126,7 @@ export const pokedex = [
       basico: { dano: 10, recarga: 1 },
       habilidade: { dano: 20, recarga: 5 },
     },
-    evolucao: 15,
+    evolucao: { pokedex: 1, especie: "Ivysaur", nivel: 15, buff: 20 },
     incremento: 2,
   },
   {
@@ -2141,7 +2141,7 @@ export const pokedex = [
       basico: { dano: 10, recarga: 1 },
       habilidade: { dano: 20, recarga: 5 },
     },
-    evolucao: 15,
+    evolucao: { pokedex: 1, especie: "Ivysaur", nivel: 15, buff: 20 },
     incremento: 2,
   },
   {
@@ -2156,7 +2156,7 @@ export const pokedex = [
       basico: { dano: 10, recarga: 1 },
       habilidade: { dano: 20, recarga: 5 },
     },
-    evolucao: 15,
+    evolucao: { pokedex: 1, especie: "Ivysaur", nivel: 15, buff: 20 },
     incremento: 2,
   },
   {
@@ -2171,7 +2171,7 @@ export const pokedex = [
       basico: { dano: 10, recarga: 1 },
       habilidade: { dano: 20, recarga: 5 },
     },
-    evolucao: 15,
+    evolucao: { pokedex: 1, especie: "Ivysaur", nivel: 15, buff: 20 },
     incremento: 2,
   },
   {
@@ -2186,7 +2186,7 @@ export const pokedex = [
       basico: { dano: 10, recarga: 1 },
       habilidade: { dano: 20, recarga: 5 },
     },
-    evolucao: 15,
+    evolucao: { pokedex: 1, especie: "Ivysaur", nivel: 15, buff: 20 },
     incremento: 2,
   },
   {
@@ -2201,7 +2201,7 @@ export const pokedex = [
       basico: { dano: 10, recarga: 1 },
       habilidade: { dano: 20, recarga: 5 },
     },
-    evolucao: 15,
+    evolucao: { pokedex: 1, especie: "Ivysaur", nivel: 15, buff: 20 },
     incremento: 2,
   },
   {
@@ -2216,7 +2216,7 @@ export const pokedex = [
       basico: { dano: 10, recarga: 1 },
       habilidade: { dano: 20, recarga: 5 },
     },
-    evolucao: 15,
+    evolucao: { pokedex: 1, especie: "Ivysaur", nivel: 15, buff: 20 },
     incremento: 2,
   },
   {
@@ -2231,7 +2231,7 @@ export const pokedex = [
       basico: { dano: 10, recarga: 1 },
       habilidade: { dano: 20, recarga: 5 },
     },
-    evolucao: 15,
+    evolucao: { pokedex: 1, especie: "Ivysaur", nivel: 15, buff: 20 },
     incremento: 2,
   },
   {
@@ -2246,7 +2246,7 @@ export const pokedex = [
       basico: { dano: 10, recarga: 1 },
       habilidade: { dano: 20, recarga: 5 },
     },
-    evolucao: 15,
+    evolucao: { pokedex: 1, especie: "Ivysaur", nivel: 15, buff: 20 },
     incremento: 2,
   },
   {
@@ -2261,7 +2261,7 @@ export const pokedex = [
       basico: { dano: 10, recarga: 1 },
       habilidade: { dano: 20, recarga: 5 },
     },
-    evolucao: 15,
+    evolucao: { pokedex: 1, especie: "Ivysaur", nivel: 15, buff: 20 },
     incremento: 2,
   },
 ];
