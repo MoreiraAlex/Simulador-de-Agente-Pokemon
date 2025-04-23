@@ -17,7 +17,7 @@ export function tiposEficazesContra(tipoDefensor) {
 export function posicaoAleatoriaBioma(
   bioma,
   matriz,
-  celula = 50,
+  celula,
   maxTentativas = 100,
 ) {
   const xMin = bioma.posX;
@@ -33,10 +33,12 @@ export function posicaoAleatoriaBioma(
     const y =
       Math.floor(Math.random() * ((yMax - yMin) / celula)) * celula + yMin;
 
-    const nodo = matriz.nodes[Math.floor(y / celula)][Math.floor(x / celula)];
+    if (x && y) {
+      const nodo = matriz.nodes[Math.floor(y / celula)][Math.floor(x / celula)];
 
-    if (nodo.walkable) {
-      return { x, y };
+      if (nodo.walkable) {
+        return { x, y };
+      }
     }
 
     tentativas++;
@@ -47,7 +49,11 @@ export function posicaoAleatoriaBioma(
 }
 
 export function atualizaPosicaoNaMatriz(matriz, posicao, celula, valor) {
-  matriz.nodes[Math.floor(posicao.y / celula)][
-    Math.floor(posicao.x / celula)
-  ].agente = valor;
+  const alvo =
+    matriz.nodes[Math.floor(posicao.y / celula)]?.[
+      Math.floor(posicao.x / celula)
+    ];
+  if (alvo) {
+    alvo.agente = valor;
+  }
 }

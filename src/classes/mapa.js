@@ -77,7 +77,7 @@ class Mapa {
       contexto.fillRect(base.posX, base.posY, base.largura, base.altura);
     });
 
-    this.grade(this.celula);
+    // this.grade(this.celula);
   }
 
   grade(tamanhoCelula) {
@@ -132,12 +132,53 @@ class Mapa {
     biomas.forEach((bioma) => {
       const pokemons = pokedex.filter(
         (pokemon) =>
-          bioma.tipos.includes(pokemon.tipos[0]) && pokemon.estaAtivo,
+          bioma.tipos.includes(pokemon.tipos[0]) &&
+          // pokemon.estaAtivo &&
+          (pokemon.especie === "Bulbasaur" ||
+            pokemon.especie === "Ivysaur" ||
+            pokemon.especie === "Venusaur" ||
+            pokemon.especie === "Charmander" ||
+            pokemon.especie === "Charmeleon" ||
+            pokemon.especie === "Charizard" ||
+            pokemon.especie === "Squirtle" ||
+            pokemon.especie === "Wartortle" ||
+            pokemon.especie === "Blastoise" ||
+            pokemon.especie === "Caterpie" ||
+            pokemon.especie === "Metapod" ||
+            pokemon.especie === "Butterfree" ||
+            pokemon.especie === "Weedle" ||
+            pokemon.especie === "Kakuna" ||
+            pokemon.especie === "Beedrill" ||
+            pokemon.especie === "Pidgey" ||
+            pokemon.especie === "Pidgeotto" ||
+            pokemon.especie === "Pidgeot" ||
+            pokemon.especie === "Rattata" ||
+            pokemon.especie === "Raticate" ||
+            pokemon.especie === "Spearow" ||
+            pokemon.especie === "teste"),
+        // pokemon.especie === "Onix" ||
+        // pokemon.especie === "Pikachu" ||
+        // pokemon.especie === "Ekans" ||
+        // pokemon.especie === "Ponyta" ||
+        // pokemon.especie === "Pidgey" ||
+        // pokemon.especie === "Weedle" ||
+        // pokemon.especie === "Caterpie" ||
+        // pokemon.especie === "Sandshrew" ||
+        // pokemon.especie === "Zubat" ||
+        // pokemon.especie === "Spearow" ||
+        // pokemon.especie === "Rattata" ||
+        // pokemon.especie === "Abra" ||
+        // pokemon.especie === "Articuno" ||
+        // pokemon.especie === "Zapdos" ||
+        // pokemon.especie === "Moltres"
       );
 
+      if (!pokemons.length) return;
+
       const pokerdm = [];
-      while (pokerdm.length < 4) {
+      while (pokerdm.length < 3) {
         const poke = pokemons[Math.floor(Math.random() * pokemons.length)];
+
         const pokemon = new Pokemon(
           (Math.random() + poke.pokedex * 1000).toFixed(0),
           "red",
@@ -162,11 +203,7 @@ class Mapa {
       }
 
       pokerdm.forEach((pokemon) => {
-        const { x, y } = posicaoAleatoriaBioma(
-          bioma,
-          this.matriz,
-          this.tamanho,
-        );
+        const { x, y } = posicaoAleatoriaBioma(bioma, this.matriz, celula);
 
         pokemon.posicao = { x, y };
         atualizaPosicaoNaMatriz(

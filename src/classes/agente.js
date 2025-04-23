@@ -46,8 +46,9 @@ class Agente {
         // if (this.especie !== "humana") return;
         // eslint-disable-next-line no-undef
         const img = new Image();
-        img.src = `./recursos/humana/${direcao}${String(i).padStart(2, "0")}.png`;
-        // img.src = `./recursos/${this.especie}/${direcao}${String(i).padStart(2, "0")}.png`;
+        // img.src = `./recursos/humana/${direcao}${String(i).padStart(2, "0")}.png`;
+        img.src = `./recursos/${this.especie}/${direcao}${String(i).padStart(2, "0")}.png`;
+
         this.imagens[direcao].push(img);
       }
     }
@@ -56,14 +57,20 @@ class Agente {
   }
 
   desenha(contexto) {
+    contexto.font = "48px Arial";
+    contexto.fillStyle = this.cor;
     if (this.especie === "humana") {
-      contexto.font = "48px Arial";
-      contexto.fillStyle = this.cor;
       contexto.fillText(
         `#${this.id}`,
         this.posicao.x - 10,
         this.posicao.y - 10,
       );
+    } else if (!this.paraMovimento) {
+      // contexto.fillText(
+      //   `${this.especie}`,
+      //   this.posicao.x - 10,
+      //   this.posicao.y - 10,
+      // );
     }
     // if (this.especie !== "humana") {
     //   contexto.fillStyle = "red";
@@ -132,12 +139,17 @@ class Agente {
     const intervalo =
       32 / (globalThis.multiplicador * (1 + (this.velocidade - 1) * 0.25));
 
+    if (this.frame === Math.floor(intervalo / 2)) {
+      // Troca a imagem no meio do caminho
+      this.imagem = this.imagem === 0 ? 2 : this.imagem === 1 ? 2 : 1;
+    }
+
     if (this.frame >= intervalo) {
       const proximo = this.caminho.shift();
 
       if (proximo) {
         this.defineDirecao(proximo);
-        this.imagem = this.imagem === 1 ? 2 : 1;
+        // this.imagem = this.imagem === 0 ? 2 : this.imagem === 1 ? 2 : 1;
 
         atualizaPosicaoNaMatriz(mapa.matriz, this.posicao, this.tamanho, 0);
         this.posicao = {

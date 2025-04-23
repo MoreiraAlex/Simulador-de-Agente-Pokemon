@@ -9,7 +9,7 @@ class Simulacao {
     this.cronometro = config.cronometro;
     this.agentes = [];
 
-    this.celula = 50;
+    this.celula = 100;
     this.frame = null;
     this.multiplicador = config.multiplicador;
 
