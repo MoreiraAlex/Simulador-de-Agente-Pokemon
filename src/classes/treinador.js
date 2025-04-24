@@ -237,8 +237,12 @@ class Treinador extends Agente {
     alvo.paraMovimento = true;
     alvo.resistencia--;
 
-    const batalha = new Batalha(mapa, agentes, contexto);
-    batalha.batalha(this, alvo).then();
+    try {
+      const batalha = new Batalha(mapa, agentes, contexto);
+      batalha.batalha(this, alvo).then();
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   montaEquipe(biomas) {

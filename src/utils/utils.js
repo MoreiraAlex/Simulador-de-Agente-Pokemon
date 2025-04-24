@@ -33,10 +33,13 @@ export function posicaoAleatoriaBioma(
     const y =
       Math.floor(Math.random() * ((yMax - yMin) / celula)) * celula + yMin;
 
-    if (x && y) {
-      const nodo = matriz.nodes[Math.floor(y / celula)][Math.floor(x / celula)];
+    const linha = Math.min(Math.floor(y / celula), matriz.height - 1);
+    const coluna = Math.min(Math.floor(x / celula), matriz.width - 1);
 
-      if (nodo.walkable) {
+    if (linha && coluna) {
+      const nodo = matriz.nodes[linha][coluna];
+
+      if (nodo?.walkable) {
         return { x, y };
       }
     }

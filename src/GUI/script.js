@@ -100,9 +100,9 @@ function adicionaRemoveTreinador(config) {
       <div class="space-y-1 text-xs">
         <p class="font-semibold">Pokémon Inicial:</p>
         <div class="flex gap-1 flex-wrap">
-          <button class="config atributo pokemon-btn bg-gray-900 text-white px-2 py-1 rounded" aria-selected="true" value="Bulbasaur">Bulbasaur</button>
-          <button class="config atributo pokemon-btn bg-gray-500 text-white px-2 py-1 rounded" aria-selected="false" value="Charmander">Charmander</button>
-          <button class="config atributo pokemon-btn bg-gray-500 text-white px-2 py-1 rounded" aria-selected="false" value="Squirtle">Squirtle</button>
+          <button class="config atributo pokemon-btn${treinador.id} bg-gray-900 text-white px-2 py-1 rounded" aria-selected="true" value="Bulbasaur">Bulbasaur</button>
+          <button class="config atributo pokemon-btn${treinador.id} bg-gray-500 text-white px-2 py-1 rounded" aria-selected="false" value="Charmander">Charmander</button>
+          <button class="config atributo pokemon-btn${treinador.id} bg-gray-500 text-white px-2 py-1 rounded" aria-selected="false" value="Squirtle">Squirtle</button>
         </div>
       </div>
 
@@ -145,12 +145,12 @@ function adicionaRemoveTreinador(config) {
       });
     });
 
-    treinador.querySelectorAll(".pokemon-btn").forEach((btn) => {
+    treinador.querySelectorAll(`.pokemon-btn${treinador.id}`).forEach((btn) => {
       btn.addEventListener("click", () => {
         if (btn.disabled) return;
 
         const parent = btn.parentElement;
-        parent.querySelectorAll(".pokemon-btn").forEach((b) => {
+        parent.querySelectorAll(`.pokemon-btn${treinador.id}`).forEach((b) => {
           b.ariaSelected = "false";
           b.classList.remove("bg-gray-900");
           b.classList.add("bg-gray-500");
@@ -688,7 +688,7 @@ function simulação(listaTreinadores, config) {
             treinador.estrategia = elemento.value;
           } else {
             treinador.pokemon = pokedex.find(
-              (poke) => (poke.especie = elemento.value),
+              (poke) => poke.especie === elemento.value,
             );
           }
         }

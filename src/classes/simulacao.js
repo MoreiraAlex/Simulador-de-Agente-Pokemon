@@ -1,6 +1,7 @@
 import Mapa from "./mapa.js";
 import Treinador from "./treinador.js";
 import Pokemon from "./pokemon.js";
+import { atualizaPosicaoNaMatriz } from "../utils/utils.js";
 
 class Simulacao {
   constructor(config) {
@@ -9,7 +10,7 @@ class Simulacao {
     this.cronometro = config.cronometro;
     this.agentes = [];
 
-    this.celula = 100;
+    this.celula = 50;
     this.frame = null;
     this.multiplicador = config.multiplicador;
 
@@ -77,8 +78,14 @@ class Simulacao {
 
       treinador.base = { x, y };
       treinador.posicao = { x, y };
-      this.mapa.matriz.nodes[y / this.celula][x / this.celula].agente =
-        treinador.id;
+
+      atualizaPosicaoNaMatriz(
+        this.mapa.matriz,
+        treinador.posicao,
+        treinador.taamanho,
+        treinador.id,
+      );
+
       treinador.desenha(this.contexto);
     });
   }
