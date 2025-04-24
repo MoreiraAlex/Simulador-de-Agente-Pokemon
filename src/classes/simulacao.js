@@ -101,12 +101,13 @@ class Simulacao {
       setTimeout(() => (this.invocou = false), 2000 / globalThis.multiplicador);
     }
 
-    this.agentes.forEach((t) => {
-      t.acao(this.contexto, this.mapa, this.agentes);
+    this.agentes.forEach((a) => {
+      a.acao(this.contexto, this.mapa, this.agentes);
     });
 
-    this.agentes.forEach((t) => {
-      t.desenha(this.contexto);
+    this.agentes.forEach((a) => {
+      a.desenha(this.contexto);
+      a.desenhaTexto(this.contexto);
     });
 
     // eslint-disable-next-line no-undef

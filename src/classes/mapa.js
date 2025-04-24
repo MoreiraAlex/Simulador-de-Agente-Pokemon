@@ -133,50 +133,164 @@ class Mapa {
       const pokemons = pokedex.filter(
         (pokemon) =>
           bioma.tipos.includes(pokemon.tipos[0]) &&
-          // pokemon.estaAtivo &&
-          (pokemon.especie === "Bulbasaur" ||
-            pokemon.especie === "Ivysaur" ||
-            pokemon.especie === "Venusaur" ||
-            pokemon.especie === "Charmander" ||
-            pokemon.especie === "Charmeleon" ||
-            pokemon.especie === "Charizard" ||
-            pokemon.especie === "Squirtle" ||
-            pokemon.especie === "Wartortle" ||
-            pokemon.especie === "Blastoise" ||
-            pokemon.especie === "Caterpie" ||
-            pokemon.especie === "Metapod" ||
-            pokemon.especie === "Butterfree" ||
-            pokemon.especie === "Weedle" ||
-            pokemon.especie === "Kakuna" ||
-            pokemon.especie === "Beedrill" ||
-            pokemon.especie === "Pidgey" ||
-            pokemon.especie === "Pidgeotto" ||
-            pokemon.especie === "Pidgeot" ||
-            pokemon.especie === "Rattata" ||
-            pokemon.especie === "Raticate" ||
-            pokemon.especie === "Spearow" ||
-            pokemon.especie === "teste"),
-        // pokemon.especie === "Onix" ||
-        // pokemon.especie === "Pikachu" ||
-        // pokemon.especie === "Ekans" ||
-        // pokemon.especie === "Ponyta" ||
-        // pokemon.especie === "Pidgey" ||
-        // pokemon.especie === "Weedle" ||
-        // pokemon.especie === "Caterpie" ||
-        // pokemon.especie === "Sandshrew" ||
-        // pokemon.especie === "Zubat" ||
-        // pokemon.especie === "Spearow" ||
-        // pokemon.especie === "Rattata" ||
-        // pokemon.especie === "Abra" ||
-        // pokemon.especie === "Articuno" ||
-        // pokemon.especie === "Zapdos" ||
-        // pokemon.especie === "Moltres"
+          pokemon.estaAtivo &&
+          // pokemon.especie !== "Bulbasaur" &&
+          // pokemon.especie !== "Ivysaur" &&
+          // pokemon.especie !== "Venusaur" &&
+          // pokemon.especie !== "Charmander" &&
+          // pokemon.especie !== "Charmeleon" &&
+          // pokemon.especie !== "Charizard" &&
+          // pokemon.especie !== "Squirtle" &&
+          // pokemon.especie !== "Wartortle" &&
+          // pokemon.especie !== "Blastoise" &&
+          // pokemon.especie !== "Caterpie" &&
+          // pokemon.especie !== "Metapod" &&
+          // pokemon.especie !== "Butterfree" &&
+          // pokemon.especie !== "Weedle" &&
+          // pokemon.especie !== "Kakuna" &&
+          // pokemon.especie !== "Beedrill" &&
+          // pokemon.especie !== "Pidgey" &&
+          // pokemon.especie !== "Pidgeotto" &&
+          // pokemon.especie !== "Pidgeot" &&
+          // pokemon.especie !== "Rattata" &&
+          // pokemon.especie !== "Raticate" &&
+          // pokemon.especie !== "Spearow" &&
+          // pokemon.especie !== "Fearow" &&
+          // pokemon.especie !== "Ekans" &&
+          // pokemon.especie !== "Arbok" &&
+          // pokemon.especie !== "Pikachu" &&
+          pokemon.especie !== "Raichu" &&
+          pokemon.especie !== "Sandshrew" &&
+          pokemon.especie !== "Sandslash" &&
+          pokemon.especie !== "Nidoran♀" &&
+          pokemon.especie !== "Nidorina" &&
+          pokemon.especie !== "Nidoqueen" &&
+          pokemon.especie !== "Nidoran♂" &&
+          pokemon.especie !== "Nidorino" &&
+          pokemon.especie !== "Nidoking" &&
+          pokemon.especie !== "Clefairy" &&
+          pokemon.especie !== "Clefable" &&
+          pokemon.especie !== "Vulpix" &&
+          pokemon.especie !== "Ninetales" &&
+          pokemon.especie !== "Jigglypuff" &&
+          pokemon.especie !== "Wigglytuff" &&
+          pokemon.especie !== "Zubat" &&
+          pokemon.especie !== "Golbat" &&
+          pokemon.especie !== "Oddish" &&
+          pokemon.especie !== "Gloom" &&
+          pokemon.especie !== "Vileplume" &&
+          pokemon.especie !== "Paras" &&
+          pokemon.especie !== "Parasect" &&
+          pokemon.especie !== "Venonat" &&
+          pokemon.especie !== "Venomoth" &&
+          pokemon.especie !== "Diglett" &&
+          pokemon.especie !== "Dugtrio" &&
+          pokemon.especie !== "Meowth" &&
+          pokemon.especie !== "Persian" &&
+          pokemon.especie !== "Psyduck" &&
+          pokemon.especie !== "Golduck" &&
+          pokemon.especie !== "Mankey" &&
+          pokemon.especie !== "Primeape" &&
+          pokemon.especie !== "Growlithe" &&
+          pokemon.especie !== "Arcanine" &&
+          pokemon.especie !== "Poliwag" &&
+          pokemon.especie !== "Poliwhirl" &&
+          pokemon.especie !== "Poliwrath" &&
+          pokemon.especie !== "Abra" &&
+          pokemon.especie !== "Kadabra" &&
+          pokemon.especie !== "Alakazam" &&
+          pokemon.especie !== "Machop" &&
+          pokemon.especie !== "Machoke" &&
+          pokemon.especie !== "Machamp" &&
+          pokemon.especie !== "Bellsprout" &&
+          pokemon.especie !== "Weepinbell" &&
+          pokemon.especie !== "Victreebel" &&
+          pokemon.especie !== "Tentacool" &&
+          pokemon.especie !== "Tentacruel" &&
+          pokemon.especie !== "Geodude" &&
+          pokemon.especie !== "Graveler" &&
+          pokemon.especie !== "Golem" &&
+          pokemon.especie !== "Ponyta" &&
+          pokemon.especie !== "Rapidash" &&
+          pokemon.especie !== "Slowpoke" &&
+          pokemon.especie !== "Slowbro" &&
+          pokemon.especie !== "Magnemite" &&
+          pokemon.especie !== "Magneton" &&
+          pokemon.especie !== "Farfetchd" &&
+          pokemon.especie !== "Doduo" &&
+          pokemon.especie !== "Dodrio" &&
+          pokemon.especie !== "Seel" &&
+          pokemon.especie !== "Dewgong" &&
+          pokemon.especie !== "Grimer" &&
+          pokemon.especie !== "Muk" &&
+          pokemon.especie !== "Shellder" &&
+          pokemon.especie !== "Cloyster" &&
+          pokemon.especie !== "Gastly" &&
+          pokemon.especie !== "Haunter" &&
+          pokemon.especie !== "Gengar" &&
+          pokemon.especie !== "Onix" &&
+          pokemon.especie !== "Drowzee" &&
+          pokemon.especie !== "Hypno" &&
+          pokemon.especie !== "Krabby" &&
+          pokemon.especie !== "Kingler" &&
+          pokemon.especie !== "Voltorb" &&
+          // pokemon.especie !== "Electrode" &&
+          // pokemon.especie !== "Exeggcute" &&
+          // pokemon.especie !== "Exeggutor" &&
+          // pokemon.especie !== "Cubone" &&
+          // pokemon.especie !== "Marowak" &&
+          // pokemon.especie !== "Hitmonlee" &&
+          // pokemon.especie !== "Hitmonchan" &&
+          // pokemon.especie !== "Lickitung" &&
+          // pokemon.especie !== "Koffing" &&
+          // pokemon.especie !== "Weezing" &&
+          // pokemon.especie !== "Rhyhorn" &&
+          // pokemon.especie !== "Rhydon" &&
+          // pokemon.especie !== "Chansey" &&
+          // pokemon.especie !== "Tangela" &&
+          // pokemon.especie !== "Kangaskhan" &&
+          // pokemon.especie !== "Horsea" &&
+          // pokemon.especie !== "Seadra" &&
+          // pokemon.especie !== "Goldeen" &&
+          // pokemon.especie !== "Seaking" &&
+          // pokemon.especie !== "Staryu" &&
+          // pokemon.especie !== "Starmie" &&
+          // pokemon.especie !== "Mr. Mime" &&
+          // pokemon.especie !== "Scyther" &&
+          // pokemon.especie !== "Jynx" &&
+          // pokemon.especie !== "Electabuzz" &&
+          pokemon.especie !== "Magmar" &&
+          pokemon.especie !== "Pinsir" &&
+          pokemon.especie !== "Tauros" &&
+          pokemon.especie !== "Magikarp" &&
+          pokemon.especie !== "Gyarados" &&
+          pokemon.especie !== "Lapras" &&
+          pokemon.especie !== "Ditto" &&
+          pokemon.especie !== "Eevee" &&
+          pokemon.especie !== "Vaporeon" &&
+          pokemon.especie !== "Jolteon" &&
+          pokemon.especie !== "Flareon" &&
+          pokemon.especie !== "Porygon" &&
+          pokemon.especie !== "Omanyte" &&
+          pokemon.especie !== "Omastar" &&
+          pokemon.especie !== "Kabuto" &&
+          pokemon.especie !== "Kabutops" &&
+          pokemon.especie !== "Aerodactyl" &&
+          pokemon.especie !== "Snorlax" &&
+          pokemon.especie !== "Articuno" &&
+          pokemon.especie !== "Zapdos" &&
+          pokemon.especie !== "Moltres" &&
+          pokemon.especie !== "Dratini" &&
+          pokemon.especie !== "Dragonair" &&
+          pokemon.especie !== "Dragonite" &&
+          pokemon.especie !== "Mewtwo" &&
+          pokemon.especie !== "Mew",
       );
 
       if (!pokemons.length) return;
 
       const pokerdm = [];
-      while (pokerdm.length < 3) {
+      while (pokerdm.length < 2) {
         const poke = pokemons[Math.floor(Math.random() * pokemons.length)];
 
         const pokemon = new Pokemon(
