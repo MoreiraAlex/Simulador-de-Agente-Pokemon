@@ -107,7 +107,6 @@ class Simulacao {
 
     this.agentes.forEach((a) => {
       a.desenha(this.contexto);
-      a.desenhaTexto(this.contexto);
     });
 
     // eslint-disable-next-line no-undef
