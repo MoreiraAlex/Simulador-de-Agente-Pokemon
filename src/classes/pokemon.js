@@ -25,6 +25,7 @@ class Pokemon extends Agente {
     super(id, cor, tamanho, especie, algoritimo);
     this.pokedex = pokedex;
     this.tipos = tipos;
+    this.vidaBase = vida;
     this.vida = vida;
     this.ataque = ataque;
     this.defesa = defesa;
@@ -67,14 +68,14 @@ class Pokemon extends Agente {
     return posicaoAleatoriaBioma(bioma, mapa.matriz, this.tamanho);
   }
 
-  sobeNivel(pokemons) {
+  sobeNivel(treinador) {
     const experienciaTotal = Number(this.nivel) * 10 + 90;
 
     if (this.experiencia >= experienciaTotal) {
       this.nivel++;
 
       const atributos = [
-        { vida: this.vida },
+        { vidaBase: this.vidaBase },
         { ataque: this.ataque },
         { defesa: this.defesa },
       ];
@@ -84,13 +85,19 @@ class Pokemon extends Agente {
 
       this[Object.keys(atributoMelhorado)] += this.incremento;
 
-      this.ataques.forEach((ataque) => {
-        ataque.recarga += this.incremento / 250;
-      });
+      this.ataques.basico.recarga += this.incremento / 250;
+
+      this.experiencia = this.experiencia - experienciaTotal;
 
       const pokemon = this.verificaEvolucao();
       if (pokemon) {
-        pokemons.push(pokemon);
+        treinador.equipe.splice(
+          treinador.equipe.findIndex((a) => a.id === pokemon.id),
+          1,
+        );
+
+        treinador.equipe.push(pokemon);
+        treinador.pokemons.push(pokemon);
       }
     }
   }
@@ -104,9 +111,9 @@ class Pokemon extends Agente {
     );
 
     return new Pokemon(
-      (Math.random() * 1000).toFixed(0),
+      this.id,
       "red",
-      this.celula,
+      this.tamanho,
       evolucao.especie,
       this.algoritimo,
       evolucao.pokedex,
