@@ -7,17 +7,17 @@ import {
 import Pokemon from "./pokemon.js";
 
 class Mapa {
-  constructor(canvas, contexto, celula, pf, algoritimo) {
+  constructor(canvas, contexto, celula, pf, algoritimo, sequence) {
     this.canvas = canvas;
     this.contexto = contexto;
     this.celula = celula;
     this.matriz = [];
     this.pf = pf;
     this.algoritimo = algoritimo;
+    this.sequence = sequence;
 
     this.biomas = biomas;
     this.obstaculos = obstaculos;
-
     this.base = [
       {
         posX: 100,
@@ -54,6 +54,7 @@ class Mapa {
     }
 
     this.biomas.forEach((bioma) => {
+      // contexto.fillStyle = "#C0C0C0";
       contexto.fillStyle = bioma.cor;
       contexto.fillRect(bioma.posX, bioma.posY, bioma.largura, bioma.altura);
     });
@@ -61,7 +62,7 @@ class Mapa {
     this.matriz.nodes.forEach((linha, i) => {
       linha.forEach((celula, j) => {
         if (!celula.walkable) {
-          contexto.fillStyle = "black";
+          contexto.fillStyle = "#808080";
           contexto.fillRect(
             j * this.celula,
             i * this.celula,
@@ -73,11 +74,11 @@ class Mapa {
     });
 
     this.base.forEach((base) => {
-      contexto.fillStyle = "yellow";
+      contexto.fillStyle = "#D3D3D3";
       contexto.fillRect(base.posX, base.posY, base.largura, base.altura);
     });
 
-    // this.grade(this.celula);
+    this.grade(this.celula);
   }
 
   grade(tamanhoCelula) {
@@ -86,7 +87,7 @@ class Mapa {
     const width = canvas.width;
     const height = canvas.height;
 
-    contexto.strokeStyle = "#ccc"; // cor das linhas
+    contexto.strokeStyle = "black"; // cor das linhas
 
     // desenha as linhas verticais
     for (let x = 0; x <= width; x += tamanhoCelula) {
@@ -130,85 +131,13 @@ class Mapa {
 
   pokeBioma(celula, agentes) {
     biomas.forEach((bioma) => {
+      // if (!bioma.tipos.some((tipo) => tipo === "normal")) return;
+
       const pokemons = pokedex.filter(
         (pokemon) =>
           bioma.tipos.includes(pokemon.tipos[0]) &&
           pokemon.estaAtivo &&
-          // pokemon.especie !== "Bulbasaur" &&
-          // pokemon.especie !== "Ivysaur" &&
-          // pokemon.especie !== "Venusaur" &&
-          // pokemon.especie !== "Charmander" &&
-          // pokemon.especie !== "Charmeleon" &&
-          // pokemon.especie !== "Charizard" &&
-          // pokemon.especie !== "Squirtle" &&
-          // pokemon.especie !== "Wartortle" &&
-          // pokemon.especie !== "Blastoise" &&
-          // pokemon.especie !== "Caterpie" &&
-          // pokemon.especie !== "Metapod" &&
-          // pokemon.especie !== "Butterfree" &&
-          // pokemon.especie !== "Weedle" &&
-          // pokemon.especie !== "Kakuna" &&
-          // pokemon.especie !== "Beedrill" &&
-          // pokemon.especie !== "Pidgey" &&
-          // pokemon.especie !== "Pidgeotto" &&
-          // pokemon.especie !== "Pidgeot" &&
-          // pokemon.especie !== "Rattata" &&
-          // pokemon.especie !== "Raticate" &&
-          // pokemon.especie !== "Spearow" &&
-          // pokemon.especie !== "Fearow" &&
-          // pokemon.especie !== "Ekans" &&
-          // pokemon.especie !== "Arbok" &&
-          // pokemon.especie !== "Pikachu" &&
-          pokemon.especie !== "Raichu" &&
-          pokemon.especie !== "Sandshrew" &&
-          pokemon.especie !== "Sandslash" &&
-          pokemon.especie !== "Nidoran♀" &&
-          pokemon.especie !== "Nidorina" &&
-          pokemon.especie !== "Nidoqueen" &&
-          pokemon.especie !== "Nidoran♂" &&
-          pokemon.especie !== "Nidorino" &&
-          pokemon.especie !== "Nidoking" &&
-          pokemon.especie !== "Clefairy" &&
-          pokemon.especie !== "Clefable" &&
-          pokemon.especie !== "Vulpix" &&
-          pokemon.especie !== "Ninetales" &&
-          pokemon.especie !== "Jigglypuff" &&
-          pokemon.especie !== "Wigglytuff" &&
-          pokemon.especie !== "Zubat" &&
-          pokemon.especie !== "Golbat" &&
-          pokemon.especie !== "Oddish" &&
-          pokemon.especie !== "Gloom" &&
-          pokemon.especie !== "Vileplume" &&
-          pokemon.especie !== "Paras" &&
-          pokemon.especie !== "Parasect" &&
-          pokemon.especie !== "Venonat" &&
-          pokemon.especie !== "Venomoth" &&
-          pokemon.especie !== "Diglett" &&
-          pokemon.especie !== "Dugtrio" &&
-          pokemon.especie !== "Meowth" &&
-          pokemon.especie !== "Persian" &&
-          pokemon.especie !== "Psyduck" &&
-          pokemon.especie !== "Golduck" &&
-          pokemon.especie !== "Mankey" &&
-          pokemon.especie !== "Primeape" &&
-          pokemon.especie !== "Growlithe" &&
-          pokemon.especie !== "Arcanine" &&
-          pokemon.especie !== "Poliwag" &&
-          pokemon.especie !== "Poliwhirl" &&
-          pokemon.especie !== "Poliwrath" &&
-          pokemon.especie !== "Abra" &&
-          pokemon.especie !== "Kadabra" &&
-          pokemon.especie !== "Alakazam" &&
-          pokemon.especie !== "Machop" &&
-          pokemon.especie !== "Machoke" &&
-          pokemon.especie !== "Machamp" &&
-          pokemon.especie !== "Bellsprout" &&
-          pokemon.especie !== "Weepinbell" &&
-          pokemon.especie !== "Victreebel" &&
-          pokemon.especie !== "Tentacool" &&
-          pokemon.especie !== "Tentacruel" &&
-          pokemon.especie !== "Geodude" &&
-          pokemon.especie !== "Graveler" &&
+          pokemon.especie !== "Dratini" &&
           pokemon.especie !== "Golem" &&
           pokemon.especie !== "Ponyta" &&
           pokemon.especie !== "Rapidash" &&
@@ -233,70 +162,44 @@ class Mapa {
           pokemon.especie !== "Hypno" &&
           pokemon.especie !== "Krabby" &&
           pokemon.especie !== "Kingler" &&
-          pokemon.especie !== "Voltorb" &&
-          // pokemon.especie !== "Electrode" &&
-          // pokemon.especie !== "Exeggcute" &&
-          // pokemon.especie !== "Exeggutor" &&
-          // pokemon.especie !== "Cubone" &&
-          // pokemon.especie !== "Marowak" &&
-          // pokemon.especie !== "Hitmonlee" &&
-          // pokemon.especie !== "Hitmonchan" &&
-          // pokemon.especie !== "Lickitung" &&
-          // pokemon.especie !== "Koffing" &&
-          // pokemon.especie !== "Weezing" &&
-          // pokemon.especie !== "Rhyhorn" &&
-          // pokemon.especie !== "Rhydon" &&
-          // pokemon.especie !== "Chansey" &&
-          // pokemon.especie !== "Tangela" &&
-          // pokemon.especie !== "Kangaskhan" &&
-          // pokemon.especie !== "Horsea" &&
-          // pokemon.especie !== "Seadra" &&
-          // pokemon.especie !== "Goldeen" &&
-          // pokemon.especie !== "Seaking" &&
-          // pokemon.especie !== "Staryu" &&
-          // pokemon.especie !== "Starmie" &&
-          // pokemon.especie !== "Mr. Mime" &&
-          // pokemon.especie !== "Scyther" &&
-          // pokemon.especie !== "Jynx" &&
-          // pokemon.especie !== "Electabuzz" &&
-          pokemon.especie !== "Magmar" &&
-          pokemon.especie !== "Pinsir" &&
-          pokemon.especie !== "Tauros" &&
-          pokemon.especie !== "Magikarp" &&
-          pokemon.especie !== "Gyarados" &&
-          pokemon.especie !== "Lapras" &&
-          pokemon.especie !== "Ditto" &&
-          pokemon.especie !== "Eevee" &&
-          pokemon.especie !== "Vaporeon" &&
-          pokemon.especie !== "Jolteon" &&
-          pokemon.especie !== "Flareon" &&
-          pokemon.especie !== "Porygon" &&
-          pokemon.especie !== "Omanyte" &&
-          pokemon.especie !== "Omastar" &&
-          pokemon.especie !== "Kabuto" &&
-          pokemon.especie !== "Kabutops" &&
-          pokemon.especie !== "Aerodactyl" &&
-          pokemon.especie !== "Snorlax" &&
-          pokemon.especie !== "Articuno" &&
-          pokemon.especie !== "Zapdos" &&
-          pokemon.especie !== "Moltres" &&
-          pokemon.especie !== "Dratini" &&
-          pokemon.especie !== "Dragonair" &&
-          pokemon.especie !== "Dragonite" &&
-          pokemon.especie !== "Mewtwo" &&
-          pokemon.especie !== "Mew",
+          pokemon.especie !== "Voltorb",
       );
 
       if (!pokemons.length) return;
 
+      const todosPokemons = agentes
+        .filter((agente) => agente.especie === "humana")
+        .flatMap((agente) => agente.pokemons);
+
+      const nivelMaisAlto = todosPokemons?.sort((a, b) => b.nivel - a.nivel)[0]
+        ?.nivel;
+
       const pokerdm = [];
-      while (pokerdm.length < 2) {
+      while (pokerdm.length < 1) {
         const poke = pokemons[Math.floor(Math.random() * pokemons.length)];
+        const nivel = Math.max(
+          1,
+          Math.floor(Math.random() * nivelMaisAlto - 3),
+        );
+
+        Array.from(Array(nivel - 1 || 0)).forEach(() => {
+          const atributos = [
+            { vida: poke.vida },
+            { ataque: poke.ataque },
+            { defesa: poke.defesa },
+          ];
+
+          const atributoMelhorado =
+            atributos[Math.floor(Math.random() * atributos.length)];
+
+          poke[Object.keys(atributoMelhorado)] += poke.incremento;
+
+          poke.ataques.basico.recarga += poke.incremento / 250;
+        });
 
         const pokemon = new Pokemon(
-          (Math.random() + poke.pokedex * 1000).toFixed(0),
-          "red",
-          celula,
+          this.sequence.next(),
+          celula * 2,
           poke.especie,
           this.algoritimo,
           poke.pokedex,
@@ -308,7 +211,7 @@ class Mapa {
           poke.evolucao,
           poke.incremento,
           0,
-          1,
+          nivel || 1,
           poke.estaAtivo,
         );
         if (!pokerdm.find((p) => p.especie === pokemon.especie)) {

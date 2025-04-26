@@ -6,7 +6,6 @@ import { tiposEficazesContra } from "../utils/utils.js";
 class Treinador extends Agente {
   constructor(
     id,
-    cor,
     velocidade,
     resistencia,
     visao,
@@ -16,7 +15,7 @@ class Treinador extends Agente {
     tamanho,
     algoritimo,
   ) {
-    super(id, cor, tamanho, "humana", algoritimo, velocidade, visao);
+    super(id, tamanho, "humana", algoritimo, velocidade, visao);
 
     this.resistenciaBase = resistencia;
     this.resistencia = resistencia;
@@ -27,6 +26,7 @@ class Treinador extends Agente {
   }
 
   acao(contexto, mapa, agentes) {
+    // this.invocaPokemon(mapa);
     this.pokemons.forEach((pokemon) => {
       if (!pokemon.pokeball) {
         pokemon.desenha(contexto);
@@ -64,6 +64,23 @@ class Treinador extends Agente {
     }
   }
 
+  invocaPokemon(mapa) {
+    const pokemon = this.equipe[0];
+    if (pokemon.pokeball) {
+      pokemon.posicao = this.posicao;
+    }
+
+    this.equipe.forEach((poke) => {
+      poke.pokeball = true;
+    });
+
+    pokemon.pokeball = false;
+    if (pokemon.paraMovimento) return;
+
+    pokemon.velocidade = this.velocidade;
+    pokemon.segueTreinador(mapa);
+  }
+
   buscaBioma(biomas) {
     const tipos = this.tiposEscasso(biomas);
     const tipo = tipos[Math.floor(Math.random() * tipos.length)];
@@ -78,18 +95,15 @@ class Treinador extends Agente {
   }
 
   tiposEscasso(biomas) {
-    const biomaAtual = biomas
-      .map((bioma) => {
-        const posicao = this.calculaDistancia(this.posicao, {
-          x: bioma.posX + bioma.largura / 2,
-          y: bioma.posY + bioma.altura / 2,
-        });
-        if (posicao <= 3) {
-          return bioma.tipo;
-        }
-        return null;
-      })
-      .filter((tipo) => tipo);
+    const biomaAtual = biomas.find((bioma) => {
+      const dentroX =
+        this.posicao.x >= bioma.posX &&
+        this.posicao.x <= bioma.posX + bioma.largura;
+      const dentroY =
+        this.posicao.y >= bioma.posY &&
+        this.posicao.y <= bioma.posY + bioma.altura;
+      return dentroX && dentroY;
+    })?.tipos;
 
     const tipos = Object.values(
       pokedex.reduce((acc, item) => {
@@ -139,16 +153,20 @@ class Treinador extends Agente {
       }
     });
 
-    tiposFaltantesTreinador.sort((a, b) => b.quantidade - a.quantidade);
+    const tiposFaltantesFiltrados = tiposFaltantesTreinador
+      .filter((t) => !biomaAtual.includes(t.tipo))
+      .sort((a, b) => b.quantidade - a.quantidade);
 
-    const maiorQuantidadeFaltante = tiposFaltantesTreinador[0].quantidade;
+    const maiorQuantidadeFaltante = tiposFaltantesFiltrados[0].quantidade;
     if (maiorQuantidadeFaltante === 0) {
       this.capturouTodos = true;
       return tipos.map((tipo) => tipo.tipo);
     }
 
     const maisEscassos = tiposFaltantesTreinador.filter(
-      (t) => t.quantidade === maiorQuantidadeFaltante && t.tipo !== biomaAtual,
+      (t) =>
+        t.quantidade === maiorQuantidadeFaltante &&
+        !biomaAtual.includes(t.tipo),
     );
 
     return maisEscassos.map((escasso) => escasso.tipo);
@@ -464,6 +482,8 @@ class Treinador extends Agente {
   reset(biomas) {
     this.paraMovimento = true;
     this.caminho = [];
+
+    this.equipe[0].pokeball = true;
 
     const tempoNaBase = this.resistenciaBase - this.resistencia;
     setTimeout(

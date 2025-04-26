@@ -1,3 +1,4 @@
+import Sequence from "../classes/sequence.js";
 import Simulacao from "../classes/simulacao.js";
 import { pokedex } from "../models/pokedex.js";
 
@@ -5,14 +6,17 @@ document.addEventListener("DOMContentLoaded", () => {
   window.lucide.createIcons();
 
   const canvas = document.querySelector("#game-canvas");
-  const ctx = canvas.getContext("2d");
+  const contexto = canvas.getContext("2d");
+
+  const sequence = new Sequence();
 
   const config = {
     canvas,
-    contexto: ctx,
+    contexto,
     multiplicador: 1,
     treinadores: 0,
     pathFinder: window.PF,
+    sequence,
   };
 
   GUI(config);
@@ -45,7 +49,7 @@ function adicionaRemoveTreinador(config) {
       "shadow-md",
       "bg-white",
     );
-    treinador.id = Math.floor((Math.random() * 1000) / config.treinadores);
+    treinador.id = config.sequence.next();
 
     treinador.innerHTML = `
       <div>
@@ -411,7 +415,7 @@ function multiplicadorControle(config, multiplicador, direcao) {
   let valor = Number(multiplicador.textContent);
 
   if (direcao === "atras" && valor > 1) valor /= 2;
-  else if (direcao === "frente" && valor < 8) valor *= 2;
+  else if (direcao === "frente" && valor < 32) valor *= 2;
 
   multiplicador.textContent = valor;
 

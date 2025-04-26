@@ -5,7 +5,6 @@ import Agente from "./agente.js";
 class Pokemon extends Agente {
   constructor(
     id,
-    cor,
     tamanho,
     especie,
     algoritimo,
@@ -20,9 +19,10 @@ class Pokemon extends Agente {
     experiencia,
     nivel,
     estaAtivo,
+    treinador = null,
     pokeball = true,
   ) {
-    super(id, cor, tamanho, especie, algoritimo);
+    super(id, tamanho, especie, algoritimo);
     this.pokedex = pokedex;
     this.tipos = tipos;
     this.vidaBase = vida;
@@ -35,6 +35,7 @@ class Pokemon extends Agente {
     this.experiencia = experiencia;
     this.nivel = nivel;
     this.estaAtivo = estaAtivo;
+    this.treinador = treinador;
     this.pokeball = pokeball;
   }
 
@@ -53,6 +54,17 @@ class Pokemon extends Agente {
         this.destino = this.moveBioma(mapa);
         break;
     }
+  }
+
+  segueTreinador() {
+    // const posicaoAlvo = calulaPosicaoVizinha(
+    //   mapa,
+    //   this.treinador,
+    //   this.tamanho,
+    //   this.algoritimo,
+    // );
+    // this.destino = posicaoAlvo;
+    // this.movimento(mapa);
   }
 
   moveBioma(mapa) {
@@ -112,7 +124,6 @@ class Pokemon extends Agente {
 
     return new Pokemon(
       this.id,
-      "red",
       this.tamanho,
       evolucao.especie,
       this.algoritimo,
@@ -127,6 +138,7 @@ class Pokemon extends Agente {
       this.experiencia,
       this.nivel,
       true,
+      this.treinador,
     );
   }
 }

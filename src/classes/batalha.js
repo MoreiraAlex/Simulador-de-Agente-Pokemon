@@ -2,6 +2,7 @@ import { tipos } from "../models/tipos.js";
 import {
   atualizaPosicaoNaMatriz,
   tiposEficazesContra,
+  Vizinhos,
 } from "../utils/utils.js";
 
 class Batalha {
@@ -107,6 +108,7 @@ class Batalha {
           defensor.vida -= hit;
 
           if (defensor.vida <= 0) {
+            defensor.pokeball = true;
             this.intervalos.forEach(clearInterval);
             this.intervalos = [];
             resolve(atacante);
@@ -136,11 +138,12 @@ class Batalha {
   }
 
   atacar(atacante, defensor, multiplicador) {
-    return (
+    const hit =
       atacante.ataques.basico.dano *
       (atacante.ataque - defensor.defesa) *
-      multiplicador
-    );
+      multiplicador;
+
+    return Math.max(1, hit);
   }
 
   ganhoExperiencia(treinador, nocautes, multiplicadorVitoria = 1) {
@@ -159,6 +162,8 @@ class Batalha {
   vencePokemon(treinador, pokemon, agentes, mapa) {
     delete pokemon.equipe;
     pokemon.pokeball = true;
+    pokemon.paraMovimento = false;
+    pokemon.treinador = treinador;
 
     agentes.splice(
       agentes.findIndex((a) => a.id === pokemon.id),
@@ -249,37 +254,41 @@ class Batalha {
 
   posicionaPokemons(alvo, pokemonAtacante, pokemonDefensor) {
     const t = alvo.tamanho;
-    let posAtacante, posDefensor;
 
-    switch (alvo.direcao) {
-      case "cima":
-        posDefensor = { x: alvo.posicao.x, y: alvo.posicao.y - t };
-        posAtacante = { x: alvo.posicao.x, y: alvo.posicao.y - t * 2 };
-        break;
-      case "baixo":
-        posDefensor = { x: alvo.posicao.x, y: alvo.posicao.y + t };
-        posAtacante = { x: alvo.posicao.x, y: alvo.posicao.y + t * 2 };
-        break;
-      case "direita":
-        posDefensor = { x: alvo.posicao.x + t, y: alvo.posicao.y };
-        posAtacante = { x: alvo.posicao.x + t * 2, y: alvo.posicao.y };
-        break;
-      case "esquerda":
-        posDefensor = { x: alvo.posicao.x - t, y: alvo.posicao.y };
-        posAtacante = { x: alvo.posicao.x - t * 2, y: alvo.posicao.y };
-        break;
-    }
-
-    pokemonDefensor.posicao = this.clampPosicao(
-      posDefensor.x,
-      posDefensor.y,
-      t,
-    );
+    const posicaoA = Vizinhos(this.mapa, alvo, t, alvo.algoritimo);
+    const posAtacante = { x: posicaoA.x * t, y: posicaoA.y * t };
     pokemonAtacante.posicao = this.clampPosicao(
       posAtacante.x,
       posAtacante.y,
       t,
     );
+
+    const posicaoD = Vizinhos(this.mapa, pokemonAtacante, t, alvo.algoritimo);
+    const posDefensor = { x: posicaoD.x * t - t, y: posicaoD.y * t };
+    pokemonDefensor.posicao = this.clampPosicao(
+      posDefensor.x,
+      posDefensor.y,
+      t,
+    );
+
+    // switch (alvo.direcao) {
+    //   case "cima":
+    //     posDefensor = { x: alvo.posicao.x, y: alvo.posicao.y - t };
+    //     posAtacante = { x: alvo.posicao.x, y: alvo.posicao.y - t * 2 };
+    //     break;
+    //   case "baixo":
+    //     posDefensor = { x: alvo.posicao.x, y: alvo.posicao.y + t };
+    //     posAtacante = { x: alvo.posicao.x, y: alvo.posicao.y + t * 2 };
+    //     break;
+    //   case "direita":
+    //     posDefensor = { x: alvo.posicao.x + t, y: alvo.posicao.y };
+    //     posAtacante = { x: alvo.posicao.x + t * 2, y: alvo.posicao.y };
+    //     break;
+    //   case "esquerda":
+    //     posDefensor = { x: alvo.posicao.x - t, y: alvo.posicao.y };
+    //     posAtacante = { x: alvo.posicao.x - t * 2, y: alvo.posicao.y };
+    //     break;
+    // }
   }
 
   clampPosicao(x, y, tamanho) {

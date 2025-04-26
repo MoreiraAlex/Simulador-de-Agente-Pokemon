@@ -1,17 +1,8 @@
 import { atualizaPosicaoNaMatriz } from "../utils/utils.js";
 
 class Agente {
-  constructor(
-    id,
-    cor,
-    tamanho,
-    especie,
-    algoritimo,
-    velocidade = 1,
-    visao = 10,
-  ) {
+  constructor(id, tamanho, especie, algoritimo, velocidade = 1, visao = 10) {
     this.id = id;
-    this.cor = cor;
     this.tamanho = tamanho;
     this.especie = especie;
     this.velocidade = velocidade;
@@ -58,31 +49,8 @@ class Agente {
 
   desenha(contexto) {
     contexto.font = "48px Arial";
-    contexto.fillStyle = this.cor;
-    if (this.especie === "humana") {
-      contexto.fillText(
-        `#${this.id}`,
-        this.posicao.x - 10,
-        this.posicao.y - 10,
-      );
-    } else if (!this.paraMovimento) {
-      // contexto.fillText(
-      //   `${this.especie}`,
-      //   this.posicao.x - 10,
-      //   this.posicao.y - 10,
-      // );
-    }
-    // if (this.especie !== "humana") {
-    //   contexto.fillStyle = "red";
-    //   contexto.fillRect(
-    //     this.posicao.x,
-    //     this.posicao.y,
-    //     this.tamanho,
-    //     this.tamanho,
-    //   );
-
-    //   return;
-    // }
+    contexto.fillStyle = "white";
+    contexto.fillText(`#${this.id}`, this.posicao.x - 10, this.posicao.y - 10);
 
     const imagemAtual =
       this.imagens[this.direcao][this.paraMovimento ? 0 : this.imagem];
@@ -139,7 +107,7 @@ class Agente {
     const intervalo =
       32 / (globalThis.multiplicador * (1 + (this.velocidade - 1) * 0.25));
 
-    if (this.frame === Math.floor(intervalo / 2)) {
+    if (this.frame === Math.floor(intervalo / 1)) {
       // Troca a imagem no meio do caminho
       this.imagem = this.imagem === 0 ? 2 : this.imagem === 1 ? 2 : 1;
     }
@@ -173,24 +141,25 @@ class Agente {
   }
 
   defineDirecao(destino) {
+    const tamanho = this.tamanho;
     if (
-      destino[0] === this.posicao.x / this.tamanho &&
-      destino[1] > this.posicao.y / this.tamanho
+      destino[0] === this.posicao.x / tamanho &&
+      destino[1] > this.posicao.y / tamanho
     )
       this.direcao = "baixo";
     else if (
-      destino[0] === this.posicao.x / this.tamanho &&
-      destino[1] < this.posicao.y / this.tamanho
+      destino[0] === this.posicao.x / tamanho &&
+      destino[1] < this.posicao.y / tamanho
     )
       this.direcao = "cima";
     else if (
-      destino[1] === this.posicao.y / this.tamanho &&
-      destino[0] > this.posicao.x / this.tamanho
+      destino[1] === this.posicao.y / tamanho &&
+      destino[0] > this.posicao.x / tamanho
     )
       this.direcao = "direita";
     else if (
-      destino[1] === this.posicao.y / this.tamanho &&
-      destino[0] < this.posicao.x / this.tamanho
+      destino[1] === this.posicao.y / tamanho &&
+      destino[0] < this.posicao.x / tamanho
     )
       this.direcao = "esquerda";
   }

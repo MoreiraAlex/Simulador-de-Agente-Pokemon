@@ -8,6 +8,7 @@ class Simulacao {
     this.canvas = config.canvas;
     this.contexto = config.contexto;
     this.cronometro = config.cronometro;
+    this.sequence = config.sequence;
     this.agentes = [];
 
     this.celula = 50;
@@ -22,12 +23,12 @@ class Simulacao {
       this.celula,
       config.pathFinder,
       algoritimo,
+      this.sequence,
     );
 
     config.treinadores.forEach((t) => {
       const pokemon = new Pokemon(
-        (Math.random() * 1000).toFixed(0),
-        "red",
+        this.sequence.next(),
         this.celula,
         t.pokemon.especie,
         algoritimo,
@@ -46,7 +47,6 @@ class Simulacao {
 
       const treinador = new Treinador(
         t.id,
-        "white",
         t.velocidade,
         t.resistencia,
         t.visao,
@@ -57,6 +57,7 @@ class Simulacao {
         algoritimo,
       );
 
+      pokemon.treinador = treinador;
       this.agentes.push(treinador);
     });
   }
@@ -132,6 +133,7 @@ class Simulacao {
     this.pausar();
     this.contexto.reset();
     this.treinadores = null;
+    this.sequence.reset();
     console.clear();
   }
 }

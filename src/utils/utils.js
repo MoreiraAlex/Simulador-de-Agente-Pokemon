@@ -53,10 +53,31 @@ export function posicaoAleatoriaBioma(
 
 export function atualizaPosicaoNaMatriz(matriz, posicao, celula, valor) {
   const alvo =
-    matriz.nodes[Math.floor(posicao.y / celula)]?.[
+    matriz.nodes?.[Math.floor(posicao.y / celula)]?.[
       Math.floor(posicao.x / celula)
     ];
+
   if (alvo) {
     alvo.agente = valor;
+  }
+}
+
+export function Vizinhos(mapa, alvo, celula, algoritimo) {
+  const nodo =
+    mapa.matriz.nodes?.[Math.floor(alvo.posicao.y / celula)]?.[
+      Math.floor(alvo.posicao.x / celula)
+    ];
+
+  if (nodo) {
+    const vizinhos = mapa.matriz.getNeighbors(
+      nodo,
+      algoritimo.diagonalMovement,
+    );
+
+    const alvoDestino = alvo.caminho[0] || [vizinhos[0].x, vizinhos[0].y];
+
+    return vizinhos?.filter(
+      (vizinho) => vizinho.x === alvoDestino[0] && vizinho.y === alvoDestino[1],
+    )[0];
   }
 }
