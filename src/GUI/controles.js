@@ -52,12 +52,10 @@ function IniciarControle(botao) {
   alternaBotao(botao);
 
   const btnParar = document.querySelector("#parar");
-  btnParar.disabled = false;
-  btnParar.style.opacity = "1";
+  habilitaElemento(btnParar);
 
   document.querySelectorAll(".config").forEach((elemento) => {
-    elemento.disabled = true;
-    elemento.style.opacity = "0.5";
+    desabilitaElemento(elemento);
   });
 }
 
@@ -96,64 +94,46 @@ function multiplicadorControle(btn) {
   multiplicador.textContent = valor;
 
   if (valor <= 1) {
-    btnAvancar.disabled = false;
-    btnAvancar.style.opacity = "1";
-
-    btnRetroceder.disabled = true;
-    btnRetroceder.style.opacity = "0.5";
+    habilitaElemento(btnAvancar);
+    desabilitaElemento(btnRetroceder);
   } else if (valor >= 32) {
-    btnAvancar.disabled = true;
-    btnAvancar.style.opacity = "0.5";
-
-    btnRetroceder.disabled = false;
-    btnRetroceder.style.opacity = "1";
+    habilitaElemento(btnRetroceder);
+    desabilitaElemento(btnAvancar);
   } else {
-    btnAvancar.disabled = false;
-    btnAvancar.style.opacity = "1";
-
-    btnRetroceder.disabled = false;
-    btnRetroceder.style.opacity = "1";
+    habilitaElemento(btnAvancar);
+    habilitaElemento(btnRetroceder);
   }
 
   return valor;
 }
 
 function PararControle(botao) {
-  botao.disabled = true;
-  botao.style.opacity = "0.5";
+  desabilitaElemento(botao);
 
   const btnIniciar = document.querySelector("#iniciar");
   btnIniciar.dataset.estado = "rodando";
   alternaBotao(btnIniciar);
 
   document.querySelectorAll(".config").forEach((elemento) => {
-    elemento.disabled = false;
-    elemento.style.opacity = "1";
+    habilitaElemento(elemento);
   });
 
   const btnRetroceder = document.querySelector("#retroceder");
   const btnAvancar = document.querySelector("#avancar");
   const multiplicador = document.querySelector("#multiplicador");
 
-  btnAvancar.disabled = false;
-  btnAvancar.style.opacity = "1";
-
-  btnRetroceder.disabled = true;
-  btnRetroceder.style.opacity = "0.5";
+  habilitaElemento(btnAvancar);
+  desabilitaElemento(btnRetroceder);
 
   multiplicador.textContent = "1";
 
   const div = document.querySelector(".limite");
-  div.style.display = "none";
+  div.classList.add("hidden");
+  div.classList.remove("flex");
 
   const modo = document.querySelector("#modo-vitoria");
   const modoTotal = document.querySelectorAll(".modo-btn")[0];
   selecionaBotao(modo, ".modo-btn", modoTotal);
-
-  window.modo.modo = modoTotal.value;
-  window.modo.valor = 151;
-
-  window.multiplicador = 1;
 
   const listaTreinadores = document.querySelectorAll(".treinadores-lista");
   listaTreinadores.forEach((lista) => {
@@ -161,7 +141,18 @@ function PararControle(botao) {
       lista.removeChild(lista.firstChild);
     }
   });
+}
 
-  window.agentes = [];
-  window.sequence.reset();
+function habilitaElemento(elemento) {
+  elemento.disabled = false;
+  elemento.classList.remove("opacity-50");
+  elemento.classList.remove("cursor-not-allowed");
+  elemento.classList.add("cursor-pointer");
+}
+
+function desabilitaElemento(elemento) {
+  elemento.disabled = true;
+  elemento.classList.remove("cursor-pointer");
+  elemento.classList.add("cursor-not-allowed");
+  elemento.classList.add("opacity-50");
 }

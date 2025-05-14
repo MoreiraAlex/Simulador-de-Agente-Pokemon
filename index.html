@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Simulador de Agente</title>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="../tailwind.config.js"></script>
+</head>
+<body class="flex flex-col h-screen w-screen overflow-x-hidden bg-retro-background text-retro-foreground font-retro">
+
+  <header class="p-4 flex flex-col lg:flex-row gap-4 lg:gap-1 justify-between items-center shadow-lg border-b-4 border-retro-foreground">
+    <div class="flex-1 flex justify-start">
+      <button class="config adicionar px-4 py-2 bg-retro-foreground text-retro-primaryForeground border-4 border-retro-foreground text-wrap">
+        Adicionar Treinador
+      </button>
+    </div>
+
+    <div class="flex-none">
+      <div class="controles flex items-center justify-between gap-2 p-3 border-4 border-retro-foreground">
+        <button id="iniciar" class="bg-retro-foreground text-retro-primaryForeground px-3 py-2 border-2 border-retro-foreground">
+          <i data-lucide='circle-play' class='w-5 h-5 rotate-180'></i>
+        </button>
+        <button id="retroceder" disabled class="bg-retro-muted text-retro-mutedForeground px-3 py-2 border-2 border-retro-foreground opacity-50 cursor-not-allowed">
+          <i data-lucide="fast-forward" class="w-5 h-5 rotate-180"></i>
+        </button>
+
+        <div class="flex flex-col items-center justify-center text-xs px-2">
+          <p class="flex items-center">
+            <span id="multiplicador" class="font-bold">1</span>x
+          </p>
+          <p id="relogio" class="text-[10px] text-retro-primary">00:00:00</p>
+        </div>
+
+        <button id="avancar" class="bg-retro-muted text-retro-mutedForeground px-3 py-2 border-2 border-retro-foreground">
+          <i data-lucide="fast-forward" class="w-5 h-5"></i>
+        </button>
+        <button id="parar" class="bg-retro-destructive text-retro-primaryForeground px-3 py-2 border-2 border-retro-foreground opacity-50 cursor-not-allowed" disabled>
+          <i data-lucide="circle-stop" class="w-5 h-5 rotate-180"></i>
+        </button>
+      </div>
+    </div>
+
+    <div class="flex-1 flex justify-end">
+      <div class="flex flex-col xl:items-end gap-2 items-center" id="modo-vitoria">
+        <p class="text-retro-secondaryForeground text-xs">Modo de Vitória</p>
+        <div class="flex gap-1 mt-1">
+          <button class="config modo-btn px-2 py-1 border-2 border-retro-foreground bg-retro-primary text-retro-primaryForeground" value="total" aria-selected="true">TOTAL</button>
+          <button class="config modo-btn px-2 py-1 border-2 border-retro-foreground bg-retro-foreground text-retro-primaryForeground" value="tempo">TEMPO</button>
+          <button class="config modo-btn px-2 py-1 border-2 border-retro-foreground bg-retro-foreground text-retro-primaryForeground" value="captura">LIMITE</button>
+        </div>
+        <div class="limite items-center gap-2 text-xs hidden flex-col xl:flex-row">
+          <label class="font-semibold text-retro-secondaryForeground"></label>
+          <input type="range" class="config h-1 accent-retro-primary cursor-pointer">
+          <input type="text" id="display" value="0" readonly class="w-12 text-center border-2 border-retro-foreground bg-retro-muted text-retro-mutedForeground">
+          <span class="font-semibold text-retro-secondaryForeground"></span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="flex flex-grow my-4 mr-4 space-x-4 justify-center overflow-hidden bg-retro-background">
+
+    <div class="absolute z-10 bg-retro-muted text-retro-mutedForeground text-sm shadow-xl rounded p-3 hover-card hidden"></div>
+
+    
+    <aside class="treinadores-lista w-1/4 p-4 border-4 border-retro-foreground bg-retro-muted overflow-y-auto text-xs gap-4 flex flex-col justify-around shadow-md"></aside>
+    <canvas id="game-canvas" width="2000" height="2000" class="flex-grow border-4 border-retro-foreground bg-retro-muted shadow-md"></canvas>
+    <aside class="treinadores-lista w-1/4 p-4 border-4 border-retro-foreground bg-retro-muted overflow-y-auto text-xs gap-4 flex flex-col justify-around shadow-md"></aside>
+  </main>
+
+  <div id="modal-vencedores" class="fixed inset-0 bg-black bg-opacity-50 items-center justify-center z-50 hidden">
+    <div class="bg-retro-muted border-4 border-retro-foreground p-6 text-center max-w-lg w-full text-xs">
+      <h2 class="text-retro-primary mb-4">RESULTADO DA SIMULAÇÃO</h2>
+      <p id="tempo-texto">00:00</p>
+      <pre id="resultado-texto" class="mb-4 whitespace-pre-wrap text-retro-secondaryForeground font-retro">[Resultados]</pre>
+      <button id="btn-reiniciar" class="bg-retro-foreground text-retro-primaryForeground border-4 border-retro-foreground px-4 py-2">
+        JOGAR NOVAMENTE
+      </button>
+    </div>
+  </div>
+  <script type="text/javascript" src="../bower_components/pathfinding/pathfinding-browser.min.js"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script type="module" src="./src/GUI/script.js"></script>
+</body>
+
+</html>

@@ -10,8 +10,8 @@ export function displayInput(evento, displayId) {
 }
 
 export function selecionaBotao(documento, botoes, botao) {
-  const corAtiva = "bg-gray-900";
-  const corDesativa = "bg-gray-500";
+  const corAtiva = "bg-retro-primary";
+  const corDesativa = "bg-retro-foreground";
 
   documento.querySelectorAll(botoes).forEach((b) => {
     b.ariaSelected = "false";

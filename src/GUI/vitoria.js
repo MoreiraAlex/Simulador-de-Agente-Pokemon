@@ -4,7 +4,7 @@ export function verificarFimJogo() {
   const modo = window.modo;
 
   const treinadores = window.agentes
-    .filter((a) => a.getEspecie() === "treinador")
+    .filter((a) => a.getEspecie() === "Treinador")
     .sort((a, b) => b.getPokemons().length - a.getPokemons().length);
 
   switch (modo.modo) {
@@ -46,15 +46,18 @@ function Finalizar(treinadores) {
     saida += `${indice + 1}º Lugar: Treinador#${treinador.getId()} com ${treinador.getPokemons().length} Pokemon(s)\n`;
   });
 
-  Parar();
   mostrarModal(saida);
+  Parar();
 }
 
 function mostrarModal(mensagem) {
   const modal = document.querySelector("#modal-vencedores");
   const resultado = document.querySelector("#resultado-texto");
+  const tempo = document.querySelector("#tempo-texto");
 
   resultado.textContent = mensagem;
+  tempo.textContent = window.cronometro.texto.textContent;
+  modal.classList.add("flex");
   modal.classList.remove("hidden");
 
   document.querySelector("#btn-reiniciar").onclick = () => {

@@ -2,21 +2,20 @@ import { adcionaEvento, displayInput, selecionaBotao } from "../utils/GUI.js";
 
 export function gerenciaModo() {
   const div = document.querySelector("#modo-vitoria");
-  const modo = window.modo;
 
   adcionaEvento(div, "input", (evento) => displayInput(evento, "#display"));
-  adcionaEvento(div, "change", (evento) => atualizaValor(evento, modo));
-  adcionaEvento(div, "click", (evento) => selecionaModo(evento, div, modo));
+  adcionaEvento(div, "change", (evento) => atualizaValor(evento));
+  adcionaEvento(div, "click", (evento) => selecionaModo(evento, div));
 }
 
-function atualizaValor(evento, modo) {
+function atualizaValor(evento) {
   const input = evento.target.closest("input");
   if (!input) return;
 
-  modo.valor = Number(evento.target.value);
+  window.modo.valor = Number(evento.target.value);
 }
 
-function selecionaModo(evento, divModo, modo) {
+function selecionaModo(evento, divModo) {
   const btn = evento.target.closest("button");
   if (!btn) return;
 
@@ -28,7 +27,8 @@ function selecionaModo(evento, divModo, modo) {
   const display = div.querySelector("input[type='text']");
   const unidade = div.querySelector("span");
 
-  div.style.display = "block";
+  div.classList.remove("hidden");
+  div.classList.add("flex");
 
   if (btn.value === "tempo") {
     label.textContent = "Limite de tempo:";
@@ -45,10 +45,11 @@ function selecionaModo(evento, divModo, modo) {
     display.value = 10;
     unidade.textContent = "pokemon";
   } else {
-    div.style.display = "none";
+    div.classList.add("hidden");
+    div.classList.remove("flex");
     input.value = 151;
   }
 
-  modo.modo = btn.value;
-  modo.valor = Number(input.value);
+  window.modo.modo = btn.value;
+  window.modo.valor = Number(input.value);
 }

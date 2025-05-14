@@ -1,6 +1,7 @@
+import Pokemon from "../classes/agentes/Pokemon.js";
 import { pokedex } from "../models/pokedex.js";
 
-export function pokemonTreinador(treinador) {
+export function pokemonPokedexTreinador(treinador) {
   const card = document.querySelector(".hover-card");
 
   treinador.addEventListener("mouseover", (e) => {
@@ -12,11 +13,40 @@ export function pokemonTreinador(treinador) {
   });
 
   treinador.addEventListener("mouseout", () => {
-    card.style.display = "none";
+    card.classList.add("hidden");
   });
 }
 
-export function pokemonSelvagem() {
+export function PokemonDetalhes() {
+  document.addEventListener("mouseover", (e) => {
+    const pokemonDetalhe = e.target.closest(".pokemon-detalhe");
+    if (!pokemonDetalhe) return;
+
+    const treinadorId = pokemonDetalhe.getAttribute("data-treinador-id");
+    const pokemonId = parseInt(pokemonDetalhe.getAttribute("data-pokemon-id"));
+
+    const treinador = window.agentes.find(
+      (a) => a.getId() === Number(treinadorId),
+    );
+    const pokemon = treinador
+      ?.getPokemons?.()
+      .find((p) => p.getId() === pokemonId);
+
+    if (pokemon) {
+      const card = document.querySelector(".hover-card");
+      detalhesContainer(card, pokemon, e);
+    }
+  });
+
+  document.addEventListener("mouseout", (e) => {
+    if (e.target.closest(".pokemon-detalhe")) {
+      const card = document.querySelector(".hover-card");
+      card.classList.add("hidden");
+    }
+  });
+}
+
+export function pokemonCanvas() {
   const canvas = window.canvas;
 
   canvas.addEventListener("mousemove", (e) => {
@@ -28,40 +58,111 @@ export function pokemonSelvagem() {
     const mouseY = (e.clientY - rect.y) / proporcaoY;
 
     let encontrou = false;
+    let pokemonSelecionado = null;
 
+    // Verifica selvagens
     window.agentes
       .filter((a) => a.getEspecie() !== "treinador")
       .forEach((pokemon) => {
         const dentro =
-          mouseX >= pokemon.posicao.x &&
-          mouseX <= pokemon.posicao.x + pokemon.tamanho &&
-          mouseY >= pokemon.posicao.y &&
-          mouseY <= pokemon.posicao.y + pokemon.tamanho;
+          mouseX >= pokemon.getPosicao().x &&
+          mouseX <= pokemon.getPosicao().x + pokemon.getTamanho() &&
+          mouseY >= pokemon.getPosicao().y &&
+          mouseY <= pokemon.getPosicao().y + pokemon.getTamanho();
 
         if (dentro) {
           encontrou = true;
-
-          const card = document.querySelector(".hover-card");
-          detalhesContainer(card, pokemon);
+          pokemonSelecionado = pokemon;
         }
       });
 
-    if (!encontrou) {
-      document.querySelector(".hover-card").style.display = "none";
+    // Verifica Pokémon de treinadores
+    window.agentes
+      .filter((a) => a.getEspecie() === "Treinador")
+      .forEach((treinador) => {
+        treinador.getEquipe().forEach((pokemon) => {
+          if (pokemon instanceof Pokemon) {
+            const dentro =
+              mouseX >= pokemon.getPosicao().x &&
+              mouseX <= pokemon.getPosicao().x + pokemon.getTamanho() &&
+              mouseY >= pokemon.getPosicao().y &&
+              mouseY <= pokemon.getPosicao().y + pokemon.getTamanho();
+
+            if (dentro) {
+              encontrou = true;
+              pokemonSelecionado = pokemon;
+            }
+          }
+        });
+      });
+
+    const card = document.querySelector(".hover-card");
+    if (encontrou && pokemonSelecionado) {
+      detalhesContainer(card, pokemonSelecionado, e);
+    } else {
+      card.classList.add("hidden");
     }
   });
 }
 
-function detalhesContainer(card, pokemon, evento) {
-  card.style.display = "block";
+export function detalhesContainer(card, pokemon, evento) {
+  card.classList.remove("hidden");
+
+  const poke = {
+    id: typeof pokemon?.getId === "function" ? pokemon.getId() : pokemon.id,
+    especie:
+      typeof pokemon?.getEspecie === "function"
+        ? pokemon.getEspecie()
+        : pokemon.especie,
+    vida:
+      typeof pokemon?.getVida === "function" ? pokemon.getVida() : pokemon.vida,
+    ataque:
+      typeof pokemon?.getAtaque === "function"
+        ? pokemon.getAtaque()
+        : pokemon.ataque,
+    defesa:
+      typeof pokemon?.getDefesa === "function"
+        ? pokemon.getDefesa()
+        : pokemon.defesa,
+    nivel:
+      typeof pokemon?.getNivel === "function"
+        ? pokemon.getNivel()
+        : pokemon.nivel,
+    experiencia:
+      typeof pokemon?.getExperiencia === "function"
+        ? pokemon.getExperiencia()
+        : pokemon.experiencia,
+  };
+
   card.innerHTML = `
-        <p><span class="font-semibold">ID:</span> ${pokemon?.id || 0}</p>
-        <p><span class="font-semibold">Espécie:</span> ${pokemon?.especie}</p>
-        <p><span class="font-semibold">Vida:</span> ${pokemon?.vida}</p>
-        <p><span class="font-semibold">Ataque:</span> ${pokemon?.ataque}</p>
-        <p><span class="font-semibold">Defesa:</span> ${pokemon?.defesa}</p>
-        <p><span class="font-semibold">Nivel:</span> ${pokemon?.nivel || 0}</p>
-        <p><span class="font-semibold">Experiência:</span> ${pokemon?.experiencia || 1}</p>
+        <p>
+           <span class="font-semibold">ID:</span>
+           <span class="text-retro-primary">${poke.id || 0}</span>  
+        <p>
+           <span class="font-semibold">Espécie:</span>
+           <span class="text-retro-primary">${poke.especie}</span>
+        </p>
+        <p>
+           <span class="font-semibold">Vida:</span>
+           <span class="text-retro-primary">${poke.vida}</span>
+        </p>
+        <p>
+           <span class="font-semibold">Ataque:</span>
+           <span class="text-retro-primary">${poke.ataque}</span>
+        </p>
+        <p>
+           <span class="font-semibold">Defesa:</span>
+           <span class="text-retro-primary">${poke.defesa}</span>
+        </p>
+        <p>
+           <span class="font-semibold">Nivel:</span>
+           <span class="text-retro-primary">${poke.nivel || 0}</span>
+        </p>
+        <p>
+           <span class="font-semibold">Experiência:</span>
+           <span class="text-retro-primary">${poke.experiencia || 1}</span>
+        </p>
+       
     `;
 
   // eslint-disable-next-line no-undef

@@ -14,7 +14,7 @@ export const tipos = {
     inseto: 1,
     pedra: 0.5,
     fantasma: 0,
-    dragão: 1,
+    dragao: 1,
   },
   fogo: {
     normal: 1,
@@ -31,7 +31,7 @@ export const tipos = {
     inseto: 2,
     pedra: 0.5,
     fantasma: 1,
-    dragão: 0.5,
+    dragao: 0.5,
   },
   agua: {
     normal: 1,
@@ -48,7 +48,7 @@ export const tipos = {
     inseto: 1,
     pedra: 2,
     fantasma: 1,
-    dragão: 0.5,
+    dragao: 0.5,
   },
   grama: {
     normal: 1,
@@ -65,7 +65,7 @@ export const tipos = {
     inseto: 0.5,
     pedra: 2,
     fantasma: 1,
-    dragão: 0.5,
+    dragao: 0.5,
   },
   eletrico: {
     normal: 1,
@@ -82,7 +82,7 @@ export const tipos = {
     inseto: 1,
     pedra: 1,
     fantasma: 1,
-    dragão: 0.5,
+    dragao: 0.5,
   },
   gelo: {
     normal: 1,
@@ -99,7 +99,7 @@ export const tipos = {
     inseto: 1,
     pedra: 1,
     fantasma: 1,
-    dragão: 2,
+    dragao: 2,
   },
   lutador: {
     normal: 2,
@@ -116,7 +116,7 @@ export const tipos = {
     inseto: 0.5,
     pedra: 1,
     fantasma: 0,
-    dragão: 1,
+    dragao: 1,
   },
   veneno: {
     normal: 1,
@@ -133,7 +133,7 @@ export const tipos = {
     inseto: 1,
     pedra: 0.5,
     fantasma: 0.5,
-    dragão: 1,
+    dragao: 1,
   },
   terra: {
     normal: 1,
@@ -150,7 +150,7 @@ export const tipos = {
     inseto: 0.5,
     pedra: 2,
     fantasma: 1,
-    dragão: 1,
+    dragao: 1,
   },
   voador: {
     normal: 1,
@@ -167,7 +167,7 @@ export const tipos = {
     inseto: 2,
     pedra: 0.5,
     fantasma: 1,
-    dragão: 1,
+    dragao: 1,
   },
   psiquico: {
     normal: 1,
@@ -184,7 +184,7 @@ export const tipos = {
     inseto: 2,
     pedra: 1,
     fantasma: 1,
-    dragão: 1,
+    dragao: 1,
   },
   inseto: {
     normal: 1,
@@ -201,7 +201,7 @@ export const tipos = {
     inseto: 0.5,
     pedra: 1,
     fantasma: 0.5,
-    dragão: 1,
+    dragao: 1,
   },
   pedra: {
     normal: 1,
@@ -218,7 +218,7 @@ export const tipos = {
     inseto: 2,
     pedra: 1,
     fantasma: 1,
-    dragão: 1,
+    dragao: 1,
   },
   fantasma: {
     normal: 0,
@@ -235,9 +235,9 @@ export const tipos = {
     inseto: 1,
     pedra: 1,
     fantasma: 2,
-    dragão: 1,
+    dragao: 1,
   },
-  dragão: {
+  dragao: {
     normal: 1,
     fogo: 1,
     agua: 1,
@@ -252,6 +252,6 @@ export const tipos = {
     inseto: 1,
     pedra: 1,
     fantasma: 1,
-    dragão: 2,
+    dragao: 2,
   },
 };

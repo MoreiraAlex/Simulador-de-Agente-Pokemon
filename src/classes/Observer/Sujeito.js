@@ -13,6 +13,10 @@ class Sujeito {
     this.#observadores = this.#observadores.filter((obs) => obs !== observador);
   }
 
+  resetarObservadores() {
+    this.#observadores = [];
+  }
+
   notificarObservador(id, atributo, valor) {
     const observador = this.#observadores.find((obs) => (obs.id = id));
     observador.atualizar(atributo, valor);

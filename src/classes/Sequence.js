@@ -1,10 +1,14 @@
 class Sequence {
-  constructor(start = 1) {
+  constructor(start = 2) {
     this.current = start;
   }
 
   next() {
     return this.current++;
+  }
+
+  atual() {
+    return this.current;
   }
 
   reset(value = 1) {
