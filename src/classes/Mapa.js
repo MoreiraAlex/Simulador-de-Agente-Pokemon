@@ -149,7 +149,7 @@ class Mapa {
       //   ?.nivel;
 
       const pokerdm = [];
-      while (pokerdm.length < 5) {
+      while (pokerdm.length < 1) {
         const poke = pokemons[Math.floor(Math.random() * pokemons.length)];
         // const nivel = Math.max(
         //   1,

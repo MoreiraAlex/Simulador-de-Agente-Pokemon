@@ -1,5 +1,5 @@
 class Sequence {
-  constructor(start = 2) {
+  constructor(start = 1) {
     this.current = start;
   }
 

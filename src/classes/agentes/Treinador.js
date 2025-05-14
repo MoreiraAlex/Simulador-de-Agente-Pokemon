@@ -712,8 +712,17 @@ class Treinador extends Agente {
       pokemonsForte = forte(
         pokemonsEvoluir.length ? pokemonsEvoluir : this.#pokemons,
       );
+
+      if (pokemonsForte.length) {
+        this.#equipe.push(
+          pokemonsForte[Math.floor(Math.random() * pokemonsForte.length)],
+        );
+        continue;
+      }
+
+      const pokemonsNivel = nivel(this.#pokemons);
       this.#equipe.push(
-        pokemonsForte[Math.floor(Math.random() * pokemonsForte.length)],
+        pokemonsNivel[Math.floor(Math.random() * pokemonsNivel.length)],
       );
     }
   }
