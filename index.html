@@ -6,7 +6,7 @@
   <title>Simulador de Agente</title>
   <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet" />
   <script src="https://cdn.tailwindcss.com"></script>
-  <script src="../tailwind.config.js"></script>
+  <script src="./tailwind.config.js"></script>
 </head>
 <body class="flex flex-col h-screen w-screen overflow-x-hidden bg-retro-background text-retro-foreground font-retro">
 
@@ -83,9 +83,9 @@
 
   <audio id="som-tema" src="./src/recursos/sons/03 Title Screen.mp3" loop></audio>
   <audio id="som-vitoria" src="./src/recursos/sons/16. Item Obtained!.mp3"></audio>
-  <audio id="som-toque" src="./src/recursos/sons/90s-game-ui-4-185097.mp3"></audio>
+  <audio id="som-toque" src="./src/recursos/sons/90s-game-ui-4-185097.mp3" preload="auto"></audio>
 
-  <script type="text/javascript" src="../bower_components/pathfinding/pathfinding-browser.min.js"></script>
+  <script type="text/javascript" src="./bower_components/pathfinding/pathfinding-browser.min.js"></script>
   <script src="https://unpkg.com/lucide@latest"></script>
   <script type="module" src="./src/GUI/script.js"></script>
 </body>
