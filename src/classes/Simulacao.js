@@ -58,16 +58,16 @@ class Simulacao {
   #InvocaPokemons() {
     this.#invocou = true;
 
-    // this.#agentes.forEach((a) => {
-    //   if (a.getEspecie() === "Treinador" || !a.getDisponibilidade()) return;
+    this.#agentes.forEach((a) => {
+      if (a.getEspecie() === "Treinador" || !a.getDisponibilidade()) return;
 
-    //   atualizaPosicaoNaMatriz(
-    //     this.#mapa.getMatriz(),
-    //     a.getPosicao(),
-    //     this.#celula,
-    //     0,
-    //   );
-    // });
+      atualizaPosicaoNaMatriz(
+        this.#mapa.getMatriz(),
+        a.getPosicao(),
+        this.#celula,
+        0,
+      );
+    });
 
     this.#agentes.splice(
       0,

@@ -9,6 +9,10 @@ import {
 import { pokemonCanvas } from "./detalhesPokemon.js";
 
 export function Iniciar() {
+  const som = document.querySelector("#som-tema");
+  som.play();
+  som.volume = 0.2;
+
   if (!window.simulacao) {
     window.simulacao = new Simulacao(
       window.canvas,
@@ -35,11 +39,18 @@ export function Iniciar() {
 }
 
 export function Pausar() {
+  const som = document.querySelector("#som-tema");
+  som.pause();
+
   pausarCronometro();
   window.simulacao.pausar();
 }
 
 export function Parar() {
+  const som = document.querySelector("#som-tema");
+  som.pause();
+  som.currentTime = 0;
+
   pararCronometro();
   window.simulacao.parar();
   window.agentes = [];

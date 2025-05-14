@@ -38,8 +38,6 @@ export function posicaoAleatoriaBiomaa(
     const x = xMin + colunaLocal;
     const y = yMin + linhaLocal;
 
-    console.log(x, y);
-
     const linha = Math.min(y, matriz.height - 1);
     const coluna = Math.min(x, matriz.width - 1);
 

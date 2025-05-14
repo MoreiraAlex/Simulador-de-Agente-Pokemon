@@ -51,9 +51,12 @@ function Finalizar(treinadores) {
 }
 
 function mostrarModal(mensagem) {
+  const som = document.querySelector("#som-vitoria");
   const modal = document.querySelector("#modal-vencedores");
   const resultado = document.querySelector("#resultado-texto");
   const tempo = document.querySelector("#tempo-texto");
+
+  som.play();
 
   resultado.textContent = mensagem;
   tempo.textContent = window.cronometro.texto.textContent;

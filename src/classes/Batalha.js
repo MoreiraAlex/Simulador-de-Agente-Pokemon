@@ -1,4 +1,4 @@
-import { pokedex } from "../models/pokedex.js";
+// import { pokedex } from "../models/pokedex.js";
 import { tipos } from "../models/tipos.js";
 import {
   atualizaPosicaoNaMatriz,
@@ -377,15 +377,15 @@ class Batalha {
       treinador.setEquipe([...treinador.getEquipe(), pokemon]);
     }
 
-    // teste
-    const pokemonsFaltante = pokedex.filter(
-      (poke) =>
-        poke.estaAtivo &&
-        !treinador.getPokemons().some((p) => p.getEspecie() === poke.especie),
-    );
+    // // teste
+    // const pokemonsFaltante = pokedex.filter(
+    //   (poke) =>
+    //     poke.estaAtivo &&
+    //     !treinador.getPokemons().some((p) => p.getEspecie() === poke.especie),
+    // );
 
-    console.log(pokemonsFaltante.map((p) => p.especie));
-    // teste
+    // console.log(pokemonsFaltante.map((p) => p.especie));
+    // // teste
   }
 }
 

@@ -26,6 +26,16 @@ document.addEventListener("DOMContentLoaded", () => {
     valor: 151,
   };
 
+  document.addEventListener("click", (e) => {
+    const btn = e.target.closest("button");
+    if (!btn || btn.disabled) return;
+
+    const som = document.querySelector("#som-toque");
+    som.pause();
+    som.currentTime = 0;
+    som.play();
+  });
+
   gerenciaTreinador(4);
   PokemonDetalhes();
   gerenciaModo();
