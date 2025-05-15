@@ -4,6 +4,7 @@ import Batalha from "../Batalha.js";
 import Agente from "./Agente.js";
 
 class Treinador extends Agente {
+  #cor;
   #resistenciaBase;
   #resistencia;
   #estrategia;
@@ -19,6 +20,7 @@ class Treinador extends Agente {
     algoritmo,
     velocidade,
     visao,
+    cor,
     resistencia,
     estrategia,
     equipe,
@@ -26,6 +28,7 @@ class Treinador extends Agente {
   ) {
     super(id, especie, tamanho, algoritmo, velocidade, visao);
 
+    this.#cor = cor;
     this.#resistenciaBase = resistencia;
     this.#resistencia = resistencia;
     this.#estrategia = estrategia;
@@ -755,6 +758,10 @@ class Treinador extends Agente {
     return this.#capturouTodos;
   }
 
+  getCor() {
+    return this.#cor;
+  }
+
   setResistencia(resistencia) {
     this.#resistencia = resistencia;
   }
@@ -773,6 +780,10 @@ class Treinador extends Agente {
 
   setEstrategia(estrategia) {
     this.#estrategia = estrategia;
+  }
+
+  setCor(cor) {
+    this.#cor = cor;
   }
 }
 

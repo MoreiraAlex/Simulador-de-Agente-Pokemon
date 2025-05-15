@@ -859,8 +859,8 @@ export const obstaculos = [
 ];
 
 export const base = [
-  { x: 250, y: 350, treinador: null },
-  { x: 1700, y: 350, treinador: null },
-  { x: 250, y: 1750, treinador: null },
-  { x: 1700, y: 1750, treinador: null },
+  { x: 250, y: 350, cor: "rgb(0, 0, 255, 0.5)", treinador: null },
+  { x: 1700, y: 350, cor: "rgb(255, 0, 0, 0.5)", treinador: null },
+  { x: 250, y: 1750, cor: "rgb(255, 255, 0, 0.5)", treinador: null },
+  { x: 1700, y: 1750, cor: "rgb(0, 255, 0, 0.5)", treinador: null },
 ];

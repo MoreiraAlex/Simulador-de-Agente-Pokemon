@@ -30,6 +30,7 @@ class AgenteFactory {
       this.#algoritmo,
       atributos.velocidade,
       atributos.visao,
+      atributos.cor,
       atributos.resistencia,
       atributos.estrategia,
       atributos.equipe,

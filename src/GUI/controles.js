@@ -7,16 +7,22 @@ import {
 } from "./gerenciadorSimulacao.js";
 
 export function gerenciaControles() {
+  const toggleDebug = document.querySelector("#toggle");
   const controles = document.querySelector(".controles");
 
   adcionaEvento(controles, "click", (evento) => {
+    const toggle = evento.target.closest('input[type="checkbox"]');
+    if (toggle) {
+      window.debug = toggleDebug.checked;
+    }
+
     const btn = evento.target.closest("button");
     if (!btn) return;
 
     let valor = 1;
     switch (btn.id) {
       case "iniciar":
-        IniciarControle(btn);
+        if (!IniciarControle(btn)) return;
         if (window.cronometro.intervalo === null) Iniciar();
         else Pausar();
         break;
@@ -43,10 +49,10 @@ function IniciarControle(botao) {
   const listaTreinadores = Array.from(
     document.querySelectorAll(".treinadores-lista"),
   );
-  if (listaTreinadores.every((lista) => lista.childElementCount < 0)) {
+  if (listaTreinadores.some((lista) => lista.childElementCount < 1)) {
     // eslint-disable-next-line no-undef
     alert("Adicione pelo menos dois treinadores antes de iniciar a simulação!");
-    return;
+    return false;
   }
 
   alternaBotao(botao);
@@ -57,6 +63,8 @@ function IniciarControle(botao) {
   document.querySelectorAll(".config").forEach((elemento) => {
     desabilitaElemento(elemento);
   });
+
+  return true;
 }
 
 function alternaBotao(botao) {

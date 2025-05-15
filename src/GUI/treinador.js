@@ -140,6 +140,7 @@ function criarTreinador(id) {
     tamanho,
     velocidade: treinadorObjeto.velocidade,
     visao: treinadorObjeto.visao,
+    cor: "white",
     resistencia: treinadorObjeto.resistencia,
     estrategia: "agressivo",
     equipe: [pokemon],
@@ -152,6 +153,7 @@ function criarTreinador(id) {
     b.treinador = treinador;
     treinador.setBase({ x: b.x, y: b.y });
     treinador.setPosicao({ x: b.x, y: b.y });
+    treinador.setCor(b.cor);
   });
 
   window.sujeito.adicionarObservador(treinador);

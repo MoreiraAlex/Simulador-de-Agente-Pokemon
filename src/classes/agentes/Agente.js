@@ -70,14 +70,23 @@ class Agente extends Observador {
   }
 
   desenha(contexto) {
-    // contexto.font = "48px Arial";
-    // contexto.fillStyle = "white";
-    // // if (this.#especie === "Treinador")
-    // contexto.fillText(
-    //   `${this.#especie}#${this.#id}`,
-    //   this.#posicao.x - 10,
-    //   this.#posicao.y - 10,
-    // );
+    if (this.#especie === "Treinador" && window.debug) {
+      contexto.fillStyle = this.getCor();
+      contexto.fillRect(
+        this.#posicao.x,
+        this.#posicao.y,
+        this.#tamanho,
+        this.#tamanho,
+      );
+
+      contexto.font = "56px Arial";
+      contexto.fillStyle = "white";
+      contexto.fillText(
+        `${this.#especie}#${this.#id}`,
+        this.#posicao.x - 10,
+        this.#posicao.y - 10,
+      );
+    }
 
     const imagemAtual =
       this.#imagens[this.#direcao][this.#estaParado ? 0 : this.#imagem];
@@ -206,9 +215,11 @@ class Agente extends Observador {
     const tamanho = visaoMetade * 2 + this.#tamanho;
     const celulasPorLado = Math.floor(tamanho / this.#tamanho);
 
-    contexto.strokeStyle = "white";
-    contexto.lineWidth = 2;
-    contexto.strokeRect(inicioX, inicioY, tamanho, tamanho);
+    if (window.debug) {
+      contexto.strokeStyle = "white";
+      contexto.lineWidth = 2;
+      contexto.strokeRect(inicioX, inicioY, tamanho, tamanho);
+    }
 
     const colisoes = [];
 
@@ -234,13 +245,15 @@ class Agente extends Observador {
 
             colisoes.push(obj.agente);
 
-            contexto.fillStyle = "rgba(0, 255, 0, 0.5)";
-            contexto.fillRect(
-              posX * this.#tamanho,
-              posY * this.#tamanho,
-              this.#tamanho,
-              this.#tamanho,
-            );
+            if (window.debug) {
+              contexto.fillStyle = "rgba(0, 0, 0, 0.3)";
+              contexto.fillRect(
+                posX * this.#tamanho,
+                posY * this.#tamanho,
+                this.#tamanho,
+                this.#tamanho,
+              );
+            }
           }
         }
       }
